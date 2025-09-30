@@ -220,7 +220,39 @@
                             cursor-pointer border border-gray-300 rounded-lg"
                     />
                 </div>
-                <p class="mt-1 text-xs text-gray-500" id="pdfFileName">No files selected</p>
+                <div class="flex items-center justify-between mt-1">
+                    <p class="text-xs text-gray-500" id="pdfFileName">No files selected</p>
+                    <button
+                        type="button"
+                        id="previewPdfBtn"
+                        onclick="previewPDF()"
+                        class="text-xs px-3 py-1 text-blue-600 hover:text-blue-800 border border-blue-300 rounded disabled:opacity-50 disabled:cursor-not-allowed"
+                        disabled
+                    >
+                        👁️ Preview PDF
+                    </button>
+                </div>
+            </div>
+
+            <!-- PDF Preview Modal -->
+            <div id="pdfPreviewModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+                <div class="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] flex flex-col">
+                    <div class="flex items-center justify-between p-4 border-b">
+                        <h3 class="text-lg font-semibold text-gray-900">PDF Preview</h3>
+                        <button onclick="closePDFPreview()" class="text-gray-400 hover:text-gray-600">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="flex-1 overflow-auto p-4">
+                        <iframe id="pdfPreviewFrame" class="w-full h-full min-h-[600px] border rounded"></iframe>
+                    </div>
+                    <div class="p-4 border-t bg-gray-50">
+                        <p class="text-sm text-gray-600 mb-2" id="pdfPreviewInfo">Select a PDF to preview</p>
+                        <div class="flex gap-2" id="pdfNavigationButtons"></div>
+                    </div>
+                </div>
             </div>
 
             <!-- XF JSON Schema (Textarea) -->
@@ -368,11 +400,27 @@
                     <p class="text-sm text-gray-500 text-center py-4">No training pairs uploaded yet</p>
                 </div>
 
+                <!-- Model Selection -->
+                <div class="mt-4 mb-3">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Fine-tuning Model:</label>
+                    <select
+                        id="modelSelector"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                    >
+                        <option value="gpt-4o-2024-08-06">GPT-4o (Latest - Best Quality)</option>
+                        <option value="gpt-4o-mini-2024-07-18">GPT-4o Mini (Balanced)</option>
+                        <option value="gpt-3.5-turbo" selected>GPT-3.5 Turbo (Most Cost-Effective)</option>
+                    </select>
+                    <p class="mt-1 text-xs text-gray-500">
+                        Choose the model to fine-tune. GPT-4o offers better quality, while GPT-3.5 is more cost-effective.
+                    </p>
+                </div>
+
                 <!-- Train Button -->
                 <button
                     onclick="startTraining()"
                     id="trainBtn"
-                    class="mt-4 w-full px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-medium
+                    class="w-full px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-medium
                            disabled:bg-gray-400 disabled:cursor-not-allowed"
                     disabled
                 >
@@ -783,7 +831,98 @@
                 textarea.addEventListener('input', updateJSONCharCount);
                 updateJSONCharCount(); // Initial count
             }
+
+            // Enable/disable preview button based on PDF selection
+            const pdfInput = document.getElementById('pdfFile');
+            if (pdfInput) {
+                pdfInput.addEventListener('change', function(e) {
+                    const previewBtn = document.getElementById('previewPdfBtn');
+                    if (previewBtn) {
+                        previewBtn.disabled = e.target.files.length === 0;
+                    }
+                });
+            }
         });
+
+        // PDF Preview functions
+        let currentPDFIndex = 0;
+        let pdfObjectURLs = [];
+
+        function previewPDF() {
+            const files = document.getElementById('pdfFile').files;
+            if (!files || files.length === 0) {
+                showStatus('No PDF files selected', 'warning');
+                return;
+            }
+
+            // Clean up previous object URLs
+            pdfObjectURLs.forEach(url => URL.revokeObjectURL(url));
+            pdfObjectURLs = [];
+
+            // Show modal
+            document.getElementById('pdfPreviewModal').classList.remove('hidden');
+
+            // Load first PDF
+            currentPDFIndex = 0;
+            loadPDFInPreview(0, files);
+        }
+
+        function closePDFPreview() {
+            // Hide modal
+            document.getElementById('pdfPreviewModal').classList.add('hidden');
+
+            // Clean up object URLs
+            pdfObjectURLs.forEach(url => URL.revokeObjectURL(url));
+            pdfObjectURLs = [];
+
+            // Clear iframe
+            document.getElementById('pdfPreviewFrame').src = '';
+        }
+
+        function loadPDFInPreview(index, files) {
+            if (!files || index < 0 || index >= files.length) return;
+
+            const file = files[index];
+            currentPDFIndex = index;
+
+            // Create object URL if not already created
+            if (!pdfObjectURLs[index]) {
+                pdfObjectURLs[index] = URL.createObjectURL(file);
+            }
+
+            // Load in iframe
+            document.getElementById('pdfPreviewFrame').src = pdfObjectURLs[index];
+            document.getElementById('pdfPreviewInfo').textContent =
+                `${file.name} (${index + 1} of ${files.length})`;
+
+            // Create navigation buttons if multiple files
+            const navContainer = document.getElementById('pdfNavigationButtons');
+            navContainer.innerHTML = '';
+
+            if (files.length > 1) {
+                // Previous button
+                const prevBtn = document.createElement('button');
+                prevBtn.className = 'px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed';
+                prevBtn.textContent = '← Previous';
+                prevBtn.disabled = index === 0;
+                prevBtn.onclick = () => loadPDFInPreview(index - 1, files);
+                navContainer.appendChild(prevBtn);
+
+                // Page indicator
+                const pageIndicator = document.createElement('span');
+                pageIndicator.className = 'px-4 py-2 text-sm text-gray-600';
+                pageIndicator.textContent = `${index + 1} / ${files.length}`;
+                navContainer.appendChild(pageIndicator);
+
+                // Next button
+                const nextBtn = document.createElement('button');
+                nextBtn.className = 'px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed';
+                nextBtn.textContent = 'Next →';
+                nextBtn.disabled = index === files.length - 1;
+                nextBtn.onclick = () => loadPDFInPreview(index + 1, files);
+                navContainer.appendChild(nextBtn);
+            }
+        }
 
         async function uploadTrainingPair() {
             const pdfFiles = document.getElementById('pdfFile').files;
@@ -982,9 +1121,12 @@
             }
 
             const trainBtn = document.getElementById('trainBtn');
+            const modelSelector = document.getElementById('modelSelector');
+            const selectedModel = modelSelector.value;
+
             trainBtn.disabled = true;
             trainBtn.textContent = 'Starting training...';
-            showStatus('Initiating training job...', 'info');
+            showStatus(`Initiating training job with ${selectedModel}...`, 'info');
 
             try {
                 const response = await fetch(`${API_BASE}/api/training/start-from-pairs`, {
@@ -994,7 +1136,7 @@
                     },
                     body: JSON.stringify({
                         pair_ids: trainingPairs.map(p => p.pair_id),
-                        model_name: 'gpt-3.5-turbo'
+                        model_name: selectedModel
                     })
                 });
 
