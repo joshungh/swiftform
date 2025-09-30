@@ -161,5 +161,3 @@ MIT License - see LICENSE file for details
 ## Acknowledgments
 
 Built with ❤️ using OpenAI's GPT models and fine-tuning API.
-
-🤖 Generated with [Claude Code](https://claude.com/claude-code)
