@@ -1,0 +1,7 @@
+{
+  "job_id": "ftjob-ETKTxQBgEEoRd0fCTuDeUbYS",
+  "base_model": "gpt-3.5-turbo",
+  "training_examples": 10,
+  "created_at": 1759165519,
+  "type": "paired_pdf_xf_schema_with_variations"
+}

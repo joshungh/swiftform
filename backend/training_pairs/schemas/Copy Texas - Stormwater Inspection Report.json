@@ -1,0 +1,941 @@
+{
+  "name": "xf:form",
+  "props": {
+    "xfPageNavigation": "toc",
+    "children": [
+      {
+        "name": "xf:page",
+        "props": {
+          "xfName": "general_info",
+          "xfLabel": "General Information",
+          "xfPostaction": "update_program_location_type_data_field",
+          "xfWhenEnabled": false,
+          "xfPostactionEnabled": false,
+          "xfPrepopulateValueEnabled": false,
+          "children": [
+            {
+              "name": "xf:string",
+              "props": {
+                "xfName": "project_name",
+                "xfLabel": "Project Name",
+                "xfPrepopulateValueType": "location_name",
+                "xfPrepopulateValueEnabled": true
+              }
+            },
+            {
+              "name": "xf:string",
+              "props": {
+                "xfName": "tpdes_tracking_no",
+                "xfLabel": "TPDES Tracking No.",
+                "xfPrepopulateValueType": "custom:program_location_type_data",
+                "xfPrepopulateCustomValue": "regulatory_identifier",
+                "xfPrepopulateValueEnabled": true
+              }
+            },
+            {
+              "name": "xf:string",
+              "props": {
+                "xfName": "construction_phase",
+                "xfLabel": "Construction Phase",
+                "xfPrepopulateValueType": "last_report",
+                "xfPrepopulateValueEnabled": true
+              }
+            },
+            {
+              "name": "xf:date",
+              "props": {
+                "xfName": "date_of_inspection",
+                "xfLabel": "Date of Inspection ",
+                "xfDefaultValueType": "{{DATE_CURRENT}}",
+                "xfDefaultValueEnabled": true,
+                "xfPrepopulateValueEnabled": false
+              }
+            },
+            {
+              "name": "xf:time",
+              "props": {
+                "xfName": "time_of_inspection",
+                "xfLabel": "Time of Inspection",
+                "xfDefaultValueType": "{{TIME_CURRENT}}",
+                "xfDefaultValueEnabled": true
+              }
+            },
+            {
+              "name": "xf:group",
+              "props": {
+                "xfName": "inspector",
+                "xfLabel": "Inspector",
+                "xfPrepopulateValueEnabled": false,
+                "children": [
+                  {
+                    "name": "xf:string",
+                    "props": {
+                      "xfName": "name",
+                      "xfLabel": "Name",
+                      "xfPrepopulateValueType": "user_name",
+                      "xfPrepopulateValueEnabled": true
+                    }
+                  },
+                  {
+                    "name": "xf:string",
+                    "props": {
+                      "xfName": "title",
+                      "xfLabel": "Title",
+                      "xfPrepopulateValueType": "user_title",
+                      "xfPrepopulateValueEnabled": true
+                    }
+                  },
+                  {
+                    "name": "xf:string",
+                    "props": {
+                      "xfName": "phone_number",
+                      "xfLabel": "Phone Number",
+                      "xfPrepopulateValueType": "user_phone",
+                      "xfPrepopulateValueEnabled": true
+                    }
+                  },
+                  {
+                    "name": "xf:string",
+                    "props": {
+                      "xfName": "email",
+                      "xfLabel": "Email",
+                      "xfPrepopulateValueType": "user_email",
+                      "xfPrepopulateValueEnabled": true
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "name": "xf:select",
+              "props": {
+                "xfName": "type_of_inspection",
+                "xfLabel": "Type Of Inspection",
+                "xfOptions": "Regular\nPre-storm\nDuring Storm\nPost-storm",
+                "xfMultiple": false,
+                "xfPresetOptionGroup": "",
+                "xfDefaultValueEnabled": false,
+                "xfPrepopulateValueEnabled": false
+              }
+            },
+            {
+              "name": "xf:group",
+              "props": {
+                "xfName": "",
+                "xfLabel": "Weather",
+                "children": [
+                  {
+                    "name": "xf:string",
+                    "props": {
+                      "xfName": "weather_at_time_of_inspection",
+                      "xfLabel": "Weather at Time of Inspection",
+                      "xfPrepopulateValueType": "obs_current_condition",
+                      "xfPrepopulateValueEnabled": true
+                    }
+                  },
+                  {
+                    "name": "xf:boolean",
+                    "props": {
+                      "xfName": "storm_event_last_inspection",
+                      "xfLabel": "Has there been a storm event since the last inspection?",
+                      "xfWhenEnabled": false,
+                      "xfDefaultValueEnabled": false,
+                      "xfPrepopulateValueType": "boolean_weather_latest_storm_last_report_boolean",
+                      "xfPrepopulateValueEnabled": true
+                    }
+                  },
+                  {
+                    "name": "xf:date",
+                    "props": {
+                      "xfName": "storm_start_date",
+                      "xfWhen": "storm_event_last_inspection",
+                      "xfLabel": "Storm Start Date",
+                      "xfWhenEnabled": false,
+                      "xfPrepopulateValueType": "date_weather_latest_storm_since_last_report_ended_at",
+                      "xfPrepopulateValueEnabled": true
+                    }
+                  },
+                  {
+                    "name": "xf:time",
+                    "props": {
+                      "xfName": "storm_start_time",
+                      "xfWhen": "storm_event_last_inspection",
+                      "xfLabel": "Storm Start Time",
+                      "xfWhenEnabled": false,
+                      "xfPrepopulateValueType": "time_weather_latest_storm_since_last_report_ended_at",
+                      "xfPrepopulateValueEnabled": true
+                    }
+                  },
+                  {
+                    "name": "xf:string",
+                    "props": {
+                      "xfName": "approximate_precipitation",
+                      "xfWhen": "storm_event_last_inspection",
+                      "xfLabel": "Approximate Precipitation (in)",
+                      "xfWhenEnabled": false,
+                      "xfPrepopulateValueType": "weather_latest_storm_report_total",
+                      "xfPrepopulateValueEnabled": true
+                    }
+                  },
+                  {
+                    "name": "xf:boolean",
+                    "props": {
+                      "xfName": "qualifying_storm_event_last_inspection",
+                      "xfLabel": "Has there been a qualifying storm event since the last inspection?",
+                      "xfWhenEnabled": false,
+                      "xfDefaultValueEnabled": false,
+                      "xfPrepopulateValueType": "boolean_weather_latest_storm_last_report_qualifying_boolean",
+                      "xfPrepopulateValueEnabled": true
+                    }
+                  },
+                  {
+                    "name": "xf:boolean",
+                    "props": {
+                      "xfName": "discharges_occured_since_last_inspection",
+                      "xfLabel": "Have any discharges occurred since the last inspection?",
+                      "xfDefaultValueType": "{{TYPE_FALSE}}",
+                      "xfDefaultValueEnabled": true,
+                      "xfPrepopulateValueEnabled": false
+                    }
+                  },
+                  {
+                    "name": "xf:string",
+                    "props": {
+                      "xfName": "describe_discharge",
+                      "xfWhen": "discharges_occured_since_last_inspection",
+                      "xfLabel": "Describe",
+                      "xfFormat": "",
+                      "xfPostaction": "update_program_location_type_data_field",
+                      "xfWhenEnabled": true,
+                      "xfFormatEnabled": false,
+                      "xfFormatLabelHint": "",
+                      "xfFormatDescription": "",
+                      "xfPostactionEnabled": false,
+                      "xfPrepopulateValueEnabled": false
+                    }
+                  },
+                  {
+                    "name": "xf:boolean",
+                    "props": {
+                      "xfName": "any_discharges_at_time_of_inspection",
+                      "xfLabel": "Are there any discharges at time of inspection?",
+                      "xfDefaultValueType": "{{TYPE_FALSE}}",
+                      "xfDefaultValueEnabled": true
+                    }
+                  },
+                  {
+                    "name": "xf:string",
+                    "props": {
+                      "xfName": "describe_current_discharge",
+                      "xfWhen": "any_discharges_at_time_of_inspection",
+                      "xfLabel": "Describe",
+                      "xfWhenEnabled": true
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "xf:page",
+        "props": {
+          "xfName": "bmp_activity",
+          "xfLabel": "BMP Activity",
+          "xfOutputClass": [
+            "label-horizontal"
+          ],
+          "children": [
+            {
+              "name": "xf:group",
+              "props": {
+                "xfName": "disturbed_areas",
+                "xfLabel": "Disturbed Areas",
+                "xfOutputClass": [
+                  "label-horizontal"
+                ],
+                "children": [
+                  {
+                    "name": "xf:ternary",
+                    "props": {
+                      "xfName": "question",
+                      "xfLabel": "Are all slopes and disturbed areas not actively being worked properly stabilized?",
+                      "xfDefaultValueType": "{{TYPE_NULL}}",
+                      "xfDefaultValueEnabled": true,
+                      "xfPrepopulateValueType": "last_report",
+                      "xfPrepopulateValueEnabled": true
+                    }
+                  },
+                  {
+                    "name": "xf:text",
+                    "props": {
+                      "xfName": "comments",
+                      "xfWhen": "slopes_and_disturbed_areas_not_actively_stabilized",
+                      "xfLabel": "Comments",
+                      "xfWhenEnabled": false,
+                      "xfPrepopulateValueType": "last_report",
+                      "xfWhenContextValueType": "{{CUSTOM_RANGE}}",
+                      "xfPrepopulateValueEnabled": true
+                    }
+                  },
+                  {
+                    "name": "composite:deficiencies",
+                    "props": {
+                      "xfName": "deficiency",
+                      "xfToggleLabel": "Maintenance Required?",
+                      "xfDisableLevel": true,
+                      "xfDisableDateDue": false,
+                      "xfPresetOptionGroup": "bmp:210",
+                      "xfDisableDescription": true,
+                      "xfDisableDateResolved": true,
+                      "xfDisablePhotoDateTime": true,
+                      "xfPrepopulateValueType": "current_deficiencies",
+                      "xfDisableDateIdentified": true,
+                      "xfPrepopulateValueEnabled": true
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "name": "xf:group",
+              "props": {
+                "xfName": "natural_resource_areas",
+                "xfLabel": "Natural Resource Areas",
+                "children": [
+                  {
+                    "name": "xf:ternary",
+                    "props": {
+                      "xfName": "question",
+                      "xfLabel": "Are natural resource areas (e.g, streams, wetlands, mature trees, etc.) protected with barriers or similar BMPs?",
+                      "xfDefaultValueType": "{{TYPE_NULL}}",
+                      "xfDefaultValueEnabled": true,
+                      "xfPrepopulateValueType": "last_report",
+                      "xfPrepopulateValueEnabled": true
+                    }
+                  },
+                  {
+                    "name": "xf:text",
+                    "props": {
+                      "xfName": "comments",
+                      "xfLabel": "Comments",
+                      "xfDefaultValueEnabled": false,
+                      "xfPrepopulateValueType": "last_report",
+                      "xfPrepopulateValueEnabled": true
+                    }
+                  },
+                  {
+                    "name": "composite:deficiencies",
+                    "props": {
+                      "xfName": "deficiency",
+                      "xfToggleLabel": "Maintenance Required?",
+                      "xfDisableLevel": true,
+                      "xfDisableDateDue": false,
+                      "xfPresetOptionGroup": "bmp:210",
+                      "xfDisableDescription": true,
+                      "xfDisableDateResolved": true,
+                      "xfDisablePhotoDateTime": true,
+                      "xfPrepopulateValueType": "current_deficiencies",
+                      "xfDisableDateIdentified": true,
+                      "xfPrepopulateValueEnabled": true
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "name": "xf:group",
+              "props": {
+                "xfName": "perimeter_controls",
+                "xfLabel": "Perimeter Controls",
+                "children": [
+                  {
+                    "name": "xf:ternary",
+                    "props": {
+                      "xfName": "question",
+                      "xfLabel": "Are perimeter controls and sediment barriers adequately installed (keyed into substrate)?",
+                      "xfDefaultValueType": "{{TYPE_NULL}}",
+                      "xfDefaultValueEnabled": true,
+                      "xfPrepopulateValueType": "last_report",
+                      "xfPrepopulateValueEnabled": true
+                    }
+                  },
+                  {
+                    "name": "xf:text",
+                    "props": {
+                      "xfName": "comments",
+                      "xfLabel": "Comments",
+                      "xfDefaultValueEnabled": false,
+                      "xfPrepopulateValueType": "last_report",
+                      "xfPrepopulateValueEnabled": true
+                    }
+                  },
+                  {
+                    "name": "composite:deficiencies",
+                    "props": {
+                      "xfName": "deficiency",
+                      "xfToggleLabel": "Maintenance Required?",
+                      "xfDisableLevel": true,
+                      "xfDisableDateDue": false,
+                      "xfPresetOptionGroup": "bmp:210",
+                      "xfDisableDescription": true,
+                      "xfDisableDateResolved": true,
+                      "xfDisablePhotoDateTime": true,
+                      "xfPrepopulateValueType": "current_deficiencies",
+                      "xfDisableDateIdentified": true,
+                      "xfPrepopulateValueEnabled": true
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "name": "xf:group",
+              "props": {
+                "xfName": "discharge_points",
+                "xfLabel": "Discharge Points",
+                "children": [
+                  {
+                    "name": "xf:ternary",
+                    "props": {
+                      "xfName": "question",
+                      "xfLabel": "Are discharge points and receiving waters free of any sediment deposits?",
+                      "xfDefaultValueType": "{{TYPE_NULL}}",
+                      "xfDefaultValueEnabled": true,
+                      "xfPrepopulateValueType": "last_report",
+                      "xfPrepopulateValueEnabled": true
+                    }
+                  },
+                  {
+                    "name": "xf:text",
+                    "props": {
+                      "xfName": "comments",
+                      "xfLabel": "Comments",
+                      "xfDefaultValueEnabled": false,
+                      "xfPrepopulateValueType": "last_report",
+                      "xfPrepopulateValueEnabled": true
+                    }
+                  },
+                  {
+                    "name": "composite:deficiencies",
+                    "props": {
+                      "xfName": "deficiency",
+                      "xfToggleLabel": "Maintenance Required?",
+                      "xfDisableLevel": true,
+                      "xfDisableDateDue": false,
+                      "xfPresetOptionGroup": "bmp:210",
+                      "xfDisableDescription": true,
+                      "xfDisableDateResolved": true,
+                      "xfDisablePhotoDateTime": true,
+                      "xfPrepopulateValueType": "current_deficiencies",
+                      "xfDisableDateIdentified": true,
+                      "xfPrepopulateValueEnabled": true
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "name": "xf:group",
+              "props": {
+                "xfName": "storm_drain_inlets",
+                "xfLabel": "Storm Drain Inlets",
+                "xfOutputClass": [
+                  "label-horizontal"
+                ],
+                "children": [
+                  {
+                    "name": "xf:ternary",
+                    "props": {
+                      "xfName": "question",
+                      "xfLabel": "Are storm drain inlets properly protected?",
+                      "xfDefaultValueType": "{{TYPE_NULL}}",
+                      "xfDefaultValueEnabled": true,
+                      "xfPrepopulateValueType": "last_report",
+                      "xfPrepopulateValueEnabled": true
+                    }
+                  },
+                  {
+                    "name": "xf:text",
+                    "props": {
+                      "xfName": "comments",
+                      "xfLabel": "Comments",
+                      "xfDefaultValueEnabled": false,
+                      "xfPrepopulateValueType": "last_report",
+                      "xfPrepopulateValueEnabled": true
+                    }
+                  },
+                  {
+                    "name": "composite:deficiencies",
+                    "props": {
+                      "xfName": "deficiency",
+                      "xfToggleLabel": "Maintenance Required?",
+                      "xfDisableLevel": true,
+                      "xfDisableDateDue": false,
+                      "xfPresetOptionGroup": "bmp:210",
+                      "xfDisableDescription": true,
+                      "xfDisableDateResolved": true,
+                      "xfDisablePhotoDateTime": true,
+                      "xfPrepopulateValueType": "current_deficiencies",
+                      "xfDisableDateIdentified": true,
+                      "xfPrepopulateValueEnabled": true
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "name": "xf:group",
+              "props": {
+                "xfName": "sediment_tracking",
+                "xfLabel": "Sediment Tracking",
+                "children": [
+                  {
+                    "name": "xf:ternary",
+                    "props": {
+                      "xfName": "question",
+                      "xfLabel": "Is the construction exit preventing sediment from being tracked into the street?",
+                      "xfDefaultValueType": "{{TYPE_NULL}}",
+                      "xfDefaultValueEnabled": true,
+                      "xfPrepopulateValueType": "last_report",
+                      "xfPrepopulateValueEnabled": true
+                    }
+                  },
+                  {
+                    "name": "xf:text",
+                    "props": {
+                      "xfName": "comments",
+                      "xfLabel": "Comments",
+                      "xfDefaultValueEnabled": false,
+                      "xfPrepopulateValueType": "last_report",
+                      "xfPrepopulateValueEnabled": true
+                    }
+                  },
+                  {
+                    "name": "composite:deficiencies",
+                    "props": {
+                      "xfName": "deficiency",
+                      "xfToggleLabel": "Maintenance Required?",
+                      "xfDisableLevel": true,
+                      "xfDisableDateDue": false,
+                      "xfPresetOptionGroup": "bmp:210",
+                      "xfDisableDescription": true,
+                      "xfDisableDateResolved": true,
+                      "xfDisablePhotoDateTime": true,
+                      "xfPrepopulateValueType": "current_deficiencies",
+                      "xfDisableDateIdentified": true,
+                      "xfPrepopulateValueEnabled": true
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "name": "xf:group",
+              "props": {
+                "xfName": "trash_collection",
+                "xfLabel": "Trash Collection",
+                "children": [
+                  {
+                    "name": "xf:ternary",
+                    "props": {
+                      "xfName": "question",
+                      "xfLabel": "Is trash/litter from work areas collected and placed in covered dumpsters?",
+                      "xfDefaultValueType": "{{TYPE_NULL}}",
+                      "xfDefaultValueEnabled": true,
+                      "xfPrepopulateValueType": "last_report",
+                      "xfPrepopulateValueEnabled": true
+                    }
+                  },
+                  {
+                    "name": "xf:text",
+                    "props": {
+                      "xfName": "comments",
+                      "xfLabel": "Comments",
+                      "xfDefaultValueEnabled": false,
+                      "xfPrepopulateValueType": "last_report",
+                      "xfPrepopulateValueEnabled": true
+                    }
+                  },
+                  {
+                    "name": "composite:deficiencies",
+                    "props": {
+                      "xfName": "deficiency",
+                      "xfToggleLabel": "Maintenance Required?",
+                      "xfDisableLevel": true,
+                      "xfDisableDateDue": false,
+                      "xfPresetOptionGroup": "bmp:210",
+                      "xfDisableDescription": true,
+                      "xfDisableDateResolved": true,
+                      "xfDisablePhotoDateTime": true,
+                      "xfPrepopulateValueType": "current_deficiencies",
+                      "xfDisableDateIdentified": true,
+                      "xfPrepopulateValueEnabled": true
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "name": "xf:group",
+              "props": {
+                "xfName": "washout_facilities",
+                "xfLabel": "Washout Facilities",
+                "children": [
+                  {
+                    "name": "xf:ternary",
+                    "props": {
+                      "xfName": "question",
+                      "xfLabel": "Are washout facilities (e.g., paint, stucco, concrete) available and clearly marked?",
+                      "xfDefaultValueType": "{{TYPE_NULL}}",
+                      "xfDefaultValueEnabled": true,
+                      "xfPrepopulateValueType": "last_report",
+                      "xfPrepopulateValueEnabled": true
+                    }
+                  },
+                  {
+                    "name": "xf:text",
+                    "props": {
+                      "xfName": "comments",
+                      "xfLabel": "Comments",
+                      "xfDefaultValueEnabled": false,
+                      "xfPrepopulateValueType": "last_report",
+                      "xfPrepopulateValueEnabled": true
+                    }
+                  },
+                  {
+                    "name": "composite:deficiencies",
+                    "props": {
+                      "xfName": "deficiency",
+                      "xfToggleLabel": "Maintenance Required?",
+                      "xfDisableLevel": true,
+                      "xfDisableDateDue": false,
+                      "xfPresetOptionGroup": "bmp:210",
+                      "xfDisableDescription": true,
+                      "xfDisableDateResolved": true,
+                      "xfDisablePhotoDateTime": true,
+                      "xfPrepopulateValueType": "current_deficiencies",
+                      "xfDisableDateIdentified": true,
+                      "xfPrepopulateValueEnabled": true
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "name": "xf:group",
+              "props": {
+                "xfName": "vehicle_equipment",
+                "xfLabel": "Vehicle Equipment",
+                "children": [
+                  {
+                    "name": "xf:ternary",
+                    "props": {
+                      "xfName": "question",
+                      "xfLabel": "Are vehicle and equipment fueling, cleaning, and maintenance areas free of spills, leaks, or any other deleterious material?",
+                      "xfDefaultValueType": "{{TYPE_NULL}}",
+                      "xfDefaultValueEnabled": true,
+                      "xfPrepopulateValueType": "last_report",
+                      "xfPrepopulateValueEnabled": true
+                    }
+                  },
+                  {
+                    "name": "xf:text",
+                    "props": {
+                      "xfName": "comments",
+                      "xfLabel": "Comments",
+                      "xfDefaultValueEnabled": false,
+                      "xfPrepopulateValueType": "last_report",
+                      "xfPrepopulateValueEnabled": true
+                    }
+                  },
+                  {
+                    "name": "composite:deficiencies",
+                    "props": {
+                      "xfName": "deficiency",
+                      "xfToggleLabel": "Maintenance Required?",
+                      "xfDisableLevel": true,
+                      "xfDisableDateDue": false,
+                      "xfPresetOptionGroup": "bmp:210",
+                      "xfDisableDescription": true,
+                      "xfDisableDateResolved": true,
+                      "xfDisablePhotoDateTime": true,
+                      "xfPrepopulateValueType": "current_deficiencies",
+                      "xfDisableDateIdentified": true,
+                      "xfPrepopulateValueEnabled": true
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "name": "xf:group",
+              "props": {
+                "xfName": "stored_material",
+                "xfLabel": "Stored Material",
+                "children": [
+                  {
+                    "name": "xf:ternary",
+                    "props": {
+                      "xfName": "question",
+                      "xfLabel": "Are materials that are potential storm water contaminants stored inside or under cover?",
+                      "xfDefaultValueType": "{{TYPE_NULL}}",
+                      "xfDefaultValueEnabled": true,
+                      "xfPrepopulateValueType": "last_report",
+                      "xfPrepopulateValueEnabled": true
+                    }
+                  },
+                  {
+                    "name": "xf:text",
+                    "props": {
+                      "xfName": "comments",
+                      "xfLabel": "Comments",
+                      "xfDefaultValueEnabled": false,
+                      "xfPrepopulateValueType": "last_report",
+                      "xfPrepopulateValueEnabled": true
+                    }
+                  },
+                  {
+                    "name": "composite:deficiencies",
+                    "props": {
+                      "xfName": "deficiency",
+                      "xfToggleLabel": "Maintenance Required?",
+                      "xfDisableLevel": true,
+                      "xfDisableDateDue": false,
+                      "xfPresetOptionGroup": "bmp:210",
+                      "xfDisableDescription": true,
+                      "xfDisableDateResolved": true,
+                      "xfDisablePhotoDateTime": true,
+                      "xfPrepopulateValueType": "current_deficiencies",
+                      "xfDisableDateIdentified": true,
+                      "xfPrepopulateValueEnabled": true
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "name": "xf:group",
+              "props": {
+                "xfName": "nonstorm_water_discharges",
+                "xfLabel": "Non-Storm Water Discharges",
+                "children": [
+                  {
+                    "name": "xf:ternary",
+                    "props": {
+                      "xfName": "question",
+                      "xfLabel": "Are non-storm water discharges (e.g., wash water, dewatering) properly controlled?",
+                      "xfDefaultValueType": "{{TYPE_NULL}}",
+                      "xfDefaultValueEnabled": true,
+                      "xfPrepopulateValueType": "last_report",
+                      "xfPrepopulateValueEnabled": true
+                    }
+                  },
+                  {
+                    "name": "xf:text",
+                    "props": {
+                      "xfName": "comments",
+                      "xfLabel": "Comments",
+                      "xfDefaultValueEnabled": false,
+                      "xfPrepopulateValueType": "last_report",
+                      "xfPrepopulateValueEnabled": true
+                    }
+                  },
+                  {
+                    "name": "composite:deficiencies",
+                    "props": {
+                      "xfName": "deficiency",
+                      "xfToggleLabel": "Maintenance Required?",
+                      "xfDisableLevel": true,
+                      "xfDisableDateDue": false,
+                      "xfPresetOptionGroup": "bmp:210",
+                      "xfDisableDescription": true,
+                      "xfDisableDateResolved": true,
+                      "xfDisablePhotoDateTime": true,
+                      "xfPrepopulateValueType": "current_deficiencies",
+                      "xfDisableDateIdentified": true,
+                      "xfPrepopulateValueEnabled": true
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "name": "xf:group",
+              "props": {
+                "xfName": "other",
+                "xfLabel": "Other",
+                "children": [
+                  {
+                    "name": "xf:ternary",
+                    "props": {
+                      "xfName": "question",
+                      "xfLabel": "Any other BMP activities properly implemented?",
+                      "xfDefaultValueType": "{{TYPE_NULL}}",
+                      "xfDefaultValueEnabled": true,
+                      "xfPrepopulateValueType": "last_report",
+                      "xfPrepopulateValueEnabled": true
+                    }
+                  },
+                  {
+                    "name": "xf:text",
+                    "props": {
+                      "xfName": "comments",
+                      "xfLabel": "Comments",
+                      "xfDefaultValueEnabled": false,
+                      "xfPrepopulateValueType": "last_report",
+                      "xfPrepopulateValueEnabled": true
+                    }
+                  },
+                  {
+                    "name": "composite:deficiencies",
+                    "props": {
+                      "xfName": "deficiency",
+                      "xfToggleLabel": "Maintenance Required?",
+                      "xfDisableLevel": true,
+                      "xfDisableDateDue": false,
+                      "xfPresetOptionGroup": "bmp:210",
+                      "xfDisableDescription": true,
+                      "xfDisableDateResolved": true,
+                      "xfDisablePhotoDateTime": true,
+                      "xfPrepopulateValueType": "current_deficiencies",
+                      "xfDisableDateIdentified": true,
+                      "xfPrepopulateValueEnabled": true
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "composite:bmp_implementation_deficiencies_region_pages",
+        "props": {
+          "xfName": "site_specific_bmps",
+          "xfDisableDescription": true,
+          "xfDisableLocationNotes": true,
+          "xfPrepopulateValueType": "current_bmp_implementation_deficiencies_regions",
+          "xfDisableDeficiencyLevel": true,
+          "xfPrepopulateValueEnabled": true,
+          "xfDisableDeficiencyDateDue": false,
+          "xfDisableEffectivenessRating": true,
+          "xfDeficiencyDisableDescription": true,
+          "xfDisableDeficiencyDateResolved": true,
+          "xfDisableDeficiencyDateIdentified": false
+        }
+      },
+      {
+        "name": "xf:page",
+        "props": {
+          "xfLabel": "Notes and Certify Report",
+          "xfOutputClass": [
+            "label-horizontal"
+          ],
+          "children": [
+            {
+              "name": "xf:group",
+              "props": {
+                "xfName": "",
+                "xfLabel": "Notes",
+                "children": [
+                  {
+                    "name": "xf:text",
+                    "props": {
+                      "xfName": "notes",
+                      "xfLabel": "",
+                      "xfPrepopulateValueEnabled": false
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "name": "xf:group",
+              "props": {
+                "xfName": "certify_report",
+                "xfLabel": "Certify Report",
+                "children": [
+                  {
+                    "name": "xf:date",
+                    "props": {
+                      "xfName": "signature_date",
+                      "xfLabel": "Signature Date",
+                      "xfDefaultValueType": "{{DATE_CURRENT}}",
+                      "xfDefaultValueEnabled": true,
+                      "xfPrepopulateValueEnabled": false
+                    }
+                  },
+                  {
+                    "name": "xf:signature",
+                    "props": {
+                      "xfName": "signature_field",
+                      "xfLabel": "Signature Field",
+                      "xfPrepopulateValueType": "user_signature",
+                      "xfPrepopulateValueEnabled": true
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "xf:page",
+        "props": {
+          "xfName": "",
+          "xfLabel": "Photos",
+          "children": [
+            {
+              "name": "xf:multivalue",
+              "props": {
+                "xfName": "photos",
+                "xfLabel": "Photos",
+                "children": [
+                  {
+                    "name": "xf:image",
+                    "props": {
+                      "xfName": "photo",
+                      "xfLabel": "Photo"
+                    }
+                  },
+                  {
+                    "name": "xf:text",
+                    "props": {
+                      "xfName": "comments",
+                      "xfLabel": "Comments"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "xf:metadata-group",
+        "props": {
+          "xfName": "metadata",
+          "children": [
+            {
+              "name": "xf:metadata",
+              "props": {
+                "xfName": "binding__created_at",
+                "xfValue": "general_info|date_of_inspection"
+              }
+            },
+            {
+              "name": "xf:metadata",
+              "props": {
+                "xfName": "binding__created_at_time",
+                "xfValue": "general_info|time_of_inspection"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

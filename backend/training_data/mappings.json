@@ -1,0 +1,719 @@
+{
+  "pairs": [
+    {
+      "id": "pair_06396738f007_20250929102407",
+      "pdf_file": "pair_06396738f007_20250929102407.pdf",
+      "schema_file": "pair_06396738f007_20250929102407_schema.json",
+      "form_name": "DOTCEM-2075SW",
+      "form_type": "general",
+      "tags": [
+        "auto-generated"
+      ],
+      "pdf_hash": "06396738f00712aeca51f5b8fd869af6",
+      "pdf_text_preview": "STATE OF CALIFORNIA \u2022 DEPARTMENT OF TRANSPORTATION \nPROJECT STORMWATER ANNUAL REPORT \nDOT CEM-2075SW (NEW 04/2024) Page 1 of 9\nAmericans with Disabilities Act (ADA) Notice : This document is available in alternative accessible formats. For more information, please contact the Form s \nManagement Unit at (279) 234-2284, TTY 711, in writing at Forms Management Unit, 1120 N Street, MS-89, Sacramento, CA 95814, or by email at \nForms.Management.Unit@dot.ca.gov.PROJECT INFORMATION NAME AND SITE ADDRESS",
+      "pdf_structure": {
+        "num_pages": 9,
+        "has_forms": false,
+        "field_count": 0,
+        "sections": [
+          "PROJECT STORMWATER ANNUAL REPORT",
+          "PROJECT IDENTIFICATION NUMBER",
+          "WASTE DISCHARGE IDENTIFICATION (WDID) NUMBER",
+          "WATER POLLUTION CONTROL MANAGER NAME PHONE NUMBER",
+          "GENERAL INFORMATION",
+          "PROJECT STORMWATER ANNUAL REPORT",
+          "INSPECTION TYPE DATEINSPECTION LOG",
+          "NAME OF INSPECTORTIME",
+          "(HH:MM)LOCATION ADDITIONAL COMMENTS",
+          "PROJECT STORMWATER ANNUAL REPORT",
+          "INSPECTION TYPE DATEINSPECTION EXCEPTIONS",
+          "NAME OF INSPECTORTIME",
+          "PROJECT STORMWATER ANNUAL REPORT",
+          "SAMPLING TYPE DATESAMPLING EXCEPTIONS",
+          "NAME OF SAMPLERTIME",
+          "PROJECT STORMWATER ANNUAL REPORT",
+          "VIOLATION TYPE DATEVIOLATIONS",
+          "DESCRIPTIONTIME",
+          "(HH:MM)LOCATION ADDITIONAL COMMENTS REPORTED BY",
+          "PROJECT STORMWATER ANNUAL REPORT",
+          "DESCRIPTION DATECORRECTIVE ACTIONS",
+          "PERFORMED BYTIME",
+          "(HH:MM)LOCATION ADDITIONAL COMMENTS",
+          "PROJECT STORMWATER ANNUAL REPORT",
+          "UNIMPLEMENTED CORRECTIVE ACTIONS",
+          "EXPLANATIONTIME",
+          "(HH:MM)LOCATION ADDITIONAL COMMENTS DATE",
+          "PROJECT STORMWATER ANNUAL REPORT",
+          "WATER POLLUTION CONTROL MANAGER CERTIFICATION",
+          "WATER POLLUTION CONTROL MANAGER NAME DATE",
+          "WATER POLLUTION CONTROL MANAGER SIGNATURE",
+          "CONTRACTOR CERTIFICATION",
+          "CONTRACTOR NAME DATE",
+          "CONTRACTOR SIGNATURE",
+          "RESIDENT ENGINEER CERTIFICATION",
+          "RESIDENT ENGINEER NAME DATE",
+          "RESIDENT ENGINEER SIGNATURE",
+          "PROJECT STORMWATER ANNUAL REPORT",
+          "\u2022 CONTRACT NUMBER / COUNTY / ROUTE / POSTMILE"
+        ],
+        "tables_detected": false
+      },
+      "schema_analysis": {
+        "total_fields": 27,
+        "field_types": {
+          "select": 5,
+          "text": 5,
+          "number": 1,
+          "boolean": 7,
+          "string": 4,
+          "date": 3,
+          "signature": 1,
+          "group": 1
+        },
+        "pages": 8,
+        "has_groups": true,
+        "has_multivalue": false,
+        "has_conditional": true,
+        "has_required": false,
+        "has_deficiencies": false,
+        "field_names": [
+          "inspection_type",
+          "qsd_inspection",
+          "construction_stage",
+          "activities_completed",
+          "exposed_area_percent",
+          "photos_taken",
+          "site_address",
+          "time_since_last_storm",
+          "qualifying_precipitation",
+          "using_exemption",
+          "exception_documentation",
+          "inspector_certification",
+          "inspector_date",
+          "inspector_signature",
+          "non_stormwater_observed",
+          "discharge_types",
+          "non_stormwater_description",
+          "corrective_actions_needed",
+          "corrective_action_description",
+          "corrective_action_priority",
+          "corrective_action_due_date",
+          "responsible_party",
+          "action_completed",
+          "completion_date",
+          "hh",
+          "americans_with_disabilities_act_ada_notice"
+        ]
+      },
+      "added_date": "2025-09-29T10:24:07.915886"
+    },
+    {
+      "id": "pair_422129d0a44d_20250929102407",
+      "pdf_file": "pair_422129d0a44d_20250929102407.pdf",
+      "schema_file": "pair_422129d0a44d_20250929102407_schema.json",
+      "form_name": "Cloud Compli - Stormwater Inspection Report 8-22-25",
+      "form_type": "inspection",
+      "tags": [
+        "BMP",
+        "compliance",
+        "environmental"
+      ],
+      "pdf_hash": "422129d0a44d7167ae5b8e6a1633fd4d",
+      "pdf_text_preview": "BMP Inspec\u0000on Report\nGeneral Site Informa\u0000on\nDate of Inspec\u0000on 08-22-2025 Time of Inspec\u0000on 12:21 AM\nProject Name Cloud Compli Project Level / Type RL2 (2009 Permit)\nApproximate area of site exposed WDID # 0000\nStage of Construc\u0000on\nInspec\u0000on Type  Weekly   Monthly   Pre-Storm   During Storm   Post Storm   Contained Stormwater Release\n Quarterly Visual Observa\u0000ons\nWere photos taken? No Is there any reason a visual\ninspec\u0000on cannot be performed at\nthis \u0000me?No\nInspector Name Josh Ungheanu\nSignature",
+      "pdf_structure": {
+        "num_pages": 3,
+        "has_forms": false,
+        "field_count": 0,
+        "sections": [],
+        "tables_detected": false
+      },
+      "schema_analysis": {
+        "total_fields": 15,
+        "field_types": {
+          "string": 3,
+          "text": 3,
+          "date": 1,
+          "group": 2,
+          "ternary": 5,
+          "signature": 1
+        },
+        "pages": 3,
+        "has_groups": true,
+        "has_multivalue": false,
+        "has_conditional": true,
+        "has_required": true,
+        "has_deficiencies": true,
+        "field_names": [
+          "permit_number",
+          "site_name",
+          "site_address",
+          "inspection_date",
+          "inspector_name",
+          "silt_fence",
+          "erosion_blankets",
+          "check_dams",
+          "sediment_basin",
+          "inlet_protection",
+          "inspection_notes",
+          "corrective_actions",
+          "inspector_signature"
+        ]
+      },
+      "added_date": "2025-09-29T10:24:07.980826"
+    },
+    {
+      "id": "pair_948c048a314e_20250929102407",
+      "pdf_file": "pair_948c048a314e_20250929102407.pdf",
+      "schema_file": "pair_948c048a314e_20250929102407_schema.json",
+      "form_name": "20B-015 - Stormwater Inspection Report 8-19-25",
+      "form_type": "inspection",
+      "tags": [
+        "BMP",
+        "compliance",
+        "environmental"
+      ],
+      "pdf_hash": "948c048a314ed5f5e5bd322ccf5d56f0",
+      "pdf_text_preview": "BMP  Inspection Report\nGeneral Site Information\nDate of Inspection 08-19-2025 Time of Inspection 11:21 PM\nProject Name 20B-015 Project Level / Type Ca Risk Level 2\nApproximate area of site exposed WDID #\nStage of Construction\nInspection Type  Weekly  Monthly  Pre-Storm  During Storm  Post Storm  Contained Stormwater Release\n Quarterly Visual Observations\nWere photos taken? No Is there any reason a visual\ninspection cannot be performed at\nthis time?No\nInspector Name Test Ungheanu\nSignature\nDate S",
+      "pdf_structure": {
+        "num_pages": 2,
+        "has_forms": false,
+        "field_count": 0,
+        "sections": [],
+        "tables_detected": false
+      },
+      "schema_analysis": {
+        "total_fields": 15,
+        "field_types": {
+          "string": 3,
+          "text": 3,
+          "date": 1,
+          "group": 2,
+          "ternary": 5,
+          "signature": 1
+        },
+        "pages": 3,
+        "has_groups": true,
+        "has_multivalue": false,
+        "has_conditional": true,
+        "has_required": true,
+        "has_deficiencies": true,
+        "field_names": [
+          "permit_number",
+          "site_name",
+          "site_address",
+          "inspection_date",
+          "inspector_name",
+          "silt_fence",
+          "erosion_blankets",
+          "check_dams",
+          "sediment_basin",
+          "inlet_protection",
+          "inspection_notes",
+          "corrective_actions",
+          "inspector_signature"
+        ]
+      },
+      "added_date": "2025-09-29T10:24:08.058450"
+    },
+    {
+      "id": "pair_9110c53cf0ee_20250929102408",
+      "pdf_file": "pair_9110c53cf0ee_20250929102408.pdf",
+      "schema_file": "pair_9110c53cf0ee_20250929102408_schema.json",
+      "form_name": "1687 PENSACOLA ST - Rose Terrace - T-Mobile - BMP Inspection Report - Custom 9-18-25",
+      "form_type": "inspection",
+      "tags": [
+        "BMP",
+        "compliance",
+        "environmental"
+      ],
+      "pdf_hash": "9110c53cf0ee5f1d975aa178a987afaf",
+      "pdf_text_preview": "STORMWATER SITE INSPECTION REPORT\nDate and Time of Inspection: 09/18/2025 4:58 PM\nInspection Type: Weekly   Monthly (QSP/QSD)   Pre-Qualifying Precipitation Event (QSP/QSD)\n During Qualifying Precipitation Event   Post-Qualifying Precipitation Event\n Inactive Monthly (QSP/QSD)   Final Inspection (QSP/QSD)   Other (QSD/QSP) COI\n Other (QSD/QSP) - NAL Exceedance (w/in 14 days)   Other (QSD/QSP) - As Requested by WB\nQSD on-site visual inspection:  QSD Initial Inspection   QSD Semi-Annual   QSD Repl",
+      "pdf_structure": {
+        "num_pages": 4,
+        "has_forms": false,
+        "field_count": 0,
+        "sections": [
+          "STORMWATER SITE INSPECTION REPORT",
+          "WEATHER",
+          "INSPECTOR INFORMATION",
+          "P ART II. BMP OBSERV A TIONS"
+        ],
+        "tables_detected": false
+      },
+      "schema_analysis": {
+        "total_fields": 15,
+        "field_types": {
+          "string": 3,
+          "text": 3,
+          "date": 1,
+          "group": 2,
+          "ternary": 5,
+          "signature": 1
+        },
+        "pages": 3,
+        "has_groups": true,
+        "has_multivalue": false,
+        "has_conditional": true,
+        "has_required": true,
+        "has_deficiencies": true,
+        "field_names": [
+          "permit_number",
+          "site_name",
+          "site_address",
+          "inspection_date",
+          "inspector_name",
+          "silt_fence",
+          "erosion_blankets",
+          "check_dams",
+          "sediment_basin",
+          "inlet_protection",
+          "inspection_notes",
+          "corrective_actions",
+          "inspector_signature"
+        ]
+      },
+      "added_date": "2025-09-29T10:24:08.135037"
+    },
+    {
+      "id": "pair_410c948df00c_20250929102408",
+      "pdf_file": "pair_410c948df00c_20250929102408.pdf",
+      "schema_file": "pair_410c948df00c_20250929102408_schema.json",
+      "form_name": "Quarterly Site Inspection Report 9.5",
+      "form_type": "inspection",
+      "tags": [
+        "BMP",
+        "compliance",
+        "environmental"
+      ],
+      "pdf_hash": "410c948df00ca0c3ac206af798a03f59",
+      "pdf_text_preview": "9/5/25, 1:32\u202fPM\nPage 1 of 59https://phlwaterlogs.compli.cloud/locations/7622/reports/1455207?format=htmlOverviewThis 50 acre site is located in the combined sewer area within the Tookany-Tacony watershed. It is one of the largest public-private partnership stormwaterprojects in the Philadelphia region. The site includes 22 acres of roof and 13.5acres of parking, which is managed by six different stormwater managementpractices (SMPs).    The excess water is slowly released back into the localecos",
+      "pdf_structure": {
+        "num_pages": 59,
+        "has_forms": false,
+        "field_count": 0,
+        "sections": [
+          "9/5/25, 1:32\u202fPM",
+          "9/5/25, 1:32\u202fPM",
+          "9/5/25, 1:32\u202fPM",
+          "9/5/25, 1:32\u202fPM",
+          "9/5/25, 1:32\u202fPM",
+          "9/5/25, 1:32\u202fPM",
+          "9/5/25, 1:32\u202fPM",
+          "9/5/25, 1:32\u202fPM",
+          "9/5/25, 1:32\u202fPM",
+          "9/5/25, 1:32\u202fPM",
+          "9/5/25, 1:32\u202fPM",
+          "9/5/25, 1:32\u202fPM",
+          "9/5/25, 1:32\u202fPM",
+          "9/5/25, 1:32\u202fPM",
+          "9/5/25, 1:32\u202fPM",
+          "9/5/25, 1:32\u202fPM",
+          "9/5/25, 1:32\u202fPM",
+          "9/5/25, 1:32\u202fPM",
+          "9/5/25, 1:32\u202fPM",
+          "9/5/25, 1:32\u202fPM",
+          "9/5/25, 1:32\u202fPM",
+          "9/5/25, 1:32\u202fPM",
+          "9/5/25, 1:32\u202fPM",
+          "9/5/25, 1:32\u202fPM",
+          "9/5/25, 1:32\u202fPM",
+          "9/5/25, 1:32\u202fPM",
+          "9/5/25, 1:32\u202fPM",
+          "9/5/25, 1:32\u202fPM",
+          "9/5/25, 1:32\u202fPM",
+          "9/5/25, 1:32\u202fPM",
+          "9/5/25, 1:32\u202fPM",
+          "9/5/25, 1:32\u202fPM",
+          "9/5/25, 1:32\u202fPM",
+          "9/5/25, 1:32\u202fPM",
+          "9/5/25, 1:32\u202fPM",
+          "9/5/25, 1:32\u202fPM",
+          "9/5/25, 1:32\u202fPM",
+          "9/5/25, 1:32\u202fPM",
+          "9/5/25, 1:32\u202fPM",
+          "9/5/25, 1:32\u202fPM",
+          "9/5/25, 1:32\u202fPM",
+          "9/5/25, 1:32\u202fPM",
+          "9/5/25, 1:32\u202fPM",
+          "9/5/25, 1:32\u202fPM",
+          "9/5/25, 1:32\u202fPM",
+          "9/5/25, 1:32\u202fPM",
+          "9/5/25, 1:32\u202fPM",
+          "9/5/25, 1:32\u202fPM",
+          "9/5/25, 1:32\u202fPM",
+          "9/5/25, 1:32\u202fPM",
+          "9/5/25, 1:32\u202fPM",
+          "9/5/25, 1:32\u202fPM",
+          "9/5/25, 1:32\u202fPM",
+          "9/5/25, 1:32\u202fPM",
+          "9/5/25, 1:32\u202fPM",
+          "9/5/25, 1:32\u202fPM",
+          "9/5/25, 1:32\u202fPM",
+          "9/5/25, 1:32\u202fPM",
+          "9/5/25, 1:32\u202fPM"
+        ],
+        "tables_detected": false
+      },
+      "schema_analysis": {
+        "total_fields": 15,
+        "field_types": {
+          "string": 3,
+          "text": 3,
+          "date": 1,
+          "group": 2,
+          "ternary": 5,
+          "signature": 1
+        },
+        "pages": 3,
+        "has_groups": true,
+        "has_multivalue": false,
+        "has_conditional": true,
+        "has_required": true,
+        "has_deficiencies": true,
+        "field_names": [
+          "permit_number",
+          "site_name",
+          "site_address",
+          "inspection_date",
+          "inspector_name",
+          "silt_fence",
+          "erosion_blankets",
+          "check_dams",
+          "sediment_basin",
+          "inlet_protection",
+          "inspection_notes",
+          "corrective_actions",
+          "inspector_signature"
+        ]
+      },
+      "added_date": "2025-09-29T10:24:08.442595"
+    },
+    {
+      "id": "pair_17fad8b8ea2c_20250929102408",
+      "pdf_file": "pair_17fad8b8ea2c_20250929102408.pdf",
+      "schema_file": "pair_17fad8b8ea2c_20250929102408_schema.json",
+      "form_name": "Sniktaw SEC Water Sample - [Sniktaw] GDOT EROSION CONTROL Inspection 9-04-25",
+      "form_type": "inspection",
+      "tags": [
+        "BMP",
+        "compliance",
+        "environmental"
+      ],
+      "pdf_hash": "17fad8b8ea2c9dd87fd661d8d760f420",
+      "pdf_text_preview": "EROSION CONTROL CHECK LIST\nProject Number:      Type of Inspec\u0000on:      Regular\n                                          Post Storm EventRain Amount:    2%  \nReport Number:      Storm/Rain Date:      \nDate of Inspec\u0000on:      QE Sample Collected:      Yes   \nEs\u0000mated Acres Disturbed:      Phase of Construc\u0000on:      \nTo Be Completed by WECS, Reviewed by DOT Engineer, and Entered in to Project Records\n* Sediment control devices should be cleaned out when 50% full  and more\n1606 Whiddon Mill Road, ",
+      "pdf_structure": {
+        "num_pages": 1,
+        "has_forms": false,
+        "field_count": 0,
+        "sections": [
+          "EROSION CONTROL CHECK LIST"
+        ],
+        "tables_detected": false
+      },
+      "schema_analysis": {
+        "total_fields": 15,
+        "field_types": {
+          "string": 3,
+          "text": 3,
+          "date": 1,
+          "group": 2,
+          "ternary": 5,
+          "signature": 1
+        },
+        "pages": 3,
+        "has_groups": true,
+        "has_multivalue": false,
+        "has_conditional": true,
+        "has_required": true,
+        "has_deficiencies": true,
+        "field_names": [
+          "permit_number",
+          "site_name",
+          "site_address",
+          "inspection_date",
+          "inspector_name",
+          "silt_fence",
+          "erosion_blankets",
+          "check_dams",
+          "sediment_basin",
+          "inlet_protection",
+          "inspection_notes",
+          "corrective_actions",
+          "inspector_signature"
+        ]
+      },
+      "added_date": "2025-09-29T10:24:08.455864"
+    },
+    {
+      "id": "pair_cb1dd137d5a3_20250929102408",
+      "pdf_file": "pair_cb1dd137d5a3_20250929102408.pdf",
+      "schema_file": "pair_cb1dd137d5a3_20250929102408_schema.json",
+      "form_name": "Investigation_7838",
+      "form_type": "general",
+      "tags": [
+        "auto-generated"
+      ],
+      "pdf_hash": "cb1dd137d5a34385568863fb7d37ba4a",
+      "pdf_text_preview": "Office of Environmental Quality\nENVIRONMENTAL INCIDENT REPORT\nA. GENERAL INFORMATION\n1. Date:  09-18-2025 2. Time Notified:  5:00 PM 3. Type of Incident:   Spill  Notice of Violation\n4. Department: 5. Contact Name: 6. Phone #: 7. SR #:\n8. Incident Location: 9. MAPSCO:\n10. Type of Material: 11. Quantity: 12. Response Requested:   Yes  No\n13. Additional Information:\nB. INCIDENT DESCRIPTION\n1. Weather Conditions:   Wet  Dry  Fair  Hot  Cool  Cold\n2. Time Started:  5:00 PM 3. Time Ended: 4. Containe",
+      "pdf_structure": {
+        "num_pages": 1,
+        "has_forms": false,
+        "field_count": 0,
+        "sections": [
+          "ENVIRONMENTAL INCIDENT REPORT",
+          "A. GENERAL INFORMATION",
+          "B. INCIDENT DESCRIPTION",
+          "C. RESPONSIBLE PARTY INFORMATION",
+          "D. OEQ RESPONSE ACTIONS"
+        ],
+        "tables_detected": false
+      },
+      "schema_analysis": {
+        "total_fields": 25,
+        "field_types": {
+          "select": 5,
+          "text": 5,
+          "number": 1,
+          "boolean": 6,
+          "string": 3,
+          "date": 3,
+          "signature": 1,
+          "group": 1
+        },
+        "pages": 7,
+        "has_groups": true,
+        "has_multivalue": false,
+        "has_conditional": true,
+        "has_required": false,
+        "has_deficiencies": false,
+        "field_names": [
+          "inspection_type",
+          "qsd_inspection",
+          "construction_stage",
+          "activities_completed",
+          "exposed_area_percent",
+          "photos_taken",
+          "site_address",
+          "time_since_last_storm",
+          "qualifying_precipitation",
+          "using_exemption",
+          "exception_documentation",
+          "inspector_certification",
+          "inspector_date",
+          "inspector_signature",
+          "non_stormwater_observed",
+          "discharge_types",
+          "non_stormwater_description",
+          "corrective_actions_needed",
+          "corrective_action_description",
+          "corrective_action_priority",
+          "corrective_action_due_date",
+          "responsible_party",
+          "action_completed",
+          "completion_date"
+        ]
+      },
+      "added_date": "2025-09-29T10:24:08.499628"
+    },
+    {
+      "id": "pair_79270740960a_20250929102408",
+      "pdf_file": "pair_79270740960a_20250929102408.pdf",
+      "schema_file": "pair_79270740960a_20250929102408_schema.json",
+      "form_name": "Jacks Crab Shack - Land Use Report 8-15-25",
+      "form_type": "general",
+      "tags": [
+        "auto-generated"
+      ],
+      "pdf_hash": "79270740960a1fba8c25e9369c6ed908",
+      "pdf_text_preview": "LAND USE REPORT\nJack's Crab Shack on 2025-08-15\nPARCEL INFORMATION\nDIRT\nNo\nPAVED LOT\nNo\nVEGETATION\nNo\nDATE\n08/15/2025\nTIME\n12:48 pm\nHISTORICAL USE INFORMATION\nBMPS\n",
+      "pdf_structure": {
+        "num_pages": 1,
+        "has_forms": false,
+        "field_count": 0,
+        "sections": [
+          "LAND USE REPORT",
+          "PARCEL INFORMATION",
+          "DIRT",
+          "PAVED LOT",
+          "VEGETATION",
+          "DATE",
+          "TIME",
+          "HISTORICAL USE INFORMATION",
+          "BMPS"
+        ],
+        "tables_detected": false
+      },
+      "schema_analysis": {
+        "total_fields": 25,
+        "field_types": {
+          "select": 5,
+          "text": 5,
+          "number": 1,
+          "boolean": 6,
+          "string": 3,
+          "date": 3,
+          "signature": 1,
+          "group": 1
+        },
+        "pages": 7,
+        "has_groups": true,
+        "has_multivalue": false,
+        "has_conditional": true,
+        "has_required": false,
+        "has_deficiencies": false,
+        "field_names": [
+          "inspection_type",
+          "qsd_inspection",
+          "construction_stage",
+          "activities_completed",
+          "exposed_area_percent",
+          "photos_taken",
+          "site_address",
+          "time_since_last_storm",
+          "qualifying_precipitation",
+          "using_exemption",
+          "exception_documentation",
+          "inspector_certification",
+          "inspector_date",
+          "inspector_signature",
+          "non_stormwater_observed",
+          "discharge_types",
+          "non_stormwater_description",
+          "corrective_actions_needed",
+          "corrective_action_description",
+          "corrective_action_priority",
+          "corrective_action_due_date",
+          "responsible_party",
+          "action_completed",
+          "completion_date"
+        ]
+      },
+      "added_date": "2025-09-29T10:24:08.504733"
+    },
+    {
+      "id": "pair_8e8289895635_20250929102408",
+      "pdf_file": "pair_8e8289895635_20250929102408.pdf",
+      "schema_file": "pair_8e8289895635_20250929102408_schema.json",
+      "form_name": "Crawford Canyon Park Sidewalk Extension - BMP Inspection Report - Custom 9-19-25",
+      "form_type": "inspection",
+      "tags": [
+        "BMP",
+        "compliance",
+        "environmental"
+      ],
+      "pdf_hash": "8e82898956356d95861d5dd4bb8dd80b",
+      "pdf_text_preview": "STORMWATER SITE INSPECTION REPORT\nDate and Time of Inspection: 09/19/2025 12:31 PM\nInspection Type: Weekly   Monthly (QSP/QSD)   Pre-Qualifying Precipitation Event (QSP/QSD)\n During Qualifying Precipitation Event   Post-Qualifying Precipitation Event\n Inactive Monthly (QSP/QSD)   Final Inspection (QSP/QSD)   Other (QSD/QSP) COI\n Other (QSD/QSP) - NAL Exceedance (w/in 14 days)   Other (QSD/QSP) - As Requested by WB\nQSD on-site visual inspection:  QSD Initial Inspection   QSD Semi-Annual   QSD Rep",
+      "pdf_structure": {
+        "num_pages": 4,
+        "has_forms": false,
+        "field_count": 0,
+        "sections": [
+          "STORMWATER SITE INSPECTION REPORT",
+          "WEATHER",
+          "12:00 PM",
+          "INSPECTOR INFORMATION",
+          "PART II. BMP OBSERVATIONS",
+          "PART III. DESCRIPTIONS OF BMP DEFICIENCIES"
+        ],
+        "tables_detected": false
+      },
+      "schema_analysis": {
+        "total_fields": 15,
+        "field_types": {
+          "string": 3,
+          "text": 3,
+          "date": 1,
+          "group": 2,
+          "ternary": 5,
+          "signature": 1
+        },
+        "pages": 3,
+        "has_groups": true,
+        "has_multivalue": false,
+        "has_conditional": true,
+        "has_required": true,
+        "has_deficiencies": true,
+        "field_names": [
+          "permit_number",
+          "site_name",
+          "site_address",
+          "inspection_date",
+          "inspector_name",
+          "silt_fence",
+          "erosion_blankets",
+          "check_dams",
+          "sediment_basin",
+          "inlet_protection",
+          "inspection_notes",
+          "corrective_actions",
+          "inspector_signature"
+        ]
+      },
+      "added_date": "2025-09-29T10:24:08.619279"
+    },
+    {
+      "id": "pair_d889dc5d3485_20250929102408",
+      "pdf_file": "pair_d889dc5d3485_20250929102408.pdf",
+      "schema_file": "pair_d889dc5d3485_20250929102408_schema.json",
+      "form_name": "CloudCompli Test - BMP Inspection Report - Custom 9-26-25",
+      "form_type": "inspection",
+      "tags": [
+        "BMP",
+        "compliance",
+        "environmental"
+      ],
+      "pdf_hash": "d889dc5d34859a3c7a4ba211bc116b62",
+      "pdf_text_preview": "STORMWATER SITE INSPECTION REPORT\nDate and Time of Inspection: 09/26/2025 12:09 PM\nInspection Type: Weekly   Monthly (QSP/QSD)   Pre-Qualifying Precipitation Event (QSP/QSD)\n During Qualifying Precipitation Event   Post-Qualifying Precipitation Event\n Inactive Monthly (QSP/QSD)   Final Inspection (QSP/QSD)   Other (QSD/QSP) COI\n Other (QSD/QSP) - NAL Exceedance (w/in 14 days)   Other (QSD/QSP) - As Requested by WB\nQSD on-site visual inspection:  QSD Initial Inspection   QSD Semi-Annual   QSD Rep",
+      "pdf_structure": {
+        "num_pages": 4,
+        "has_forms": false,
+        "field_count": 0,
+        "sections": [
+          "STORMWATER SITE INSPECTION REPORT",
+          "WEATHER",
+          "INSPECTOR INFORMATION",
+          "P ART II. BMP OBSERV A TIONS"
+        ],
+        "tables_detected": false
+      },
+      "schema_analysis": {
+        "total_fields": 15,
+        "field_types": {
+          "string": 3,
+          "text": 3,
+          "date": 1,
+          "group": 2,
+          "ternary": 5,
+          "signature": 1
+        },
+        "pages": 3,
+        "has_groups": true,
+        "has_multivalue": false,
+        "has_conditional": true,
+        "has_required": true,
+        "has_deficiencies": true,
+        "field_names": [
+          "permit_number",
+          "site_name",
+          "site_address",
+          "inspection_date",
+          "inspector_name",
+          "silt_fence",
+          "erosion_blankets",
+          "check_dams",
+          "sediment_basin",
+          "inlet_protection",
+          "inspection_notes",
+          "corrective_actions",
+          "inspector_signature"
+        ]
+      },
+      "added_date": "2025-09-29T10:24:08.693361"
+    }
+  ],
+  "metadata": {
+    "created": "2025-09-29T10:24:06.645481",
+    "last_updated": "2025-09-29T10:24:08.693374",
+    "total_pairs": 10
+  }
+}

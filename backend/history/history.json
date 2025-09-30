@@ -1,0 +1,32 @@
+[
+  {
+    "id": "c8e3dc02-fbfc-4997-90cb-ac95387e1bf6",
+    "filename": "Investigation_7838 (1).pdf",
+    "file_type": ".pdf",
+    "created_at": "2025-09-29T20:27:41.958941",
+    "processing_time": 2.0,
+    "form_file": "history/forms/c8e3dc02-fbfc-4997-90cb-ac95387e1bf6.json",
+    "pages_count": 1,
+    "fields_count": 3
+  },
+  {
+    "id": "3f829247-641b-4c89-a5d0-e517b619a318",
+    "filename": "Crawford Canyon Park Sidewalk Extension - BMP Inspection Report - Custom 9-19-25.pdf",
+    "file_type": ".pdf",
+    "created_at": "2025-09-29T20:16:07.847162",
+    "processing_time": 2.0,
+    "form_file": "history/forms/3f829247-641b-4c89-a5d0-e517b619a318.json",
+    "pages_count": 8,
+    "fields_count": 27
+  },
+  {
+    "id": "c540a188-6f0e-4045-bd86-0666744614d6",
+    "filename": "CLOUD-Form Inputs - Report Builder & Components-190925-224303.pdf",
+    "file_type": ".pdf",
+    "created_at": "2025-09-29T17:00:05.155191",
+    "processing_time": 2.0,
+    "form_file": "history/forms/c540a188-6f0e-4045-bd86-0666744614d6.json",
+    "pages_count": 1,
+    "fields_count": 3
+  }
+]

@@ -1,0 +1,384 @@
+{
+  "name": "xf:form",
+  "props": {
+    "xfPageNavigation": "named",
+    "children": [
+      {
+        "name": "xf:page",
+        "props": {
+          "xfName": "general_information",
+          "xfLabel": "General Information",
+          "children": [
+            {
+              "name": "xf:date",
+              "props": {
+                "xfName": "inspection_date",
+                "xfLabel": "Inspection Date",
+                "xfPrepopulateValueType": "date_today",
+                "xfPrepopulateValueEnabled": true
+              }
+            },
+            {
+              "name": "xf:time",
+              "props": {
+                "xfName": "time",
+                "xfLabel": "Time",
+                "xfPrepopulateValueType": "time_today",
+                "xfPrepopulateValueEnabled": true
+              }
+            },
+            {
+              "name": "xf:string",
+              "props": {
+                "xfName": "inspector",
+                "xfLabel": "Inspector",
+                "xfPrepopulateValueType": "user_name",
+                "xfPrepopulateValueEnabled": true
+              }
+            },
+            {
+              "name": "xf:group",
+              "props": {
+                "xfName": "inspection_type",
+                "xfLabel": "Inspection Type",
+                "children": [
+                  {
+                    "name": "xf:select",
+                    "props": {
+                      "xfName": "pond_condition",
+                      "xfLabel": "Pond Condition",
+                      "xfOptions": "Dry Pond\nWet Pond",
+                      "xfPresetOptionGroup": ""
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "name": "xf:group",
+              "props": {
+                "xfName": "pond_details",
+                "xfLabel": "Pond Details",
+                "children": [
+                  {
+                    "name": "xf:string",
+                    "props": {
+                      "xfName": "site_pond_name",
+                      "xfLabel": "Site / Pond Name",
+                      "xfPrepopulateValueType": "location_name",
+                      "xfPrepopulateValueEnabled": true
+                    }
+                  },
+                  {
+                    "name": "xf:string",
+                    "props": {
+                      "xfName": "job_no",
+                      "xfLabel": "Job # (Site ID)",
+                      "xfInfoType": "custom",
+                      "xfInfoEnabled": true,
+                      "xfInfoCustomValue": "Information autofilled from the site's details. Edit Site ID in the Site Details to update autofill data."
+                    }
+                  },
+                  {
+                    "name": "xf:group",
+                    "props": {
+                      "xfName": "address",
+                      "xfLabel": "Address",
+                      "children": [
+                        {
+                          "name": "xf:string",
+                          "props": {
+                            "xfName": "street",
+                            "xfLabel": "Street",
+                            "xfPrepopulateValueType": "location_address_street",
+                            "xfPrepopulateValueEnabled": true
+                          }
+                        },
+                        {
+                          "name": "xf:string",
+                          "props": {
+                            "xfName": "city",
+                            "xfLabel": "City",
+                            "xfPrepopulateValueType": "location_address_city",
+                            "xfPrepopulateValueEnabled": true
+                          }
+                        },
+                        {
+                          "name": "xf:string",
+                          "props": {
+                            "xfName": "state",
+                            "xfLabel": "State",
+                            "xfPrepopulateValueType": "location_address_state",
+                            "xfPrepopulateValueEnabled": true
+                          }
+                        },
+                        {
+                          "name": "xf:string",
+                          "props": {
+                            "xfName": "zip_code",
+                            "xfLabel": "Zip Code",
+                            "xfPrepopulateValueType": "location_address_zip",
+                            "xfPrepopulateValueEnabled": true
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "name": "xf:string",
+                    "props": {
+                      "xfName": "permit_no",
+                      "xfLabel": "Permit #",
+                      "xfPrepopulateValueType": "custom:program_location_type_data",
+                      "xfPrepopulateCustomValue": "regulatory_identifier",
+                      "xfPrepopulateValueEnabled": true
+                    }
+                  },
+                  {
+                    "name": "xf:date",
+                    "props": {
+                      "xfName": "renew_date",
+                      "xfLabel": "Renew Date",
+                      "xfInfoType": "custom",
+                      "xfInfoEnabled": true,
+                      "xfInfoCustomValue": "Date autofilled from the site's details. Edit Renew Date in the Site Details to update autofill data.",
+                      "xfPrepopulateValueType": "custom:program_location_type_data",
+                      "xfPrepopulateCustomValue": "renew_date",
+                      "xfPrepopulateValueEnabled": true
+                    }
+                  },
+                  {
+                    "name": "xf:string",
+                    "props": {
+                      "xfName": "swq_feature",
+                      "xfLabel": "SWQ Feature",
+                      "xfInfoType": "custom",
+                      "xfInfoEnabled": true,
+                      "xfInfoCustomValue": "Information autofilled from the site's details. Edit SWQ Feature in the Site Details to update autofill data.",
+                      "xfDefaultValueEnabled": false,
+                      "xfPrepopulateValueType": "custom:program_location_type_data",
+                      "xfPrepopulateCustomValue": "pswqf",
+                      "xfPrepopulateValueEnabled": true
+                    }
+                  },
+                  {
+                    "name": "xf:boolean",
+                    "props": {
+                      "xfName": "attach_noaa_weather",
+                      "xfLabel": "Attach NOAA Weather Forecast Table to Report?",
+                      "xfDefaultValueEnabled": true
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "name": "xf:group",
+              "props": {
+                "xfName": "company",
+                "xfLabel": "Company",
+                "xfOutputClass": [
+                  "label-horizontal"
+                ],
+                "children": [
+                  {
+                    "name": "xf:string",
+                    "props": {
+                      "xfName": "company_owner_name",
+                      "xfLabel": "Company / Owner Name",
+                      "xfInfoType": "custom",
+                      "xfPostaction": "update_program_location_type_data_field",
+                      "xfInfoEnabled": true,
+                      "xfInfoCustomValue": "Information autofilled from the site name ",
+                      "xfPostactionEnabled": false,
+                      "xfPrepopulateValueType": "location_name",
+                      "xfPrepopulateValueEnabled": true
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "xf:page",
+        "props": {
+          "xfName": "inspection",
+          "xfLabel": "Inspection",
+          "children": [
+            {
+              "name": "xf:multivalue",
+              "props": {
+                "xfName": "pond_log",
+                "xfLabel": "",
+                "xfCustomBtnLabel": "+ Pond",
+                "xfCustomLabelEnabled": true,
+                "xfPrepopulateValueType": "group_last_report",
+                "xfPrepopulateValueEnabled": true,
+                "children": [
+                  {
+                    "name": "xf:string",
+                    "props": {
+                      "xfName": "pond_no",
+                      "xfLabel": "Pond #"
+                    }
+                  },
+                  {
+                    "name": "xf:group",
+                    "props": {
+                      "xfLabel": "Specifications",
+                      "children": [
+                        {
+                          "name": "xf:string",
+                          "props": {
+                            "xfName": "tops",
+                            "xfLabel": "Tops"
+                          }
+                        },
+                        {
+                          "name": "xf:string",
+                          "props": {
+                            "xfName": "slopes",
+                            "xfLabel": "Slopes"
+                          }
+                        },
+                        {
+                          "name": "xf:string",
+                          "props": {
+                            "xfName": "bottom",
+                            "xfLabel": "Bottom"
+                          }
+                        },
+                        {
+                          "name": "xf:string",
+                          "props": {
+                            "xfName": "outfall_pipe",
+                            "xfLabel": "Outfall Pipe"
+                          }
+                        },
+                        {
+                          "name": "xf:string",
+                          "props": {
+                            "xfName": "swqf",
+                            "xfLabel": "SWQF"
+                          }
+                        },
+                        {
+                          "name": "xf:text",
+                          "props": {
+                            "xfName": "comments",
+                            "xfLabel": "Comments"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "name": "xf:multivalue",
+                    "props": {
+                      "xfName": "required_photos",
+                      "xfLabel": "Required Photos",
+                      "xfCustomBtnLabel": "+ Photos",
+                      "xfCustomLabelEnabled": true,
+                      "children": [
+                        {
+                          "name": "xf:image",
+                          "props": {
+                            "xfName": "image",
+                            "xfLabel": "Upload/Capture Image"
+                          }
+                        },
+                        {
+                          "name": "xf:select",
+                          "props": {
+                            "xfName": "type",
+                            "xfLabel": "Type",
+                            "xfOptions": "Overview\nOutfall/SWQF\nInlets Pipe",
+                            "xfPresetOptionGroup": ""
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "name": "xf:group",
+                    "props": {
+                      "xfLabel": "Observation",
+                      "children": [
+                        {
+                          "name": "xf:select",
+                          "props": {
+                            "xfName": "observation",
+                            "xfOptions": "No Concerns\nRain within 24 Hours\nTrash/Debris Present\nOil ",
+                            "xfMultiple": false,
+                            "xfPresetOptionGroup": ""
+                          }
+                        },
+                        {
+                          "name": "composite:deficiencies",
+                          "props": {
+                            "xfName": "deficiency",
+                            "xfCollapse": false,
+                            "xfToggleLabel": "Has Issues?",
+                            "xfDisableLevel": true,
+                            "xfCustomBtnLabel": "+ Deficiency",
+                            "xfDisableDateDue": false,
+                            "xfCustomLabelEnabled": true,
+                            "xfDisableDescription": true,
+                            "xfDisableDateResolved": true,
+                            "xfDeficiencyFieldLabel": "",
+                            "xfDisablePhotoDateTime": true,
+                            "xfPrepopulateValueType": "current_deficiencies",
+                            "xfDisableDateIdentified": false,
+                            "xfPrepopulateValueEnabled": true
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "xf:metadata-group",
+        "props": {
+          "xfName": "metadata",
+          "children": [
+            {
+              "name": "xf:metadata",
+              "props": {
+                "xfName": "binding__created_at",
+                "xfValue": "general_information|inspection_date"
+              }
+            },
+            {
+              "name": "xf:metadata",
+              "props": {
+                "xfName": "binding__created_at_time",
+                "xfValue": "general_information|time"
+              }
+            },
+            {
+              "name": "xf:metadata",
+              "props": {
+                "xfName": "binding__append_report_name",
+                "xfValue": "general_information|inspection_type|pond_condition"
+              }
+            },
+            {
+              "name": "xf:metadata",
+              "props": {
+                "xfName": "binding__include_weather_forecast",
+                "xfValue": "general_information|pond_details|attach_noaa_weather"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

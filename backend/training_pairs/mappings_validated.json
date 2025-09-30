@@ -1,0 +1,56 @@
+{
+  "pairs": [
+    {
+      "pdf": "BMP Inspection Report - Custom.pdf",
+      "schema": "BMP Inspection Report - Custom.json",
+      "message": "Valid (contains 182 fields)"
+    },
+    {
+      "pdf": "CommercialIndustrial Inspection.pdf",
+      "schema": "CommercialIndustrial Inspection.json",
+      "message": "Valid (contains 117 fields)"
+    },
+    {
+      "pdf": "Construction Inspection Report.pdf",
+      "schema": "Construction Inspection Report.json",
+      "message": "Valid (contains 115 fields)"
+    },
+    {
+      "pdf": "Copy Texas - Stormwater Inspection Report.pdf",
+      "schema": "Copy Texas - Stormwater Inspection Report.json",
+      "message": "Valid (contains 65 fields)"
+    },
+    {
+      "pdf": "DOT CEM-2030SW.pdf",
+      "schema": "DOT CEM-2030SW.json",
+      "message": "Valid (contains 334 fields)"
+    },
+    {
+      "pdf": "Envirogreen NPDES Stormwater Report.pdf",
+      "schema": "Envirogreen NPDES Stormwater Report.json",
+      "message": "Valid (contains 115 fields)"
+    },
+    {
+      "pdf": "Houston TX - Industrial Inspection Form.pdf",
+      "schema": "Houston TX - Industrial Inspection Form.json",
+      "message": "Valid (contains 62 fields)"
+    },
+    {
+      "pdf": "Post ConstructionWQMP Inspection.pdf",
+      "schema": "Post ConstructionWQMP Inspection.json",
+      "message": "Valid (contains 33 fields)"
+    },
+    {
+      "pdf": "Sampling Event Visual Observation.pdf",
+      "schema": "Sampling Event Visual Observation.json",
+      "message": "Valid (contains 18 fields)"
+    },
+    {
+      "pdf": "Stormwater Inspection Report.pdf",
+      "schema": "Stormwater Inspection Report.json",
+      "message": "Valid (contains 127 fields)"
+    }
+  ],
+  "total": 10,
+  "validated": true
+}

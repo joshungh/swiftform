@@ -1,0 +1,3409 @@
+{
+  "name": "xf:form",
+  "props": {
+    "xfPageNavigation": "toc",
+    "children": [
+      {
+        "name": "xf:page",
+        "props": {
+          "xfName": "general_info",
+          "xfLabel": "General Information",
+          "children": [
+            {
+              "name": "xf:date",
+              "props": {
+                "xfName": "date_of_inspection",
+                "xfLabel": "Inspection Date",
+                "xfDefaultValueType": "{{DATE_CURRENT}}",
+                "xfDefaultValueEnabled": true,
+                "xfPrepopulateValueEnabled": false
+              }
+            },
+            {
+              "name": "xf:time",
+              "props": {
+                "xfName": "time_of_inspection",
+                "xfLabel": "Inspection Time",
+                "xfDefaultValueType": "{{TIME_CURRENT}}",
+                "xfDefaultValueEnabled": true,
+                "xfPrepopulateValueEnabled": false
+              }
+            },
+            {
+              "name": "xf:string",
+              "props": {
+                "xfName": "wdid",
+                "xfLabel": "WDID#",
+                "xfDefaultValueEnabled": false,
+                "xfPrepopulateValueType": "custom:program_location_type_data",
+                "xfPrepopulateCustomValue": "regulatory_identifier",
+                "xfPrepopulateValueEnabled": true
+              }
+            },
+            {
+              "name": "xf:select",
+              "props": {
+                "xfName": "inspection_type",
+                "xfLabel": "Inspection Type",
+                "xfOptions": "Weekly\nMonthly (QSP/QSD)\nPre-Qualifying Precipitation Event (QSP/QSD)\nDuring Qualifying Precipitation Event\nPost-Qualifying Precipitation Event\nInactive Monthly (QSP/QSD)\nInactive Pre-Storm (QSP/QSD)\nFinal Inspection (QSP/QSD)\nOther (QSD/QSP) COI\nOther (QSD/QSP) - NAL Exceedance (w/in 14 days)\nOther (QSD/QSP) - As Requested by WB",
+                "xfMultiple": true,
+                "xfPlaceholder": "",
+                "xfPresetOptionGroup": "",
+                "xfPrepopulateValueType": "select_last_report",
+                "xfPrepopulateValueEnabled": true
+              }
+            },
+            {
+              "name": "xf:hidden",
+              "props": {
+                "xfName": "inspection_type_billing_weekly",
+                "xfWhen": "inspection_type",
+                "xfLabel": "Billing Type",
+                "xfWhenEnabled": true,
+                "xfDefaultValue": "Weeklies",
+                "xfWhenContextControl": "general_info",
+                "xfDefaultValueEnabled": true,
+                "xfWhenContextValueType": "{{CUSTOM_OPTIONS}}",
+                "xfPrepopulateCustomValue": "",
+                "xfPrepopulateValueEnabled": false,
+                "xfWhenContextValueCustomOptions": "Weekly\n"
+              }
+            },
+            {
+              "name": "xf:hidden",
+              "props": {
+                "xfName": "inspection_type_billing_monthly",
+                "xfWhen": "inspection_type",
+                "xfLabel": "Monthly Billing Type",
+                "xfWhenEnabled": true,
+                "xfDefaultValue": "Monthly",
+                "xfWhenContextControl": "general_info",
+                "xfDefaultValueEnabled": true,
+                "xfWhenContextValueType": "{{CUSTOM_OPTIONS}}",
+                "xfPrepopulateCustomValue": "",
+                "xfPrepopulateValueEnabled": false,
+                "xfWhenContextValueCustomOptions": "Monthly (QSP/QSD)\nInactive Monthly (QSP/QSD)\n"
+              }
+            },
+            {
+              "name": "xf:select",
+              "props": {
+                "xfName": "qsd",
+                "xfLabel": "QSD on-site visual inspection",
+                "xfOptions": "QSD Initial Inspection\nQSD Semi-Annual\nQSD Replacement (QSD)",
+                "xfMultiple": true,
+                "xfInfoEnabled": false,
+                "xfPresetOptionGroup": "",
+                "xfPrepopulateValueType": "select_last_report",
+                "xfPrepopulateValueEnabled": true
+              }
+            },
+            {
+              "name": "xf:hidden",
+              "props": {
+                "xfName": "qsd_hidden",
+                "xfWhen": "qsd",
+                "xfLabel": "QSD Hidden",
+                "xfWhenEnabled": true,
+                "xfDefaultValue": "QSD",
+                "xfWhenContextControl": "general_info",
+                "xfDefaultValueEnabled": true,
+                "xfWhenContextValueType": "{{ANY_RANGE}}",
+                "xfPrepopulateCustomValue": "",
+                "xfPrepopulateValueEnabled": false
+              }
+            },
+            {
+              "name": "xf:group",
+              "props": {
+                "xfLabel": "Site Information",
+                "children": [
+                  {
+                    "name": "xf:string",
+                    "props": {
+                      "xfName": "site_name",
+                      "xfLabel": "Construction Site Name",
+                      "xfPrepopulateValueType": "location_name",
+                      "xfPrepopulateValueEnabled": true
+                    }
+                  },
+                  {
+                    "name": "xf:select",
+                    "props": {
+                      "xfName": "stage_of_construction",
+                      "xfLabel": "Construction Stage",
+                      "xfOptions": "Grading and Land Development\nVertical Construction\nInactive Construction Site\nStreets and Utilities\nFinal Landscaping and Site Stabilization\nDemolition\nOther",
+                      "xfMultiple": true,
+                      "xfPostaction": "update_program_location_type_data_field",
+                      "xfInfoEnabled": false,
+                      "xfPostactionEnabled": false,
+                      "xfPresetOptionGroup": "",
+                      "xfPrepopulateValueType": "select_last_report",
+                      "xfPostactionConfigValue": "stage",
+                      "xfPrepopulateCustomValue": "stage",
+                      "xfPrepopulateValueEnabled": true
+                    }
+                  },
+                  {
+                    "name": "xf:string",
+                    "props": {
+                      "xfName": "stage_other",
+                      "xfWhen": "stage_of_construction",
+                      "xfLabel": "Current Stage (Other)",
+                      "xfInfoType": "custom",
+                      "xfInfoEnabled": true,
+                      "xfWhenEnabled": true,
+                      "xfInfoCustomValue": "Autofill information pre-filled from the site's general details. Update information to override existing data.",
+                      "xfWhenContextControl": "general_info",
+                      "xfPrepopulateValueType": "custom:program_location_type_data",
+                      "xfWhenContextValueType": "{{CUSTOM}}",
+                      "xfPrepopulateCustomValue": "stage_other",
+                      "xfWhenContextValueCustom": "Other",
+                      "xfPrepopulateValueEnabled": true
+                    }
+                  },
+                  {
+                    "name": "xf:text",
+                    "props": {
+                      "xfName": "comp_activities",
+                      "xfLabel": "General construction activities completed since the last inspection:",
+                      "xfInfoType": "custom",
+                      "xfPostaction": "update_program_location_type_data_field",
+                      "xfInfoEnabled": true,
+                      "xfInfoCustomValue": "Autofill information pre-filled from the site's general details. Update information to override existing data.",
+                      "xfPostactionEnabled": true,
+                      "xfPrepopulateValueType": "custom:program_location_type_data",
+                      "xfPostactionConfigValue": "completed_activities",
+                      "xfPrepopulateCustomValue": "completed_activities",
+                      "xfPrepopulateValueEnabled": true
+                    }
+                  },
+                  {
+                    "name": "xf:string",
+                    "props": {
+                      "xfName": "site_exposed",
+                      "xfLabel": "Approximate area of site exposed",
+                      "xfInfoType": "custom",
+                      "xfPostaction": "update_location__data_field",
+                      "xfInfoEnabled": true,
+                      "xfInfoCustomValue": "Autofill information pre-filled from the site's general details. Update information to override existing data.",
+                      "xfPostactionEnabled": true,
+                      "xfPrepopulateValueType": "custom:program_location_type_data",
+                      "xfPostactionConfigValue": "site_exposed",
+                      "xfPrepopulateCustomValue": "site_exposed",
+                      "xfPrepopulateValueEnabled": true
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "name": "xf:group",
+              "props": {
+                "xfLabel": "Inspector Information",
+                "children": [
+                  {
+                    "name": "xf:string",
+                    "props": {
+                      "xfName": "inspector_name",
+                      "xfLabel": "Inspector Name",
+                      "xfWhenEnabled": false,
+                      "xfDefaultValueEnabled": false,
+                      "xfPrepopulateValueType": "user_name",
+                      "xfPrepopulateValueEnabled": true
+                    }
+                  },
+                  {
+                    "name": "xf:string",
+                    "props": {
+                      "xfName": "inspector_title",
+                      "xfLabel": "Title",
+                      "xfPrepopulateValueType": "user_title",
+                      "xfPrepopulateValueEnabled": true
+                    }
+                  },
+                  {
+                    "name": "xf:signature",
+                    "props": {
+                      "xfName": "signature",
+                      "xfLabel": "Signature",
+                      "xfWhenEnabled": false,
+                      "xfPrepopulateValueType": "user_signature",
+                      "xfPrepopulateValueEnabled": true
+                    }
+                  },
+                  {
+                    "name": "xf:date",
+                    "props": {
+                      "xfName": "date_signed",
+                      "xfLabel": "Signature Date",
+                      "xfWhenEnabled": false,
+                      "xfDefaultValueType": "{{DATE_CURRENT}}",
+                      "xfDefaultValueEnabled": false,
+                      "xfPrepopulateValueEnabled": false
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "name": "xf:group",
+              "props": {
+                "xfName": "weather",
+                "xfLabel": "Site Weather Information",
+                "children": [
+                  {
+                    "name": "xf:boolean",
+                    "props": {
+                      "xfName": "attach_noaa",
+                      "xfLabel": "Attach NOAA Forecast to Report?",
+                      "xfDefaultValueEnabled": true,
+                      "xfPrepopulateValueType": "boolean_last_report",
+                      "xfPrepopulateValueEnabled": true
+                    }
+                  },
+                  {
+                    "name": "xf:group",
+                    "props": {
+                      "xfName": "storm_beginning",
+                      "xfLabel": "Estimate storm beginning",
+                      "children": [
+                        {
+                          "name": "xf:date",
+                          "props": {
+                            "xfName": "date",
+                            "xfLabel": "Date",
+                            "xfPrepopulateValueType": "date_weather_forecast_qe_start",
+                            "xfPrepopulateValueEnabled": true
+                          }
+                        },
+                        {
+                          "name": "xf:time",
+                          "props": {
+                            "xfName": "time",
+                            "xfLabel": "Time",
+                            "xfPrepopulateValueType": "time_weather_forecast_qe_start",
+                            "xfPrepopulateValueEnabled": true
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "name": "xf:group",
+                    "props": {
+                      "xfName": "time_since_storm",
+                      "xfLabel": "Estimate time since last storm",
+                      "children": [
+                        {
+                          "name": "xf:string",
+                          "props": {
+                            "xfName": "status",
+                            "xfPrepopulateValueType": "weather_last_storm_ended_at_datetime_string",
+                            "xfPrepopulateValueEnabled": true
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "name": "xf:group",
+                    "props": {
+                      "xfName": "rain_gauge",
+                      "xfLabel": "Rain gauge",
+                      "children": [
+                        {
+                          "name": "xf:string",
+                          "props": {
+                            "xfName": "reading",
+                            "xfLabel": "Reading",
+                            "xfPrepopulateValueType": "weather_current_storm_total",
+                            "xfPrepopulateValueEnabled": true
+                          }
+                        },
+                        {
+                          "name": "xf:string",
+                          "props": {
+                            "xfName": "location",
+                            "xfLabel": "Location"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "name": "xf:group",
+                    "props": {
+                      "xfName": "qualifying_precipitation_event",
+                      "xfLabel": "Is a “Qualifying Precipitation Event” predicted or did one occur (i.e., any weather pattern with a 50% chance of  0.5” or more within a 24-hr period when 0.5” has been forecast and continues on subsequent 24-hour periods  when 0.25” of precipitation or more is forecast)?",
+                      "children": [
+                        {
+                          "name": "xf:boolean",
+                          "props": {
+                            "xfName": "bool",
+                            "xfLabel": "Y/N",
+                            "xfDefaultValueType": "{{TYPE_FALSE}}",
+                            "xfDefaultValueEnabled": true
+                          }
+                        },
+                        {
+                          "name": "xf:text",
+                          "props": {
+                            "xfName": "summarize",
+                            "xfWhen": "bool",
+                            "xfLabel": "Summarize Forecast",
+                            "xfWhenEnabled": true,
+                            "xfWhenContextControl": "qualifying_precipitation_event"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "name": "xf:group",
+                    "props": {
+                      "xfLabel": "Exemption",
+                      "children": [
+                        {
+                          "name": "xf:boolean",
+                          "props": {
+                            "xfName": "exemption",
+                            "xfLabel": "Are you using Exemption?",
+                            "xfDefaultValueType": "{{TYPE_FALSE}}",
+                            "xfDefaultValueEnabled": true
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "name": "xf:group",
+                    "props": {
+                      "xfName": "exception_documentation",
+                      "xfWhen": "exemption",
+                      "xfLabel": "Exception Documentation (explanation required if inspection could not be conducted). Visual  inspections are not required outside of business hours or during dangerous weather conditions such as  electrical storms, flooding, and high winds above 40 miles per hour.",
+                      "xfWhenEnabled": true,
+                      "children": [
+                        {
+                          "name": "xf:text",
+                          "props": {
+                            "xfName": "status",
+                            "xfWhen": "",
+                            "xfWhenEnabled": false,
+                            "xfWhenContextControl": ""
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "name": "xf:group",
+              "props": {
+                "xfName": "",
+                "children": [
+                  {
+                    "name": "xf:hidden",
+                    "props": {
+                      "xfName": "risk_level_1",
+                      "xfDefaultValue": "1",
+                      "xfDefaultValueEnabled": false,
+                      "xfPrepopulateValueType": "custom:program_location_type",
+                      "xfPrepopulateCustomValue": "risk_level_1",
+                      "xfPrepopulateValueEnabled": true
+                    }
+                  },
+                  {
+                    "name": "xf:hidden",
+                    "props": {
+                      "xfName": "risk_level_2",
+                      "xfPrepopulateValueType": "custom:program_location_type_data",
+                      "xfPrepopulateCustomValue": "risk_level_2",
+                      "xfPrepopulateValueEnabled": true
+                    }
+                  },
+                  {
+                    "name": "xf:hidden",
+                    "props": {
+                      "xfName": "risk_level_3",
+                      "xfLabel": "risk_level_3",
+                      "xfWhenEnabled": false,
+                      "xfPrepopulateValueType": "custom:program_location_type_data",
+                      "xfPrepopulateCustomValue": "risk_level_3",
+                      "xfPrepopulateValueEnabled": true
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "xf:page",
+        "props": {
+          "xfName": "compliance_checklist",
+          "xfLabel": "Compliance Checklist",
+          "children": [
+            {
+              "name": "xf:group",
+              "props": {
+                "xfLabel": "Instructions",
+                "xfCollapse": true,
+                "children": [
+                  {
+                    "name": "xf:group",
+                    "props": {
+                      "xfLabel": "Please answer the following questions if applicable. If any corrective actions or deficiencies are identified, indicate \"Yes\" for \"Has deficiencies?\" To include predefined corrective actions to the \"Corrective Actions List\", navigate to Settings > App Settings > Deficiency Corrective Actions (for Account Admins Only)."
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "name": "xf:group",
+              "props": {
+                "xfName": "",
+                "xfLabel": "General Comments",
+                "xfPrepopulateValueType": "group_last_report",
+                "xfPrepopulateValueEnabled": true,
+                "children": [
+                  {
+                    "name": "xf:text",
+                    "props": {
+                      "xfName": "gen_comments",
+                      "xfPrepopulateValueType": "last_report",
+                      "xfPrepopulateValueEnabled": true
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "name": "xf:group",
+              "props": {
+                "xfName": "",
+                "xfLabel": "Good Housekeeping for Construction Materials",
+                "xfPrepopulateValueEnabled": false,
+                "children": [
+                  {
+                    "name": "xf:group",
+                    "props": {
+                      "xfName": "q1",
+                      "xfLabel": "Inventory of products (excluding materials designed to be outdoors) ",
+                      "xfPrepopulateValueType": "group_last_report",
+                      "xfPrepopulateValueEnabled": true,
+                      "children": [
+                        {
+                          "name": "xf:ternary",
+                          "props": {
+                            "xfName": "present",
+                            "xfDefaultValueType": "{{TYPE_NULL}}",
+                            "xfDefaultValueEnabled": true,
+                            "xfPrepopulateValueType": "last_report",
+                            "xfPrepopulateValueEnabled": true
+                          }
+                        },
+                        {
+                          "name": "xf:text",
+                          "props": {
+                            "xfName": "notes",
+                            "xfWhen": "present",
+                            "xfLabel": "Notes",
+                            "xfWhenEnabled": false,
+                            "xfWhenContextControl": "q1",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}"
+                          }
+                        },
+                        {
+                          "name": "composite:deficiencies",
+                          "props": {
+                            "xfName": "deficiency",
+                            "xfWhen": "present",
+                            "xfToggleLabel": "Action Required?",
+                            "xfWhenEnabled": true,
+                            "xfDisableLevel": true,
+                            "xfCustomBtnLabel": "+ Deficiency",
+                            "xfDisableDateDue": true,
+                            "xfPresetOptionGroup": "bmp:all",
+                            "xfCustomLabelEnabled": true,
+                            "xfDisableDescription": true,
+                            "xfWhenContextControl": "q1",
+                            "xfDisableDateResolved": false,
+                            "xfDisablePhotoDateTime": true,
+                            "xfPrepopulateValueType": "current_deficiencies",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}",
+                            "xfDisableDateIdentified": false,
+                            "xfPrepopulateValueEnabled": true,
+                            "xfEnableCorrectiveActionList": true,
+                            "xfCorrectiveActionOptionGroup": "deficiencyCorrectiveActionCategory:272",
+                            "xfDeficiencyDateIdentifiedLabel": "",
+                            "xfDeficiencyCorrectiveActionLabel": "Corrective Action"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "name": "xf:group",
+                    "props": {
+                      "xfName": "q2",
+                      "xfLabel": "Stockpiled construction materials not actively in use are covered and bermed",
+                      "xfPrepopulateValueType": "group_last_report",
+                      "xfPrepopulateValueEnabled": true,
+                      "children": [
+                        {
+                          "name": "xf:ternary",
+                          "props": {
+                            "xfName": "present",
+                            "xfDefaultValueType": "{{TYPE_NULL}}",
+                            "xfDefaultValueEnabled": true,
+                            "xfPrepopulateValueType": "last_report",
+                            "xfPrepopulateValueEnabled": true
+                          }
+                        },
+                        {
+                          "name": "xf:text",
+                          "props": {
+                            "xfName": "notes",
+                            "xfWhen": "present",
+                            "xfLabel": "Notes",
+                            "xfWhenEnabled": false,
+                            "xfWhenContextControl": "q2",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}"
+                          }
+                        },
+                        {
+                          "name": "composite:deficiencies",
+                          "props": {
+                            "xfName": "deficiency",
+                            "xfWhen": "present",
+                            "xfToggleLabel": "Action Required?",
+                            "xfWhenEnabled": true,
+                            "xfDisableLevel": true,
+                            "xfCustomBtnLabel": "+ Deficiency",
+                            "xfDisableDateDue": true,
+                            "xfPresetOptionGroup": "bmp:all",
+                            "xfCustomLabelEnabled": true,
+                            "xfDisableDescription": true,
+                            "xfWhenContextControl": "q2",
+                            "xfDisableDateResolved": false,
+                            "xfDisablePhotoDateTime": true,
+                            "xfPrepopulateValueType": "current_deficiencies",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}",
+                            "xfDisableDateIdentified": false,
+                            "xfPrepopulateValueEnabled": true,
+                            "xfEnableCorrectiveActionList": true,
+                            "xfCorrectiveActionOptionGroup": "deficiencyCorrectiveActionCategory:272",
+                            "xfDeficiencyCorrectiveActionLabel": "Corrective Action"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "name": "xf:group",
+                    "props": {
+                      "xfName": "q3",
+                      "xfLabel": "All chemicals are stored in watertight containers with appropriate secondary containment, or in a completely enclosed storage shed",
+                      "xfPrepopulateValueType": "group_last_report",
+                      "xfPrepopulateValueEnabled": true,
+                      "children": [
+                        {
+                          "name": "xf:ternary",
+                          "props": {
+                            "xfName": "present",
+                            "xfDefaultValueType": "{{TYPE_NULL}}",
+                            "xfDefaultValueEnabled": true,
+                            "xfPrepopulateValueType": "last_report",
+                            "xfPrepopulateValueEnabled": true
+                          }
+                        },
+                        {
+                          "name": "xf:text",
+                          "props": {
+                            "xfName": "notes",
+                            "xfWhen": "present",
+                            "xfLabel": "Notes",
+                            "xfWhenEnabled": false,
+                            "xfWhenContextControl": "q3",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}"
+                          }
+                        },
+                        {
+                          "name": "composite:deficiencies",
+                          "props": {
+                            "xfName": "deficiency",
+                            "xfWhen": "present",
+                            "xfToggleLabel": "Action Required?",
+                            "xfWhenEnabled": true,
+                            "xfDisableLevel": true,
+                            "xfCustomBtnLabel": "+ Deficiency",
+                            "xfDisableDateDue": true,
+                            "xfPresetOptionGroup": "bmp:all",
+                            "xfCustomLabelEnabled": true,
+                            "xfDisableDescription": true,
+                            "xfWhenContextControl": "q3",
+                            "xfDisableDateResolved": false,
+                            "xfDisablePhotoDateTime": true,
+                            "xfPrepopulateValueType": "current_deficiencies",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}",
+                            "xfDisableDateIdentified": false,
+                            "xfPrepopulateValueEnabled": true,
+                            "xfEnableCorrectiveActionList": true,
+                            "xfCorrectiveActionOptionGroup": "deficiencyCorrectiveActionCategory:272",
+                            "xfDeficiencyCorrectiveActionLabel": "Corrective Action"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "name": "xf:group",
+                    "props": {
+                      "xfName": "q4",
+                      "xfLabel": "Construction materials are minimally exposed to precipitation",
+                      "xfPrepopulateValueType": "group_last_report",
+                      "xfPrepopulateValueEnabled": true,
+                      "children": [
+                        {
+                          "name": "xf:ternary",
+                          "props": {
+                            "xfName": "present",
+                            "xfDefaultValueType": "{{TYPE_NULL}}",
+                            "xfDefaultValueEnabled": true,
+                            "xfPrepopulateValueType": "last_report",
+                            "xfPrepopulateValueEnabled": true
+                          }
+                        },
+                        {
+                          "name": "xf:text",
+                          "props": {
+                            "xfName": "notes",
+                            "xfWhen": "present",
+                            "xfLabel": "Notes",
+                            "xfWhenEnabled": false,
+                            "xfWhenContextControl": "q4",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}"
+                          }
+                        },
+                        {
+                          "name": "composite:deficiencies",
+                          "props": {
+                            "xfName": "deficiency",
+                            "xfWhen": "present",
+                            "xfToggleLabel": "Action Required?",
+                            "xfWhenEnabled": true,
+                            "xfDisableLevel": true,
+                            "xfCustomBtnLabel": "+ Deficiency",
+                            "xfDisableDateDue": true,
+                            "xfPresetOptionGroup": "bmp:all",
+                            "xfCustomLabelEnabled": true,
+                            "xfDisableDescription": true,
+                            "xfWhenContextControl": "q4",
+                            "xfDisableDateResolved": false,
+                            "xfDisablePhotoDateTime": true,
+                            "xfPrepopulateValueType": "current_deficiencies",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}",
+                            "xfDisableDateIdentified": false,
+                            "xfPrepopulateValueEnabled": true,
+                            "xfEnableCorrectiveActionList": true,
+                            "xfCorrectiveActionOptionGroup": "deficiencyCorrectiveActionCategory:272",
+                            "xfDeficiencyCorrectiveActionLabel": "Corrective Action"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "name": "xf:group",
+                    "props": {
+                      "xfName": "q5",
+                      "xfLabel": "BMPs preventing the off-site tracking of materials are implemented and properly effective",
+                      "xfPrepopulateValueType": "group_last_report",
+                      "xfPrepopulateValueEnabled": true,
+                      "children": [
+                        {
+                          "name": "xf:ternary",
+                          "props": {
+                            "xfName": "present",
+                            "xfDefaultValueType": "{{TYPE_NULL}}",
+                            "xfDefaultValueEnabled": true,
+                            "xfPrepopulateValueType": "last_report",
+                            "xfPrepopulateValueEnabled": true
+                          }
+                        },
+                        {
+                          "name": "xf:text",
+                          "props": {
+                            "xfName": "notes",
+                            "xfWhen": "present",
+                            "xfLabel": "Notes",
+                            "xfWhenEnabled": false,
+                            "xfWhenContextControl": "q5",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}"
+                          }
+                        },
+                        {
+                          "name": "composite:deficiencies",
+                          "props": {
+                            "xfName": "deficiency",
+                            "xfWhen": "present",
+                            "xfToggleLabel": "Action Required?",
+                            "xfWhenEnabled": true,
+                            "xfDisableLevel": true,
+                            "xfCustomBtnLabel": "+ Deficiency",
+                            "xfDisableDateDue": true,
+                            "xfPresetOptionGroup": "bmp:all",
+                            "xfCustomLabelEnabled": true,
+                            "xfDisableDescription": true,
+                            "xfWhenContextControl": "q5",
+                            "xfDisableDateResolved": false,
+                            "xfDisablePhotoDateTime": true,
+                            "xfPrepopulateValueType": "current_deficiencies",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}",
+                            "xfDisableDateIdentified": false,
+                            "xfPrepopulateValueEnabled": true,
+                            "xfEnableCorrectiveActionList": true,
+                            "xfCorrectiveActionOptionGroup": "deficiencyCorrectiveActionCategory:272",
+                            "xfDeficiencyCorrectiveActionLabel": "Corrective Action"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "name": "xf:group",
+              "props": {
+                "xfName": "",
+                "xfLabel": "Good Housekeeping for Waste Management",
+                "children": [
+                  {
+                    "name": "xf:group",
+                    "props": {
+                      "xfName": "q6",
+                      "xfLabel": "Wash/rinse water and materials are prevented from being disposed into the storm drain system",
+                      "xfPrepopulateValueType": "group_last_report",
+                      "xfPrepopulateValueEnabled": true,
+                      "children": [
+                        {
+                          "name": "xf:ternary",
+                          "props": {
+                            "xfName": "present",
+                            "xfDefaultValueType": "{{TYPE_NULL}}",
+                            "xfDefaultValueEnabled": true,
+                            "xfPrepopulateValueType": "last_report",
+                            "xfPrepopulateValueEnabled": true
+                          }
+                        },
+                        {
+                          "name": "xf:text",
+                          "props": {
+                            "xfName": "notes",
+                            "xfWhen": "present",
+                            "xfLabel": "Notes",
+                            "xfWhenEnabled": false,
+                            "xfWhenContextControl": "q6",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}"
+                          }
+                        },
+                        {
+                          "name": "composite:deficiencies",
+                          "props": {
+                            "xfName": "deficiency",
+                            "xfWhen": "present",
+                            "xfToggleLabel": "Action Required?",
+                            "xfWhenEnabled": true,
+                            "xfDisableLevel": true,
+                            "xfCustomBtnLabel": "+ Deficiency",
+                            "xfDisableDateDue": true,
+                            "xfPresetOptionGroup": "bmp:all",
+                            "xfCustomLabelEnabled": true,
+                            "xfDisableDescription": true,
+                            "xfWhenContextControl": "q6",
+                            "xfDisableDateResolved": false,
+                            "xfDisablePhotoDateTime": true,
+                            "xfPrepopulateValueType": "current_deficiencies",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}",
+                            "xfDisableDateIdentified": false,
+                            "xfPrepopulateValueEnabled": true,
+                            "xfEnableCorrectiveActionList": true,
+                            "xfCorrectiveActionOptionGroup": "deficiencyCorrectiveActionCategory:273",
+                            "xfDeficiencyCorrectiveActionLabel": "Corrective Action"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "name": "xf:group",
+                    "props": {
+                      "xfName": "q7",
+                      "xfLabel": "Portable toilets are contained to prevent discharges of waste",
+                      "xfPrepopulateValueType": "group_last_report",
+                      "xfPrepopulateValueEnabled": true,
+                      "children": [
+                        {
+                          "name": "xf:ternary",
+                          "props": {
+                            "xfName": "present",
+                            "xfDefaultValueType": "{{TYPE_NULL}}",
+                            "xfDefaultValueEnabled": true,
+                            "xfPrepopulateValueType": "last_report",
+                            "xfPrepopulateValueEnabled": true
+                          }
+                        },
+                        {
+                          "name": "xf:text",
+                          "props": {
+                            "xfName": "notes",
+                            "xfWhen": "present",
+                            "xfLabel": "Notes",
+                            "xfWhenEnabled": false,
+                            "xfWhenContextControl": "q7",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}"
+                          }
+                        },
+                        {
+                          "name": "composite:deficiencies",
+                          "props": {
+                            "xfName": "deficiency",
+                            "xfWhen": "present",
+                            "xfToggleLabel": "Action Required?",
+                            "xfWhenEnabled": true,
+                            "xfDisableLevel": true,
+                            "xfCustomBtnLabel": "+ Deficiency",
+                            "xfDisableDateDue": true,
+                            "xfPresetOptionGroup": "bmp:all",
+                            "xfCustomLabelEnabled": true,
+                            "xfDisableDescription": true,
+                            "xfWhenContextControl": "q7",
+                            "xfDisableDateResolved": false,
+                            "xfDisablePhotoDateTime": true,
+                            "xfPrepopulateValueType": "current_deficiencies",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}",
+                            "xfDisableDateIdentified": false,
+                            "xfPrepopulateValueEnabled": true,
+                            "xfEnableCorrectiveActionList": true,
+                            "xfCorrectiveActionOptionGroup": "deficiencyCorrectiveActionCategory:273",
+                            "xfDeficiencyCorrectiveActionLabel": "Corrective Action"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "name": "xf:group",
+                    "props": {
+                      "xfName": "q8",
+                      "xfLabel": "Sanitation facilities are clean and with no apparent leaks or spills",
+                      "xfPrepopulateValueType": "group_last_report",
+                      "xfPrepopulateValueEnabled": true,
+                      "children": [
+                        {
+                          "name": "xf:ternary",
+                          "props": {
+                            "xfName": "present",
+                            "xfDefaultValueType": "{{TYPE_NULL}}",
+                            "xfDefaultValueEnabled": true,
+                            "xfPrepopulateValueType": "last_report",
+                            "xfPrepopulateValueEnabled": true
+                          }
+                        },
+                        {
+                          "name": "xf:text",
+                          "props": {
+                            "xfName": "notes",
+                            "xfWhen": "present",
+                            "xfLabel": "Notes",
+                            "xfWhenEnabled": false,
+                            "xfWhenContextControl": "q8",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}"
+                          }
+                        },
+                        {
+                          "name": "composite:deficiencies",
+                          "props": {
+                            "xfName": "deficiency",
+                            "xfWhen": "present",
+                            "xfToggleLabel": "Action Required?",
+                            "xfWhenEnabled": true,
+                            "xfDisableLevel": true,
+                            "xfCustomBtnLabel": "+ Deficiency",
+                            "xfDisableDateDue": true,
+                            "xfPresetOptionGroup": "bmp:all",
+                            "xfCustomLabelEnabled": true,
+                            "xfDisableDescription": true,
+                            "xfWhenContextControl": "q8",
+                            "xfDisableDateResolved": false,
+                            "xfDisablePhotoDateTime": true,
+                            "xfPrepopulateValueType": "current_deficiencies",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}",
+                            "xfDisableDateIdentified": false,
+                            "xfPrepopulateValueEnabled": true,
+                            "xfEnableCorrectiveActionList": true,
+                            "xfCorrectiveActionOptionGroup": "deficiencyCorrectiveActionCategory:273",
+                            "xfDeficiencyCorrectiveActionLabel": "Corrective Action"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "name": "xf:group",
+                    "props": {
+                      "xfName": "q9",
+                      "xfLabel": "BMPs are in place to cover waste disposal containers at the end of business day and during rain event.",
+                      "xfPrepopulateValueType": "group_last_report",
+                      "xfPrepopulateValueEnabled": true,
+                      "children": [
+                        {
+                          "name": "xf:ternary",
+                          "props": {
+                            "xfName": "present",
+                            "xfDefaultValueType": "{{TYPE_NULL}}",
+                            "xfDefaultValueEnabled": true,
+                            "xfPrepopulateValueType": "last_report",
+                            "xfPrepopulateValueEnabled": true
+                          }
+                        },
+                        {
+                          "name": "xf:text",
+                          "props": {
+                            "xfName": "notes",
+                            "xfWhen": "present",
+                            "xfLabel": "Notes",
+                            "xfWhenEnabled": false,
+                            "xfWhenContextControl": "q9",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}"
+                          }
+                        },
+                        {
+                          "name": "composite:deficiencies",
+                          "props": {
+                            "xfName": "deficiency",
+                            "xfWhen": "present",
+                            "xfToggleLabel": "Action Required?",
+                            "xfWhenEnabled": true,
+                            "xfDisableLevel": true,
+                            "xfCustomBtnLabel": "+ Deficiency",
+                            "xfDisableDateDue": true,
+                            "xfPresetOptionGroup": "bmp:all",
+                            "xfCustomLabelEnabled": true,
+                            "xfDisableDescription": true,
+                            "xfWhenContextControl": "q9",
+                            "xfDisableDateResolved": false,
+                            "xfDisablePhotoDateTime": true,
+                            "xfPrepopulateValueType": "current_deficiencies",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}",
+                            "xfDisableDateIdentified": false,
+                            "xfPrepopulateValueEnabled": true,
+                            "xfEnableCorrectiveActionList": true,
+                            "xfCorrectiveActionOptionGroup": "deficiencyCorrectiveActionCategory:273",
+                            "xfDeficiencyCorrectiveActionLabel": "Corrective Action"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "name": "xf:group",
+                    "props": {
+                      "xfName": "q10",
+                      "xfLabel": "Discharges from waste disposal containers are prevented from discharging to the storm drain system / receiving water",
+                      "xfPrepopulateValueType": "group_last_report",
+                      "xfPrepopulateValueEnabled": true,
+                      "children": [
+                        {
+                          "name": "xf:ternary",
+                          "props": {
+                            "xfName": "present",
+                            "xfDefaultValueType": "{{TYPE_NULL}}",
+                            "xfDefaultValueEnabled": true,
+                            "xfPrepopulateValueType": "last_report",
+                            "xfPrepopulateValueEnabled": true
+                          }
+                        },
+                        {
+                          "name": "xf:text",
+                          "props": {
+                            "xfName": "notes",
+                            "xfWhen": "present",
+                            "xfLabel": "Notes",
+                            "xfWhenEnabled": false,
+                            "xfWhenContextControl": "q10",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}"
+                          }
+                        },
+                        {
+                          "name": "composite:deficiencies",
+                          "props": {
+                            "xfName": "deficiency",
+                            "xfWhen": "present",
+                            "xfToggleLabel": "Action Required?",
+                            "xfWhenEnabled": true,
+                            "xfDisableLevel": true,
+                            "xfCustomBtnLabel": "+ Deficiency",
+                            "xfDisableDateDue": true,
+                            "xfPresetOptionGroup": "bmp:all",
+                            "xfCustomLabelEnabled": true,
+                            "xfDisableDescription": true,
+                            "xfWhenContextControl": "q10",
+                            "xfDisableDateResolved": false,
+                            "xfDisablePhotoDateTime": true,
+                            "xfPrepopulateValueType": "current_deficiencies",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}",
+                            "xfDisableDateIdentified": false,
+                            "xfPrepopulateValueEnabled": true,
+                            "xfEnableCorrectiveActionList": true,
+                            "xfCorrectiveActionOptionGroup": "deficiencyCorrectiveActionCategory:273",
+                            "xfDeficiencyCorrectiveActionLabel": "Corrective Action"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "name": "xf:group",
+                    "props": {
+                      "xfName": "q11",
+                      "xfLabel": "Stockpiled waste material is securely protected from wind and rain if not actively ain use",
+                      "xfPrepopulateValueType": "group_last_report",
+                      "xfPrepopulateValueEnabled": true,
+                      "children": [
+                        {
+                          "name": "xf:ternary",
+                          "props": {
+                            "xfName": "present",
+                            "xfDefaultValueType": "{{TYPE_NULL}}",
+                            "xfDefaultValueEnabled": true,
+                            "xfPrepopulateValueType": "last_report",
+                            "xfPrepopulateValueEnabled": true
+                          }
+                        },
+                        {
+                          "name": "xf:text",
+                          "props": {
+                            "xfName": "notes",
+                            "xfWhen": "present",
+                            "xfLabel": "Notes",
+                            "xfWhenEnabled": false,
+                            "xfWhenContextControl": "q11",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}"
+                          }
+                        },
+                        {
+                          "name": "composite:deficiencies",
+                          "props": {
+                            "xfName": "deficiency",
+                            "xfWhen": "present",
+                            "xfToggleLabel": "Action Required?",
+                            "xfWhenEnabled": true,
+                            "xfDisableLevel": true,
+                            "xfCustomBtnLabel": "+ Deficiency",
+                            "xfDisableDateDue": true,
+                            "xfPresetOptionGroup": "bmp:all",
+                            "xfCustomLabelEnabled": true,
+                            "xfDisableDescription": true,
+                            "xfWhenContextControl": "q11",
+                            "xfDisableDateResolved": false,
+                            "xfDisablePhotoDateTime": true,
+                            "xfPrepopulateValueType": "current_deficiencies",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}",
+                            "xfDisableDateIdentified": false,
+                            "xfPrepopulateValueEnabled": true,
+                            "xfEnableCorrectiveActionList": true,
+                            "xfCorrectiveActionOptionGroup": "deficiencyCorrectiveActionCategory:273",
+                            "xfDeficiencyCorrectiveActionLabel": "Corrective Action"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "name": "xf:group",
+                    "props": {
+                      "xfName": "q12",
+                      "xfLabel": "Procedures are in place for addressing hazardous and non-hazardous spills",
+                      "xfPrepopulateValueType": "group_last_report",
+                      "xfPrepopulateValueEnabled": true,
+                      "children": [
+                        {
+                          "name": "xf:ternary",
+                          "props": {
+                            "xfName": "present",
+                            "xfDefaultValueType": "{{TYPE_NULL}}",
+                            "xfDefaultValueEnabled": true,
+                            "xfPrepopulateValueType": "last_report",
+                            "xfPrepopulateValueEnabled": true
+                          }
+                        },
+                        {
+                          "name": "xf:text",
+                          "props": {
+                            "xfName": "notes",
+                            "xfWhen": "present",
+                            "xfLabel": "Notes",
+                            "xfWhenEnabled": false,
+                            "xfWhenContextControl": "q12",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}"
+                          }
+                        },
+                        {
+                          "name": "composite:deficiencies",
+                          "props": {
+                            "xfName": "deficiency",
+                            "xfWhen": "present",
+                            "xfToggleLabel": "Action Required?",
+                            "xfWhenEnabled": true,
+                            "xfDisableLevel": true,
+                            "xfCustomBtnLabel": "+ Deficiency",
+                            "xfDisableDateDue": true,
+                            "xfPresetOptionGroup": "bmp:all",
+                            "xfCustomLabelEnabled": true,
+                            "xfDisableDescription": true,
+                            "xfWhenContextControl": "q12",
+                            "xfDisableDateResolved": false,
+                            "xfDisablePhotoDateTime": true,
+                            "xfPrepopulateValueType": "current_deficiencies",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}",
+                            "xfDisableDateIdentified": false,
+                            "xfPrepopulateValueEnabled": true,
+                            "xfEnableCorrectiveActionList": true,
+                            "xfCorrectiveActionOptionGroup": "deficiencyCorrectiveActionCategory:273",
+                            "xfDeficiencyCorrectiveActionLabel": "Corrective Action"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "name": "xf:group",
+                    "props": {
+                      "xfName": "q13",
+                      "xfLabel": "Appropriate spill response personnel are assigned and trained",
+                      "xfPrepopulateValueType": "group_last_report",
+                      "xfPrepopulateValueEnabled": true,
+                      "children": [
+                        {
+                          "name": "xf:ternary",
+                          "props": {
+                            "xfName": "present",
+                            "xfDefaultValueType": "{{TYPE_NULL}}",
+                            "xfDefaultValueEnabled": true,
+                            "xfPrepopulateValueType": "last_report",
+                            "xfPrepopulateValueEnabled": true
+                          }
+                        },
+                        {
+                          "name": "xf:text",
+                          "props": {
+                            "xfName": "notes",
+                            "xfWhen": "present",
+                            "xfLabel": "Notes",
+                            "xfWhenEnabled": false,
+                            "xfWhenContextControl": "q13",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}"
+                          }
+                        },
+                        {
+                          "name": "composite:deficiencies",
+                          "props": {
+                            "xfName": "deficiency",
+                            "xfWhen": "present",
+                            "xfToggleLabel": "Action Required?",
+                            "xfWhenEnabled": true,
+                            "xfDisableLevel": true,
+                            "xfCustomBtnLabel": "+ Deficiency",
+                            "xfDisableDateDue": true,
+                            "xfPresetOptionGroup": "bmp:all",
+                            "xfCustomLabelEnabled": true,
+                            "xfDisableDescription": true,
+                            "xfWhenContextControl": "q13",
+                            "xfDisableDateResolved": false,
+                            "xfDisablePhotoDateTime": true,
+                            "xfPrepopulateValueType": "current_deficiencies",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}",
+                            "xfDisableDateIdentified": false,
+                            "xfPrepopulateValueEnabled": true,
+                            "xfEnableCorrectiveActionList": true,
+                            "xfCorrectiveActionOptionGroup": "deficiencyCorrectiveActionCategory:273",
+                            "xfDeficiencyCorrectiveActionLabel": "Corrective Action"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "name": "xf:group",
+                    "props": {
+                      "xfName": "q14",
+                      "xfLabel": "Equipment and materials for cleanup of spills is available onsite",
+                      "xfPrepopulateValueType": "group_last_report",
+                      "xfPrepopulateValueEnabled": true,
+                      "children": [
+                        {
+                          "name": "xf:ternary",
+                          "props": {
+                            "xfName": "present",
+                            "xfDefaultValueType": "{{TYPE_NULL}}",
+                            "xfDefaultValueEnabled": true,
+                            "xfPrepopulateValueType": "last_report",
+                            "xfPrepopulateValueEnabled": true
+                          }
+                        },
+                        {
+                          "name": "xf:text",
+                          "props": {
+                            "xfName": "notes",
+                            "xfWhen": "present",
+                            "xfLabel": "Notes",
+                            "xfWhenEnabled": false,
+                            "xfWhenContextControl": "q14",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}"
+                          }
+                        },
+                        {
+                          "name": "composite:deficiencies",
+                          "props": {
+                            "xfName": "deficiency",
+                            "xfWhen": "present",
+                            "xfToggleLabel": "Action Required?",
+                            "xfWhenEnabled": true,
+                            "xfDisableLevel": true,
+                            "xfCustomBtnLabel": "+ Deficiency",
+                            "xfDisableDateDue": true,
+                            "xfPresetOptionGroup": "bmp:all",
+                            "xfCustomLabelEnabled": true,
+                            "xfDisableDescription": true,
+                            "xfWhenContextControl": "q14",
+                            "xfDisableDateResolved": false,
+                            "xfDisablePhotoDateTime": true,
+                            "xfPrepopulateValueType": "current_deficiencies",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}",
+                            "xfDisableDateIdentified": false,
+                            "xfPrepopulateValueEnabled": true,
+                            "xfEnableCorrectiveActionList": true,
+                            "xfCorrectiveActionOptionGroup": "deficiencyCorrectiveActionCategory:273",
+                            "xfDeficiencyCorrectiveActionLabel": "Corrective Action"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "name": "xf:group",
+                    "props": {
+                      "xfName": "q15",
+                      "xfLabel": "Washout areas (e.g., concrete) are contained appropriately to prevent discharge or infiltration into the underlying soil",
+                      "xfPrepopulateValueType": "group_last_report",
+                      "xfPrepopulateValueEnabled": true,
+                      "children": [
+                        {
+                          "name": "xf:ternary",
+                          "props": {
+                            "xfName": "present",
+                            "xfDefaultValueType": "{{TYPE_NULL}}",
+                            "xfDefaultValueEnabled": true,
+                            "xfPrepopulateValueType": "last_report",
+                            "xfPrepopulateValueEnabled": true
+                          }
+                        },
+                        {
+                          "name": "xf:text",
+                          "props": {
+                            "xfName": "notes",
+                            "xfWhen": "present",
+                            "xfLabel": "Notes",
+                            "xfWhenEnabled": false,
+                            "xfWhenContextControl": "q15",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}"
+                          }
+                        },
+                        {
+                          "name": "composite:deficiencies",
+                          "props": {
+                            "xfName": "deficiency",
+                            "xfWhen": "present",
+                            "xfToggleLabel": "Action Required?",
+                            "xfWhenEnabled": true,
+                            "xfDisableLevel": true,
+                            "xfCustomBtnLabel": "+ Deficiency",
+                            "xfDisableDateDue": true,
+                            "xfPresetOptionGroup": "bmp:all",
+                            "xfCustomLabelEnabled": true,
+                            "xfDisableDescription": true,
+                            "xfWhenContextControl": "q15",
+                            "xfDisableDateResolved": false,
+                            "xfDisablePhotoDateTime": true,
+                            "xfPrepopulateValueType": "current_deficiencies",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}",
+                            "xfDisableDateIdentified": false,
+                            "xfPrepopulateValueEnabled": true,
+                            "xfEnableCorrectiveActionList": true,
+                            "xfCorrectiveActionOptionGroup": "deficiencyCorrectiveActionCategory:273",
+                            "xfDeficiencyCorrectiveActionLabel": "Corrective Action"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "name": "xf:group",
+              "props": {
+                "xfName": "",
+                "xfLabel": "Good Housekeeping for Vehicle Storage and Maintenance",
+                "children": [
+                  {
+                    "name": "xf:group",
+                    "props": {
+                      "xfName": "q16",
+                      "xfLabel": "Measures are in place to prevent oil, grease, or fuel from leaking into the ground, storm drains, or surface waters",
+                      "xfPrepopulateValueType": "group_last_report",
+                      "xfPrepopulateValueEnabled": true,
+                      "children": [
+                        {
+                          "name": "xf:ternary",
+                          "props": {
+                            "xfName": "present",
+                            "xfDefaultValueType": "{{TYPE_NULL}}",
+                            "xfDefaultValueEnabled": true,
+                            "xfPrepopulateValueType": "last_report",
+                            "xfPrepopulateValueEnabled": true
+                          }
+                        },
+                        {
+                          "name": "xf:text",
+                          "props": {
+                            "xfName": "notes",
+                            "xfWhen": "present",
+                            "xfLabel": "Notes",
+                            "xfWhenEnabled": false,
+                            "xfWhenContextControl": "q16",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}"
+                          }
+                        },
+                        {
+                          "name": "composite:deficiencies",
+                          "props": {
+                            "xfName": "deficiency",
+                            "xfWhen": "present",
+                            "xfToggleLabel": "Action Required?",
+                            "xfWhenEnabled": true,
+                            "xfDisableLevel": true,
+                            "xfCustomBtnLabel": "+ Deficiency",
+                            "xfDisableDateDue": true,
+                            "xfPresetOptionGroup": "bmp:all",
+                            "xfCustomLabelEnabled": true,
+                            "xfDisableDescription": true,
+                            "xfWhenContextControl": "q16",
+                            "xfDisableDateResolved": false,
+                            "xfDisablePhotoDateTime": true,
+                            "xfPrepopulateValueType": "current_deficiencies",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}",
+                            "xfDisableDateIdentified": false,
+                            "xfPrepopulateValueEnabled": true,
+                            "xfEnableCorrectiveActionList": true,
+                            "xfCorrectiveActionOptionGroup": "deficiencyCorrectiveActionCategory:274",
+                            "xfDeficiencyCorrectiveActionLabel": "Corrective Action"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "name": "xf:group",
+                    "props": {
+                      "xfName": "q17",
+                      "xfLabel": "All equipment or vehicles are fueled, maintained, and stored in a designated area with appropriate BMPs",
+                      "xfPrepopulateValueType": "group_last_report",
+                      "xfPrepopulateValueEnabled": true,
+                      "children": [
+                        {
+                          "name": "xf:ternary",
+                          "props": {
+                            "xfName": "present",
+                            "xfDefaultValueType": "{{TYPE_NULL}}",
+                            "xfDefaultValueEnabled": true,
+                            "xfPrepopulateValueType": "last_report",
+                            "xfPrepopulateValueEnabled": true
+                          }
+                        },
+                        {
+                          "name": "xf:text",
+                          "props": {
+                            "xfName": "notes",
+                            "xfWhen": "present",
+                            "xfLabel": "Notes",
+                            "xfWhenEnabled": false,
+                            "xfWhenContextControl": "q17",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}"
+                          }
+                        },
+                        {
+                          "name": "composite:deficiencies",
+                          "props": {
+                            "xfName": "deficiency",
+                            "xfWhen": "present",
+                            "xfToggleLabel": "Action Required?",
+                            "xfWhenEnabled": true,
+                            "xfDisableLevel": true,
+                            "xfCustomBtnLabel": "+ Deficiency",
+                            "xfDisableDateDue": true,
+                            "xfPresetOptionGroup": "bmp:all",
+                            "xfCustomLabelEnabled": true,
+                            "xfDisableDescription": true,
+                            "xfWhenContextControl": "q17",
+                            "xfDisableDateResolved": false,
+                            "xfDisablePhotoDateTime": true,
+                            "xfPrepopulateValueType": "current_deficiencies",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}",
+                            "xfDisableDateIdentified": false,
+                            "xfPrepopulateValueEnabled": true,
+                            "xfEnableCorrectiveActionList": true,
+                            "xfCorrectiveActionOptionGroup": "deficiencyCorrectiveActionCategory:274",
+                            "xfDeficiencyCorrectiveActionLabel": "Corrective Action"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "name": "xf:group",
+                    "props": {
+                      "xfName": "q18",
+                      "xfLabel": "Vehicle and equipment leaks are cleaned immediately and disposed of properly",
+                      "xfPrepopulateValueType": "group_last_report",
+                      "xfPrepopulateValueEnabled": true,
+                      "children": [
+                        {
+                          "name": "xf:ternary",
+                          "props": {
+                            "xfName": "present",
+                            "xfDefaultValueType": "{{TYPE_NULL}}",
+                            "xfDefaultValueEnabled": true,
+                            "xfPrepopulateValueType": "last_report",
+                            "xfPrepopulateValueEnabled": true
+                          }
+                        },
+                        {
+                          "name": "xf:text",
+                          "props": {
+                            "xfName": "notes",
+                            "xfWhen": "present",
+                            "xfLabel": "Notes",
+                            "xfWhenEnabled": false,
+                            "xfWhenContextControl": "q18",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}"
+                          }
+                        },
+                        {
+                          "name": "composite:deficiencies",
+                          "props": {
+                            "xfName": "deficiency",
+                            "xfWhen": "present",
+                            "xfToggleLabel": "Action Required?",
+                            "xfWhenEnabled": true,
+                            "xfDisableLevel": true,
+                            "xfCustomBtnLabel": "+ Deficiency",
+                            "xfDisableDateDue": true,
+                            "xfPresetOptionGroup": "bmp:all",
+                            "xfCustomLabelEnabled": true,
+                            "xfDisableDescription": true,
+                            "xfWhenContextControl": "q18",
+                            "xfDisableDateResolved": false,
+                            "xfDisablePhotoDateTime": true,
+                            "xfPrepopulateValueType": "current_deficiencies",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}",
+                            "xfDisableDateIdentified": false,
+                            "xfPrepopulateValueEnabled": true,
+                            "xfEnableCorrectiveActionList": true,
+                            "xfCorrectiveActionOptionGroup": "deficiencyCorrectiveActionCategory:274",
+                            "xfDeficiencyCorrectiveActionLabel": "Corrective Action"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "name": "xf:group",
+              "props": {
+                "xfName": "",
+                "xfLabel": "Good Housekeeping for Landscape Materials",
+                "children": [
+                  {
+                    "name": "xf:group",
+                    "props": {
+                      "xfName": "q19",
+                      "xfLabel": "Stockpiled landscape materials such as mulches and topsoil are contained and covered when not actively in use",
+                      "xfPrepopulateValueType": "group_last_report",
+                      "xfPrepopulateValueEnabled": true,
+                      "children": [
+                        {
+                          "name": "xf:ternary",
+                          "props": {
+                            "xfName": "present",
+                            "xfDefaultValueType": "{{TYPE_NULL}}",
+                            "xfDefaultValueEnabled": true,
+                            "xfPrepopulateValueType": "last_report",
+                            "xfPrepopulateValueEnabled": true
+                          }
+                        },
+                        {
+                          "name": "xf:text",
+                          "props": {
+                            "xfName": "notes",
+                            "xfWhen": "present",
+                            "xfLabel": "Notes",
+                            "xfWhenEnabled": false,
+                            "xfWhenContextControl": "q19",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}"
+                          }
+                        },
+                        {
+                          "name": "composite:deficiencies",
+                          "props": {
+                            "xfName": "deficiency",
+                            "xfWhen": "present",
+                            "xfToggleLabel": "Action Required?",
+                            "xfWhenEnabled": true,
+                            "xfDisableLevel": true,
+                            "xfCustomBtnLabel": "+ Deficiency",
+                            "xfDisableDateDue": true,
+                            "xfPresetOptionGroup": "bmp:all",
+                            "xfCustomLabelEnabled": true,
+                            "xfDisableDescription": true,
+                            "xfWhenContextControl": "q19",
+                            "xfDisableDateResolved": false,
+                            "xfDisablePhotoDateTime": true,
+                            "xfPrepopulateValueType": "current_deficiencies",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}",
+                            "xfDisableDateIdentified": false,
+                            "xfPrepopulateValueEnabled": true,
+                            "xfEnableCorrectiveActionList": true,
+                            "xfCorrectiveActionOptionGroup": "deficiencyCorrectiveActionCategory:275",
+                            "xfDeficiencyCorrectiveActionLabel": "Corrective Action"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "name": "xf:group",
+                    "props": {
+                      "xfName": "q20",
+                      "xfLabel": "Erodible landscape material has not been applied 2 days before a forecasted rain event or during an event",
+                      "xfPrepopulateValueType": "group_last_report",
+                      "xfPrepopulateValueEnabled": true,
+                      "children": [
+                        {
+                          "name": "xf:ternary",
+                          "props": {
+                            "xfName": "present",
+                            "xfDefaultValueType": "{{TYPE_NULL}}",
+                            "xfDefaultValueEnabled": true,
+                            "xfPrepopulateValueType": "last_report",
+                            "xfPrepopulateValueEnabled": true
+                          }
+                        },
+                        {
+                          "name": "xf:text",
+                          "props": {
+                            "xfName": "notes",
+                            "xfWhen": "present",
+                            "xfLabel": "Notes",
+                            "xfWhenEnabled": false,
+                            "xfWhenContextControl": "q20",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}"
+                          }
+                        },
+                        {
+                          "name": "composite:deficiencies",
+                          "props": {
+                            "xfName": "deficiency",
+                            "xfWhen": "present",
+                            "xfToggleLabel": "Action Required?",
+                            "xfWhenEnabled": true,
+                            "xfDisableLevel": true,
+                            "xfCustomBtnLabel": "+ Deficiency",
+                            "xfDisableDateDue": true,
+                            "xfPresetOptionGroup": "bmp:all",
+                            "xfCustomLabelEnabled": true,
+                            "xfDisableDescription": true,
+                            "xfWhenContextControl": "q20",
+                            "xfDisableDateResolved": false,
+                            "xfDisablePhotoDateTime": true,
+                            "xfPrepopulateValueType": "current_deficiencies",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}",
+                            "xfDisableDateIdentified": false,
+                            "xfPrepopulateValueEnabled": true,
+                            "xfEnableCorrectiveActionList": true,
+                            "xfCorrectiveActionOptionGroup": "deficiencyCorrectiveActionCategory:275",
+                            "xfDeficiencyCorrectiveActionLabel": "Corrective Action"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "name": "xf:group",
+                    "props": {
+                      "xfName": "q21",
+                      "xfLabel": "Erodible landscape materials are applied at quantities and rate in accordance with manufacturer recommendations",
+                      "xfPrepopulateValueType": "group_last_report",
+                      "xfPrepopulateValueEnabled": true,
+                      "children": [
+                        {
+                          "name": "xf:ternary",
+                          "props": {
+                            "xfName": "present",
+                            "xfDefaultValueType": "{{TYPE_NULL}}",
+                            "xfDefaultValueEnabled": true,
+                            "xfPrepopulateValueType": "last_report",
+                            "xfPrepopulateValueEnabled": true
+                          }
+                        },
+                        {
+                          "name": "xf:text",
+                          "props": {
+                            "xfName": "notes",
+                            "xfWhen": "present",
+                            "xfLabel": "Notes",
+                            "xfWhenEnabled": false,
+                            "xfWhenContextControl": "q21",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}"
+                          }
+                        },
+                        {
+                          "name": "composite:deficiencies",
+                          "props": {
+                            "xfName": "deficiency",
+                            "xfWhen": "present",
+                            "xfToggleLabel": "Action Required?",
+                            "xfWhenEnabled": true,
+                            "xfDisableLevel": true,
+                            "xfCustomBtnLabel": "+ Deficiency",
+                            "xfDisableDateDue": true,
+                            "xfPresetOptionGroup": "bmp:all",
+                            "xfCustomLabelEnabled": true,
+                            "xfDisableDescription": true,
+                            "xfWhenContextControl": "q21",
+                            "xfDisableDateResolved": false,
+                            "xfDisablePhotoDateTime": true,
+                            "xfPrepopulateValueType": "current_deficiencies",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}",
+                            "xfDisableDateIdentified": false,
+                            "xfPrepopulateValueEnabled": true,
+                            "xfEnableCorrectiveActionList": true,
+                            "xfCorrectiveActionOptionGroup": "deficiencyCorrectiveActionCategory:275",
+                            "xfDeficiencyCorrectiveActionLabel": "Corrective Action"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "name": "xf:group",
+                    "props": {
+                      "xfName": "q22",
+                      "xfLabel": "Bagged erodible landscape materials are stored on pallets and covered",
+                      "xfPrepopulateValueType": "group_last_report",
+                      "xfPrepopulateValueEnabled": true,
+                      "children": [
+                        {
+                          "name": "xf:ternary",
+                          "props": {
+                            "xfName": "present",
+                            "xfDefaultValueType": "{{TYPE_NULL}}",
+                            "xfDefaultValueEnabled": true,
+                            "xfPrepopulateValueType": "last_report",
+                            "xfPrepopulateValueEnabled": true
+                          }
+                        },
+                        {
+                          "name": "xf:text",
+                          "props": {
+                            "xfName": "notes",
+                            "xfWhen": "present",
+                            "xfLabel": "Notes",
+                            "xfWhenEnabled": false,
+                            "xfWhenContextControl": "q22",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}"
+                          }
+                        },
+                        {
+                          "name": "composite:deficiencies",
+                          "props": {
+                            "xfName": "deficiency",
+                            "xfWhen": "present",
+                            "xfToggleLabel": "Action Required?",
+                            "xfWhenEnabled": true,
+                            "xfDisableLevel": true,
+                            "xfCustomBtnLabel": "+ Deficiency",
+                            "xfDisableDateDue": true,
+                            "xfPresetOptionGroup": "bmp:all",
+                            "xfCustomLabelEnabled": true,
+                            "xfDisableDescription": true,
+                            "xfWhenContextControl": "q22",
+                            "xfDisableDateResolved": false,
+                            "xfDisablePhotoDateTime": true,
+                            "xfPrepopulateValueType": "current_deficiencies",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}",
+                            "xfDisableDateIdentified": false,
+                            "xfPrepopulateValueEnabled": true,
+                            "xfEnableCorrectiveActionList": true,
+                            "xfCorrectiveActionOptionGroup": "deficiencyCorrectiveActionCategory:275",
+                            "xfDeficiencyCorrectiveActionLabel": "Corrective Action"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "name": "xf:group",
+              "props": {
+                "xfName": "",
+                "xfLabel": "Good Housekeeping for Air Deposition of Site Materials",
+                "children": [
+                  {
+                    "name": "xf:group",
+                    "props": {
+                      "xfName": "q23",
+                      "xfLabel": "Good housekeeping measures are implemented onsite to control the air deposition of site materials and from site operations",
+                      "xfPrepopulateValueType": "group_last_report",
+                      "xfPrepopulateValueEnabled": true,
+                      "children": [
+                        {
+                          "name": "xf:ternary",
+                          "props": {
+                            "xfName": "present",
+                            "xfDefaultValueType": "{{TYPE_NULL}}",
+                            "xfDefaultValueEnabled": true,
+                            "xfPrepopulateValueType": "last_report",
+                            "xfPrepopulateValueEnabled": true
+                          }
+                        },
+                        {
+                          "name": "xf:text",
+                          "props": {
+                            "xfName": "notes",
+                            "xfWhen": "present",
+                            "xfLabel": "Notes",
+                            "xfWhenEnabled": false,
+                            "xfWhenContextControl": "q23",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}"
+                          }
+                        },
+                        {
+                          "name": "composite:deficiencies",
+                          "props": {
+                            "xfName": "deficiency",
+                            "xfWhen": "present",
+                            "xfToggleLabel": "Action Required?",
+                            "xfWhenEnabled": true,
+                            "xfDisableLevel": true,
+                            "xfCustomBtnLabel": "+ Deficiency",
+                            "xfDisableDateDue": true,
+                            "xfPresetOptionGroup": "bmp:all",
+                            "xfCustomLabelEnabled": true,
+                            "xfDisableDescription": true,
+                            "xfWhenContextControl": "q23",
+                            "xfDisableDateResolved": false,
+                            "xfDisablePhotoDateTime": true,
+                            "xfPrepopulateValueType": "current_deficiencies",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}",
+                            "xfDisableDateIdentified": false,
+                            "xfPrepopulateValueEnabled": true,
+                            "xfEnableCorrectiveActionList": true,
+                            "xfCorrectiveActionOptionGroup": "deficiencyCorrectiveActionCategory:276",
+                            "xfDeficiencyCorrectiveActionLabel": "Corrective Action"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "name": "xf:group",
+              "props": {
+                "xfName": "",
+                "xfLabel": "Non-Stormwater Management",
+                "children": [
+                  {
+                    "name": "xf:group",
+                    "props": {
+                      "xfName": "q24",
+                      "xfLabel": "Non-Stormwater  discharges are properly controlled",
+                      "xfPrepopulateValueType": "group_last_report",
+                      "xfPrepopulateValueEnabled": true,
+                      "children": [
+                        {
+                          "name": "xf:ternary",
+                          "props": {
+                            "xfName": "present",
+                            "xfDefaultValueType": "{{TYPE_NULL}}",
+                            "xfDefaultValueEnabled": true,
+                            "xfPrepopulateValueType": "last_report",
+                            "xfPrepopulateValueEnabled": true
+                          }
+                        },
+                        {
+                          "name": "xf:text",
+                          "props": {
+                            "xfName": "notes",
+                            "xfWhen": "present",
+                            "xfLabel": "Notes",
+                            "xfWhenEnabled": false,
+                            "xfWhenContextControl": "q24",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}"
+                          }
+                        },
+                        {
+                          "name": "composite:deficiencies",
+                          "props": {
+                            "xfName": "deficiency",
+                            "xfWhen": "present",
+                            "xfToggleLabel": "Action Required?",
+                            "xfWhenEnabled": true,
+                            "xfDisableLevel": true,
+                            "xfCustomBtnLabel": "+ Deficiency",
+                            "xfDisableDateDue": true,
+                            "xfPresetOptionGroup": "bmp:all",
+                            "xfCustomLabelEnabled": true,
+                            "xfDisableDescription": true,
+                            "xfWhenContextControl": "q24",
+                            "xfDisableDateResolved": false,
+                            "xfDisablePhotoDateTime": true,
+                            "xfPrepopulateValueType": "current_deficiencies",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}",
+                            "xfDisableDateIdentified": false,
+                            "xfPrepopulateValueEnabled": true,
+                            "xfEnableCorrectiveActionList": true,
+                            "xfCorrectiveActionOptionGroup": "deficiencyCorrectiveActionCategory:277",
+                            "xfDeficiencyCorrectiveActionLabel": "Corrective Action"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "name": "xf:group",
+                    "props": {
+                      "xfName": "q25",
+                      "xfLabel": "Vehicles are washed in a manner to prevent non-stormwater  discharges to surface waters or drainage systems",
+                      "xfPrepopulateValueType": "group_last_report",
+                      "xfPrepopulateValueEnabled": true,
+                      "children": [
+                        {
+                          "name": "xf:ternary",
+                          "props": {
+                            "xfName": "present",
+                            "xfDefaultValueType": "{{TYPE_NULL}}",
+                            "xfDefaultValueEnabled": true,
+                            "xfPrepopulateValueType": "last_report",
+                            "xfPrepopulateValueEnabled": true
+                          }
+                        },
+                        {
+                          "name": "xf:text",
+                          "props": {
+                            "xfName": "notes",
+                            "xfWhen": "present",
+                            "xfLabel": "Notes",
+                            "xfWhenEnabled": false,
+                            "xfWhenContextControl": "q25",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}"
+                          }
+                        },
+                        {
+                          "name": "composite:deficiencies",
+                          "props": {
+                            "xfName": "deficiency",
+                            "xfWhen": "present",
+                            "xfToggleLabel": "Action Required?",
+                            "xfWhenEnabled": true,
+                            "xfDisableLevel": true,
+                            "xfCustomBtnLabel": "+ Deficiency",
+                            "xfDisableDateDue": true,
+                            "xfPresetOptionGroup": "bmp:all",
+                            "xfCustomLabelEnabled": true,
+                            "xfDisableDescription": true,
+                            "xfWhenContextControl": "q25",
+                            "xfDisableDateResolved": false,
+                            "xfDisablePhotoDateTime": true,
+                            "xfPrepopulateValueType": "current_deficiencies",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}",
+                            "xfDisableDateIdentified": false,
+                            "xfPrepopulateValueEnabled": true,
+                            "xfEnableCorrectiveActionList": true,
+                            "xfCorrectiveActionOptionGroup": "deficiencyCorrectiveActionCategory:277",
+                            "xfDeficiencyCorrectiveActionLabel": "Corrective Action"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "name": "xf:group",
+                    "props": {
+                      "xfName": "q26",
+                      "xfLabel": "Streets are cleaned in a manner to prevent unauthorized non-stormwater  discharges to surface waters or drainage systems.  ",
+                      "xfPrepopulateValueType": "group_last_report",
+                      "xfPrepopulateValueEnabled": true,
+                      "children": [
+                        {
+                          "name": "xf:ternary",
+                          "props": {
+                            "xfName": "present",
+                            "xfDefaultValueType": "{{TYPE_NULL}}",
+                            "xfDefaultValueEnabled": true,
+                            "xfPrepopulateValueType": "last_report",
+                            "xfPrepopulateValueEnabled": true
+                          }
+                        },
+                        {
+                          "name": "xf:text",
+                          "props": {
+                            "xfName": "notes",
+                            "xfWhen": "present",
+                            "xfLabel": "Notes",
+                            "xfWhenEnabled": false,
+                            "xfWhenContextControl": "q26",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}"
+                          }
+                        },
+                        {
+                          "name": "composite:deficiencies",
+                          "props": {
+                            "xfName": "deficiency",
+                            "xfWhen": "present",
+                            "xfToggleLabel": "Action Required?",
+                            "xfWhenEnabled": true,
+                            "xfDisableLevel": true,
+                            "xfCustomBtnLabel": "+ Deficiency",
+                            "xfDisableDateDue": true,
+                            "xfPresetOptionGroup": "bmp:all",
+                            "xfCustomLabelEnabled": true,
+                            "xfDisableDescription": true,
+                            "xfWhenContextControl": "q26",
+                            "xfDisableDateResolved": false,
+                            "xfDisablePhotoDateTime": true,
+                            "xfPrepopulateValueType": "current_deficiencies",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}",
+                            "xfDisableDateIdentified": false,
+                            "xfPrepopulateValueEnabled": true,
+                            "xfEnableCorrectiveActionList": true,
+                            "xfCorrectiveActionOptionGroup": "deficiencyCorrectiveActionCategory:277",
+                            "xfDeficiencyCorrectiveActionLabel": "Corrective Action"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "name": "xf:group",
+              "props": {
+                "xfName": "",
+                "xfLabel": "Erosion Controls",
+                "children": [
+                  {
+                    "name": "xf:group",
+                    "props": {
+                      "xfName": "q27",
+                      "xfLabel": "Wind erosion controls are effectively implemented",
+                      "xfPrepopulateValueType": "group_last_report",
+                      "xfPrepopulateValueEnabled": true,
+                      "children": [
+                        {
+                          "name": "xf:ternary",
+                          "props": {
+                            "xfName": "present",
+                            "xfDefaultValueType": "{{TYPE_NULL}}",
+                            "xfDefaultValueEnabled": true,
+                            "xfPrepopulateValueType": "last_report",
+                            "xfPrepopulateValueEnabled": true
+                          }
+                        },
+                        {
+                          "name": "xf:text",
+                          "props": {
+                            "xfName": "notes",
+                            "xfWhen": "present",
+                            "xfLabel": "Notes",
+                            "xfWhenEnabled": false,
+                            "xfWhenContextControl": "q27",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}"
+                          }
+                        },
+                        {
+                          "name": "composite:deficiencies",
+                          "props": {
+                            "xfName": "deficiency",
+                            "xfWhen": "present",
+                            "xfToggleLabel": "Action Required?",
+                            "xfWhenEnabled": true,
+                            "xfDisableLevel": true,
+                            "xfCustomBtnLabel": "+ Deficiency",
+                            "xfDisableDateDue": true,
+                            "xfPresetOptionGroup": "bmp:all",
+                            "xfCustomLabelEnabled": true,
+                            "xfDisableDescription": true,
+                            "xfWhenContextControl": "q27",
+                            "xfDisableDateResolved": false,
+                            "xfDisablePhotoDateTime": true,
+                            "xfPrepopulateValueType": "current_deficiencies",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}",
+                            "xfDisableDateIdentified": false,
+                            "xfPrepopulateValueEnabled": true,
+                            "xfEnableCorrectiveActionList": true,
+                            "xfCorrectiveActionOptionGroup": "deficiencyCorrectiveActionCategory:278",
+                            "xfDeficiencyCorrectiveActionLabel": "Corrective Action"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "name": "xf:group",
+                    "props": {
+                      "xfName": "q28",
+                      "xfLabel": "Effective soil cover is provided for disturbed areas inactive (i.e., not scheduled to be disturbed for 14 days) as well as finished slopes, open space, utility backfill, and completed lots",
+                      "xfPrepopulateValueType": "group_last_report",
+                      "xfPrepopulateValueEnabled": true,
+                      "children": [
+                        {
+                          "name": "xf:ternary",
+                          "props": {
+                            "xfName": "present",
+                            "xfDefaultValueType": "{{TYPE_NULL}}",
+                            "xfDefaultValueEnabled": true,
+                            "xfPrepopulateValueType": "last_report",
+                            "xfPrepopulateValueEnabled": true
+                          }
+                        },
+                        {
+                          "name": "xf:text",
+                          "props": {
+                            "xfName": "notes",
+                            "xfWhen": "present",
+                            "xfLabel": "Notes",
+                            "xfWhenEnabled": false,
+                            "xfWhenContextControl": "q28",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}"
+                          }
+                        },
+                        {
+                          "name": "composite:deficiencies",
+                          "props": {
+                            "xfName": "deficiency",
+                            "xfWhen": "present",
+                            "xfToggleLabel": "Action Required?",
+                            "xfWhenEnabled": true,
+                            "xfDisableLevel": true,
+                            "xfCustomBtnLabel": "+ Deficiency",
+                            "xfDisableDateDue": true,
+                            "xfPresetOptionGroup": "bmp:all",
+                            "xfCustomLabelEnabled": true,
+                            "xfDisableDescription": true,
+                            "xfWhenContextControl": "q28",
+                            "xfDisableDateResolved": false,
+                            "xfDisablePhotoDateTime": true,
+                            "xfPrepopulateValueType": "current_deficiencies",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}",
+                            "xfDisableDateIdentified": false,
+                            "xfPrepopulateValueEnabled": true,
+                            "xfEnableCorrectiveActionList": true,
+                            "xfCorrectiveActionOptionGroup": "deficiencyCorrectiveActionCategory:278",
+                            "xfDeficiencyCorrectiveActionLabel": "Corrective Action"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "name": "xf:group",
+                    "props": {
+                      "xfName": "q29",
+                      "xfLabel": "The use of plastic materials is limited in cases when a more sustainable, environmentally friendly alternative exists. ",
+                      "xfPrepopulateValueType": "group_last_report",
+                      "xfPrepopulateValueEnabled": true,
+                      "children": [
+                        {
+                          "name": "xf:ternary",
+                          "props": {
+                            "xfName": "present",
+                            "xfDefaultValueType": "{{TYPE_NULL}}",
+                            "xfDefaultValueEnabled": true,
+                            "xfPrepopulateValueType": "last_report",
+                            "xfPrepopulateValueEnabled": true
+                          }
+                        },
+                        {
+                          "name": "xf:text",
+                          "props": {
+                            "xfName": "notes",
+                            "xfWhen": "present",
+                            "xfLabel": "Notes",
+                            "xfWhenEnabled": false,
+                            "xfWhenContextControl": "q29",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}"
+                          }
+                        },
+                        {
+                          "name": "composite:deficiencies",
+                          "props": {
+                            "xfName": "deficiency",
+                            "xfWhen": "present",
+                            "xfToggleLabel": "Action Required?",
+                            "xfWhenEnabled": true,
+                            "xfDisableLevel": true,
+                            "xfCustomBtnLabel": "+ Deficiency",
+                            "xfDisableDateDue": true,
+                            "xfPresetOptionGroup": "bmp:all",
+                            "xfCustomLabelEnabled": true,
+                            "xfDisableDescription": true,
+                            "xfWhenContextControl": "q29",
+                            "xfDisableDateResolved": false,
+                            "xfDisablePhotoDateTime": true,
+                            "xfPrepopulateValueType": "current_deficiencies",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}",
+                            "xfDisableDateIdentified": false,
+                            "xfPrepopulateValueEnabled": true,
+                            "xfEnableCorrectiveActionList": true,
+                            "xfCorrectiveActionOptionGroup": "deficiencyCorrectiveActionCategory:278",
+                            "xfDeficiencyCorrectiveActionLabel": "Corrective Action"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "name": "xf:group",
+              "props": {
+                "xfName": "",
+                "xfLabel": "Sediment Controls",
+                "children": [
+                  {
+                    "name": "xf:group",
+                    "props": {
+                      "xfName": "q30",
+                      "xfLabel": "Perimeter controls are established and effective at controlling erosion and sediment discharges from the site",
+                      "xfPrepopulateValueType": "group_last_report",
+                      "xfPrepopulateValueEnabled": true,
+                      "children": [
+                        {
+                          "name": "xf:ternary",
+                          "props": {
+                            "xfName": "present",
+                            "xfDefaultValueType": "{{TYPE_NULL}}",
+                            "xfDefaultValueEnabled": true,
+                            "xfPrepopulateValueType": "last_report",
+                            "xfPrepopulateValueEnabled": true
+                          }
+                        },
+                        {
+                          "name": "xf:text",
+                          "props": {
+                            "xfName": "notes",
+                            "xfWhen": "present",
+                            "xfLabel": "Notes",
+                            "xfWhenEnabled": false,
+                            "xfWhenContextControl": "q30",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}"
+                          }
+                        },
+                        {
+                          "name": "composite:deficiencies",
+                          "props": {
+                            "xfName": "deficiency",
+                            "xfWhen": "present",
+                            "xfToggleLabel": "Action Required?",
+                            "xfWhenEnabled": true,
+                            "xfDisableLevel": true,
+                            "xfCustomBtnLabel": "+ Deficiency",
+                            "xfDisableDateDue": true,
+                            "xfPresetOptionGroup": "bmp:all",
+                            "xfCustomLabelEnabled": true,
+                            "xfDisableDescription": true,
+                            "xfWhenContextControl": "q30",
+                            "xfDisableDateResolved": false,
+                            "xfDisablePhotoDateTime": true,
+                            "xfPrepopulateValueType": "current_deficiencies",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}",
+                            "xfDisableDateIdentified": false,
+                            "xfPrepopulateValueEnabled": true,
+                            "xfEnableCorrectiveActionList": true,
+                            "xfCorrectiveActionOptionGroup": "deficiencyCorrectiveActionCategory:149",
+                            "xfDeficiencyCorrectiveActionLabel": "Corrective Action"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "name": "xf:group",
+                    "props": {
+                      "xfName": "q31",
+                      "xfLabel": "Entrances and exits are stabilized to control erosion and sediment discharges from the site",
+                      "xfPrepopulateValueType": "group_last_report",
+                      "xfPrepopulateValueEnabled": true,
+                      "children": [
+                        {
+                          "name": "xf:ternary",
+                          "props": {
+                            "xfName": "present",
+                            "xfDefaultValueType": "{{TYPE_NULL}}",
+                            "xfDefaultValueEnabled": true,
+                            "xfPrepopulateValueType": "last_report",
+                            "xfPrepopulateValueEnabled": true
+                          }
+                        },
+                        {
+                          "name": "xf:text",
+                          "props": {
+                            "xfName": "notes",
+                            "xfWhen": "present",
+                            "xfLabel": "Notes",
+                            "xfWhenEnabled": false,
+                            "xfWhenContextControl": "q31",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}"
+                          }
+                        },
+                        {
+                          "name": "composite:deficiencies",
+                          "props": {
+                            "xfName": "deficiency",
+                            "xfWhen": "present",
+                            "xfToggleLabel": "Action Required?",
+                            "xfWhenEnabled": true,
+                            "xfDisableLevel": true,
+                            "xfCustomBtnLabel": "+ Deficiency",
+                            "xfDisableDateDue": true,
+                            "xfPresetOptionGroup": "bmp:all",
+                            "xfCustomLabelEnabled": true,
+                            "xfDisableDescription": true,
+                            "xfWhenContextControl": "q31",
+                            "xfDisableDateResolved": false,
+                            "xfDisablePhotoDateTime": true,
+                            "xfPrepopulateValueType": "current_deficiencies",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}",
+                            "xfDisableDateIdentified": false,
+                            "xfPrepopulateValueEnabled": true,
+                            "xfEnableCorrectiveActionList": true,
+                            "xfCorrectiveActionOptionGroup": "deficiencyCorrectiveActionCategory:149",
+                            "xfDeficiencyCorrectiveActionLabel": "Corrective Action"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "name": "xf:group",
+                    "props": {
+                      "xfName": "q32",
+                      "xfLabel": "Sediment basins are properly maintained",
+                      "xfPrepopulateValueType": "group_last_report",
+                      "xfPrepopulateValueEnabled": true,
+                      "children": [
+                        {
+                          "name": "xf:ternary",
+                          "props": {
+                            "xfName": "present",
+                            "xfDefaultValueType": "{{TYPE_NULL}}",
+                            "xfDefaultValueEnabled": true,
+                            "xfPrepopulateValueType": "last_report",
+                            "xfPrepopulateValueEnabled": true
+                          }
+                        },
+                        {
+                          "name": "xf:text",
+                          "props": {
+                            "xfName": "notes",
+                            "xfWhen": "present",
+                            "xfLabel": "Notes",
+                            "xfWhenEnabled": false,
+                            "xfWhenContextControl": "q32",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}"
+                          }
+                        },
+                        {
+                          "name": "composite:deficiencies",
+                          "props": {
+                            "xfName": "deficiency",
+                            "xfWhen": "present",
+                            "xfToggleLabel": "Action Required?",
+                            "xfWhenEnabled": true,
+                            "xfDisableLevel": true,
+                            "xfCustomBtnLabel": "+ Deficiency",
+                            "xfDisableDateDue": true,
+                            "xfPresetOptionGroup": "bmp:all",
+                            "xfCustomLabelEnabled": true,
+                            "xfDisableDescription": true,
+                            "xfWhenContextControl": "q32",
+                            "xfDisableDateResolved": false,
+                            "xfDisablePhotoDateTime": true,
+                            "xfPrepopulateValueType": "current_deficiencies",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}",
+                            "xfDisableDateIdentified": false,
+                            "xfDisableCorrectiveAction": true,
+                            "xfPrepopulateValueEnabled": true,
+                            "xfEnableCorrectiveActionList": true,
+                            "xfCorrectiveActionOptionGroup": "deficiencyCorrectiveActionCategory:149",
+                            "xfDeficiencyCorrectiveActionLabel": "Corrective Action"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "name": "xf:group",
+                    "props": {
+                      "xfName": "q33",
+                      "xfLabel": "Inspect immediate access roads prior to forecasted precipitation",
+                      "xfPrepopulateValueType": "group_last_report",
+                      "xfPrepopulateValueEnabled": true,
+                      "children": [
+                        {
+                          "name": "xf:ternary",
+                          "props": {
+                            "xfName": "present",
+                            "xfDefaultValueType": "{{TYPE_NULL}}",
+                            "xfDefaultValueEnabled": true,
+                            "xfPrepopulateValueType": "last_report",
+                            "xfPrepopulateValueEnabled": true
+                          }
+                        },
+                        {
+                          "name": "xf:text",
+                          "props": {
+                            "xfName": "notes",
+                            "xfWhen": "present",
+                            "xfLabel": "Notes",
+                            "xfWhenEnabled": false,
+                            "xfWhenContextControl": "q33",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}"
+                          }
+                        },
+                        {
+                          "name": "composite:deficiencies",
+                          "props": {
+                            "xfName": "deficiency",
+                            "xfWhen": "present",
+                            "xfToggleLabel": "Action Required?",
+                            "xfWhenEnabled": true,
+                            "xfDisableLevel": true,
+                            "xfCustomBtnLabel": "+ Deficiency",
+                            "xfDisableDateDue": true,
+                            "xfPresetOptionGroup": "bmp:all",
+                            "xfCustomLabelEnabled": true,
+                            "xfDisableDescription": true,
+                            "xfWhenContextControl": "q33",
+                            "xfDisableDateResolved": false,
+                            "xfDisablePhotoDateTime": true,
+                            "xfPrepopulateValueType": "current_deficiencies",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}",
+                            "xfDisableDateIdentified": false,
+                            "xfPrepopulateValueEnabled": true,
+                            "xfEnableCorrectiveActionList": true,
+                            "xfCorrectiveActionOptionGroup": "deficiencyCorrectiveActionCategory:149",
+                            "xfDeficiencyCorrectiveActionLabel": "Corrective Action"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "name": "xf:group",
+                    "props": {
+                      "xfName": "rl2_q34",
+                      "xfWhen": "risk_level_2",
+                      "xfLabel": "Linear sediment control along toe of slope, face of slope an at grade breaks (Risk Level 2 & 3 Only)",
+                      "xfWhenEnabled": true,
+                      "xfWhenContextControl": "",
+                      "xfPrepopulateValueType": "group_last_report",
+                      "xfWhenContextValueType": "{{CUSTOM}}",
+                      "xfWhenContextValueCustom": "2",
+                      "xfPrepopulateValueEnabled": true,
+                      "children": [
+                        {
+                          "name": "xf:ternary",
+                          "props": {
+                            "xfName": "present",
+                            "xfDefaultValueType": "{{TYPE_NULL}}",
+                            "xfDefaultValueEnabled": true,
+                            "xfPrepopulateValueType": "last_report",
+                            "xfPrepopulateValueEnabled": true
+                          }
+                        },
+                        {
+                          "name": "xf:text",
+                          "props": {
+                            "xfName": "notes",
+                            "xfWhen": "present",
+                            "xfLabel": "Notes",
+                            "xfWhenEnabled": false,
+                            "xfWhenContextControl": "q34",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}"
+                          }
+                        },
+                        {
+                          "name": "composite:deficiencies",
+                          "props": {
+                            "xfName": "deficiency",
+                            "xfWhen": "present",
+                            "xfToggleLabel": "Action Required?",
+                            "xfWhenEnabled": true,
+                            "xfDisableLevel": true,
+                            "xfCustomBtnLabel": "+ Deficiency",
+                            "xfDisableDateDue": true,
+                            "xfPresetOptionGroup": "bmp:all",
+                            "xfCustomLabelEnabled": true,
+                            "xfDisableDescription": true,
+                            "xfWhenContextControl": "rl2_q34",
+                            "xfDisableDateResolved": false,
+                            "xfDisablePhotoDateTime": true,
+                            "xfPrepopulateValueType": "current_deficiencies",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}",
+                            "xfDisableDateIdentified": true,
+                            "xfPrepopulateValueEnabled": true,
+                            "xfEnableCorrectiveActionList": true,
+                            "xfCorrectiveActionOptionGroup": "deficiencyCorrectiveActionCategory:149",
+                            "xfDeficiencyCorrectiveActionLabel": "Corrective Action"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "name": "xf:group",
+                    "props": {
+                      "xfName": "rl3_q34",
+                      "xfWhen": "risk_level_3",
+                      "xfLabel": "Linear sediment control along toe of slope, face of slope an at grade breaks (Risk Level 2 & 3 Only)",
+                      "xfWhenEnabled": true,
+                      "xfWhenContextControl": "",
+                      "xfPrepopulateValueType": "group_last_report",
+                      "xfWhenContextValueType": "{{CUSTOM}}",
+                      "xfWhenContextValueCustom": "3",
+                      "xfPrepopulateValueEnabled": true,
+                      "children": [
+                        {
+                          "name": "xf:ternary",
+                          "props": {
+                            "xfName": "present",
+                            "xfDefaultValueType": "{{TYPE_NULL}}",
+                            "xfDefaultValueEnabled": true,
+                            "xfPrepopulateValueType": "last_report",
+                            "xfPrepopulateValueEnabled": true
+                          }
+                        },
+                        {
+                          "name": "xf:text",
+                          "props": {
+                            "xfName": "notes",
+                            "xfWhen": "present",
+                            "xfLabel": "Notes",
+                            "xfWhenEnabled": false,
+                            "xfWhenContextControl": "q34",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}"
+                          }
+                        },
+                        {
+                          "name": "composite:deficiencies",
+                          "props": {
+                            "xfName": "deficiency",
+                            "xfWhen": "present",
+                            "xfToggleLabel": "Action Required?",
+                            "xfWhenEnabled": true,
+                            "xfDisableLevel": true,
+                            "xfCustomBtnLabel": "+ Deficiency",
+                            "xfDisableDateDue": true,
+                            "xfPresetOptionGroup": "bmp:all",
+                            "xfCustomLabelEnabled": true,
+                            "xfDisableDescription": true,
+                            "xfWhenContextControl": "rl3_q34",
+                            "xfDisableDateResolved": false,
+                            "xfDisablePhotoDateTime": true,
+                            "xfPrepopulateValueType": "current_deficiencies",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}",
+                            "xfDisableDateIdentified": true,
+                            "xfPrepopulateValueEnabled": true,
+                            "xfEnableCorrectiveActionList": true,
+                            "xfCorrectiveActionOptionGroup": "deficiencyCorrectiveActionCategory:149",
+                            "xfDeficiencyCorrectiveActionLabel": "Corrective Action"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "name": "xf:group",
+                    "props": {
+                      "xfName": "rl2_q35",
+                      "xfWhen": "risk_level_2",
+                      "xfLabel": "Limit construction activity to and from site to entrances and exits that employ effective controls to prevent offsite tracking (Risk Level 2 & 3 Only)?",
+                      "xfWhenEnabled": true,
+                      "xfWhenContextControl": "",
+                      "xfPrepopulateValueType": "group_last_report",
+                      "xfWhenContextValueType": "{{CUSTOM}}",
+                      "xfWhenContextValueCustom": "2",
+                      "xfPrepopulateValueEnabled": true,
+                      "children": [
+                        {
+                          "name": "xf:ternary",
+                          "props": {
+                            "xfName": "present",
+                            "xfDefaultValueType": "{{TYPE_NULL}}",
+                            "xfDefaultValueEnabled": true,
+                            "xfPrepopulateValueType": "last_report",
+                            "xfPrepopulateValueEnabled": true
+                          }
+                        },
+                        {
+                          "name": "xf:text",
+                          "props": {
+                            "xfName": "notes",
+                            "xfWhen": "present",
+                            "xfLabel": "Notes",
+                            "xfWhenEnabled": false,
+                            "xfWhenContextControl": "q35",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}"
+                          }
+                        },
+                        {
+                          "name": "composite:deficiencies",
+                          "props": {
+                            "xfName": "deficiency",
+                            "xfWhen": "present",
+                            "xfToggleLabel": "Action Required?",
+                            "xfWhenEnabled": true,
+                            "xfDisableLevel": true,
+                            "xfCustomBtnLabel": "+ Deficiency",
+                            "xfDisableDateDue": true,
+                            "xfPresetOptionGroup": "bmp:all",
+                            "xfCustomLabelEnabled": true,
+                            "xfDisableDescription": true,
+                            "xfWhenContextControl": "rl2_q35",
+                            "xfDisableDateResolved": false,
+                            "xfDisablePhotoDateTime": true,
+                            "xfPrepopulateValueType": "current_deficiencies",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}",
+                            "xfDisableDateIdentified": false,
+                            "xfPrepopulateValueEnabled": true,
+                            "xfEnableCorrectiveActionList": true,
+                            "xfCorrectiveActionOptionGroup": "deficiencyCorrectiveActionCategory:149",
+                            "xfDeficiencyCorrectiveActionLabel": "Corrective Action"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "name": "xf:group",
+                    "props": {
+                      "xfName": "rl3_q35",
+                      "xfWhen": "risk_level_3",
+                      "xfLabel": "Limit construction activity to and from site to entrances and exits that employ effective controls to prevent offsite tracking (Risk Level 2 & 3 Only)?",
+                      "xfWhenEnabled": true,
+                      "xfWhenContextControl": "",
+                      "xfPrepopulateValueType": "group_last_report",
+                      "xfWhenContextValueType": "{{CUSTOM}}",
+                      "xfWhenContextValueCustom": "3",
+                      "xfPrepopulateValueEnabled": true,
+                      "children": [
+                        {
+                          "name": "xf:ternary",
+                          "props": {
+                            "xfName": "present",
+                            "xfDefaultValueType": "{{TYPE_NULL}}",
+                            "xfDefaultValueEnabled": true,
+                            "xfPrepopulateValueType": "last_report",
+                            "xfPrepopulateValueEnabled": true
+                          }
+                        },
+                        {
+                          "name": "xf:text",
+                          "props": {
+                            "xfName": "notes",
+                            "xfWhen": "present",
+                            "xfLabel": "Notes",
+                            "xfWhenEnabled": false,
+                            "xfWhenContextControl": "q35",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}"
+                          }
+                        },
+                        {
+                          "name": "composite:deficiencies",
+                          "props": {
+                            "xfName": "deficiency",
+                            "xfWhen": "present",
+                            "xfToggleLabel": "Action Required?",
+                            "xfWhenEnabled": true,
+                            "xfDisableLevel": true,
+                            "xfCustomBtnLabel": "+ Deficiency",
+                            "xfDisableDateDue": true,
+                            "xfPresetOptionGroup": "bmp:all",
+                            "xfCustomLabelEnabled": true,
+                            "xfDisableDescription": true,
+                            "xfWhenContextControl": "rl3_q35",
+                            "xfDisableDateResolved": false,
+                            "xfDisablePhotoDateTime": true,
+                            "xfPrepopulateValueType": "current_deficiencies",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}",
+                            "xfDisableDateIdentified": false,
+                            "xfPrepopulateValueEnabled": true,
+                            "xfEnableCorrectiveActionList": true,
+                            "xfCorrectiveActionOptionGroup": "deficiencyCorrectiveActionCategory:149",
+                            "xfDeficiencyCorrectiveActionLabel": "Corrective Action"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "name": "xf:group",
+                    "props": {
+                      "xfName": "rl2_q36",
+                      "xfWhen": "risk_level_2",
+                      "xfLabel": "Ensure all storm, drain inlets and perimeter controls, runoff control BMPs and pollutants controls at entrances and exits are maintained and protected from activities the reduce their effectiveness (Risk Level 2 & 3 Only)",
+                      "xfPostaction": "update_program_location_type_data_field",
+                      "xfWhenEnabled": true,
+                      "xfPostactionEnabled": false,
+                      "xfWhenContextControl": "",
+                      "xfPrepopulateValueType": "group_last_report",
+                      "xfWhenContextValueType": "{{CUSTOM}}",
+                      "xfWhenContextValueCustom": "2",
+                      "xfPrepopulateValueEnabled": true,
+                      "xfWhenContextValueCustomRangeLower": "2",
+                      "xfWhenContextValueCustomRangeUpper": "3",
+                      "children": [
+                        {
+                          "name": "xf:ternary",
+                          "props": {
+                            "xfName": "present",
+                            "xfDefaultValueType": "{{TYPE_NULL}}",
+                            "xfDefaultValueEnabled": true,
+                            "xfPrepopulateValueType": "last_report",
+                            "xfPrepopulateValueEnabled": true
+                          }
+                        },
+                        {
+                          "name": "xf:text",
+                          "props": {
+                            "xfName": "notes",
+                            "xfWhen": "present",
+                            "xfLabel": "Notes",
+                            "xfWhenEnabled": false,
+                            "xfWhenContextControl": "q36",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}"
+                          }
+                        },
+                        {
+                          "name": "composite:deficiencies",
+                          "props": {
+                            "xfName": "deficiency",
+                            "xfWhen": "present",
+                            "xfToggleLabel": "Action Required?",
+                            "xfWhenEnabled": true,
+                            "xfDisableLevel": true,
+                            "xfCustomBtnLabel": "+ Deficiency",
+                            "xfDisableDateDue": true,
+                            "xfPresetOptionGroup": "bmp:all",
+                            "xfCustomLabelEnabled": true,
+                            "xfDisableDescription": true,
+                            "xfWhenContextControl": "rl2_q36",
+                            "xfDisableDateResolved": false,
+                            "xfDisablePhotoDateTime": true,
+                            "xfPrepopulateValueType": "current_deficiencies",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}",
+                            "xfDisableDateIdentified": false,
+                            "xfPrepopulateValueEnabled": true,
+                            "xfEnableCorrectiveActionList": true,
+                            "xfCorrectiveActionOptionGroup": "deficiencyCorrectiveActionCategory:149",
+                            "xfDeficiencyCorrectiveActionLabel": "Corrective Action"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "name": "xf:group",
+                    "props": {
+                      "xfName": "rl3_q36",
+                      "xfWhen": "risk_level_3",
+                      "xfLabel": "Ensure all storm, drain inlets and perimeter controls, runoff control BMPs and pollutants controls at entrances and exits are maintained and protected from activities the reduce their effectiveness (Risk Level 2 & 3 Only)",
+                      "xfPostaction": "update_program_location_type_data_field",
+                      "xfWhenEnabled": true,
+                      "xfPostactionEnabled": false,
+                      "xfWhenContextControl": "",
+                      "xfPrepopulateValueType": "group_last_report",
+                      "xfWhenContextValueType": "{{CUSTOM}}",
+                      "xfWhenContextValueCustom": "3",
+                      "xfPrepopulateValueEnabled": true,
+                      "children": [
+                        {
+                          "name": "xf:ternary",
+                          "props": {
+                            "xfName": "present",
+                            "xfDefaultValueType": "{{TYPE_NULL}}",
+                            "xfDefaultValueEnabled": true,
+                            "xfPrepopulateValueType": "last_report",
+                            "xfPrepopulateValueEnabled": true
+                          }
+                        },
+                        {
+                          "name": "xf:text",
+                          "props": {
+                            "xfName": "notes",
+                            "xfWhen": "present",
+                            "xfLabel": "Notes",
+                            "xfWhenEnabled": false,
+                            "xfWhenContextControl": "q36",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}"
+                          }
+                        },
+                        {
+                          "name": "composite:deficiencies",
+                          "props": {
+                            "xfName": "deficiency",
+                            "xfWhen": "present",
+                            "xfToggleLabel": "Action Required?",
+                            "xfWhenEnabled": true,
+                            "xfDisableLevel": true,
+                            "xfCustomBtnLabel": "+ Deficiency",
+                            "xfDisableDateDue": true,
+                            "xfPresetOptionGroup": "bmp:all",
+                            "xfCustomLabelEnabled": true,
+                            "xfDisableDescription": true,
+                            "xfWhenContextControl": "rl3_q36",
+                            "xfDisableDateResolved": false,
+                            "xfDisablePhotoDateTime": true,
+                            "xfPrepopulateValueType": "current_deficiencies",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}",
+                            "xfDisableDateIdentified": false,
+                            "xfPrepopulateValueEnabled": true,
+                            "xfEnableCorrectiveActionList": true,
+                            "xfCorrectiveActionOptionGroup": "deficiencyCorrectiveActionCategory:149",
+                            "xfDeficiencyCorrectiveActionLabel": "Corrective Action"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "name": "xf:group",
+              "props": {
+                "xfName": "",
+                "xfLabel": "Run-On and Run-Off Controls",
+                "children": [
+                  {
+                    "name": "xf:group",
+                    "props": {
+                      "xfName": "q37",
+                      "xfLabel": "Run-on to the site is effectively managed and directed awayfrom all disturbed areas.",
+                      "xfPrepopulateValueType": "group_last_report",
+                      "xfPrepopulateValueEnabled": true,
+                      "children": [
+                        {
+                          "name": "xf:ternary",
+                          "props": {
+                            "xfName": "present",
+                            "xfDefaultValueType": "{{TYPE_NULL}}",
+                            "xfDefaultValueEnabled": true,
+                            "xfPrepopulateValueType": "last_report",
+                            "xfPrepopulateValueEnabled": true
+                          }
+                        },
+                        {
+                          "name": "xf:text",
+                          "props": {
+                            "xfName": "notes",
+                            "xfWhen": "present",
+                            "xfLabel": "Notes",
+                            "xfWhenEnabled": false,
+                            "xfWhenContextControl": "q37",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}"
+                          }
+                        },
+                        {
+                          "name": "composite:deficiencies",
+                          "props": {
+                            "xfName": "deficiency",
+                            "xfWhen": "present",
+                            "xfToggleLabel": "Action Required?",
+                            "xfWhenEnabled": true,
+                            "xfDisableLevel": true,
+                            "xfCustomBtnLabel": "+ Deficiency",
+                            "xfDisableDateDue": true,
+                            "xfPresetOptionGroup": "bmp:all",
+                            "xfCustomLabelEnabled": true,
+                            "xfDisableDescription": true,
+                            "xfWhenContextControl": "q37",
+                            "xfDisableDateResolved": false,
+                            "xfDisablePhotoDateTime": true,
+                            "xfPrepopulateValueType": "current_deficiencies",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}",
+                            "xfDisableDateIdentified": false,
+                            "xfPrepopulateValueEnabled": true,
+                            "xfEnableCorrectiveActionList": true,
+                            "xfCorrectiveActionOptionGroup": "deficiencyCorrectiveActionCategory:279",
+                            "xfDeficiencyCorrectiveActionLabel": "Corrective Action"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "name": "xf:group",
+              "props": {
+                "xfName": "",
+                "xfLabel": "Other",
+                "children": [
+                  {
+                    "name": "xf:group",
+                    "props": {
+                      "xfName": "q38",
+                      "xfLabel": "Are the project SWPPP and BMP plans up to date, available on-site and being properly implemented?",
+                      "xfPrepopulateValueType": "group_last_report",
+                      "xfPrepopulateValueEnabled": true,
+                      "children": [
+                        {
+                          "name": "xf:ternary",
+                          "props": {
+                            "xfName": "present",
+                            "xfDefaultValueType": "{{TYPE_NULL}}",
+                            "xfDefaultValueEnabled": true,
+                            "xfPrepopulateValueType": "last_report",
+                            "xfPrepopulateValueEnabled": true
+                          }
+                        },
+                        {
+                          "name": "xf:text",
+                          "props": {
+                            "xfName": "notes",
+                            "xfWhen": "present",
+                            "xfLabel": "Notes",
+                            "xfWhenEnabled": false,
+                            "xfWhenContextControl": "q38",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}"
+                          }
+                        },
+                        {
+                          "name": "composite:deficiencies",
+                          "props": {
+                            "xfName": "deficiency",
+                            "xfWhen": "present",
+                            "xfToggleLabel": "Action Required?",
+                            "xfWhenEnabled": true,
+                            "xfDisableLevel": true,
+                            "xfCustomBtnLabel": "+ Deficiency",
+                            "xfDisableDateDue": true,
+                            "xfPresetOptionGroup": "bmp:all",
+                            "xfCustomLabelEnabled": true,
+                            "xfDisableDescription": true,
+                            "xfWhenContextControl": "q38",
+                            "xfDisableDateResolved": false,
+                            "xfDisablePhotoDateTime": true,
+                            "xfPrepopulateValueType": "current_deficiencies",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}",
+                            "xfDisableDateIdentified": false,
+                            "xfPrepopulateValueEnabled": true,
+                            "xfEnableCorrectiveActionList": true,
+                            "xfCorrectiveActionOptionGroup": "deficiencyCorrectiveActionCategory:280",
+                            "xfDeficiencyCorrectiveActionLabel": "Corrective Action"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "name": "xf:group",
+                    "props": {
+                      "xfName": "q39",
+                      "xfLabel": "Is the posting of the project’s unique WDID number, waiver identification number, and site and project contact information publicly accessible?",
+                      "xfPrepopulateValueType": "group_last_report",
+                      "xfPrepopulateValueEnabled": true,
+                      "children": [
+                        {
+                          "name": "xf:ternary",
+                          "props": {
+                            "xfName": "present",
+                            "xfDefaultValueType": "{{TYPE_NULL}}",
+                            "xfDefaultValueEnabled": true,
+                            "xfPrepopulateValueType": "last_report",
+                            "xfPrepopulateValueEnabled": true
+                          }
+                        },
+                        {
+                          "name": "xf:text",
+                          "props": {
+                            "xfName": "notes",
+                            "xfWhen": "present",
+                            "xfLabel": "Notes",
+                            "xfWhenEnabled": false,
+                            "xfWhenContextControl": "q39",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}"
+                          }
+                        },
+                        {
+                          "name": "composite:deficiencies",
+                          "props": {
+                            "xfName": "deficiency",
+                            "xfWhen": "present",
+                            "xfToggleLabel": "Action Required?",
+                            "xfWhenEnabled": true,
+                            "xfDisableLevel": true,
+                            "xfCustomBtnLabel": "+ Deficiency",
+                            "xfDisableDateDue": true,
+                            "xfPresetOptionGroup": "bmp:all",
+                            "xfCustomLabelEnabled": true,
+                            "xfDisableDescription": true,
+                            "xfWhenContextControl": "q39",
+                            "xfDisableDateResolved": false,
+                            "xfDisablePhotoDateTime": true,
+                            "xfPrepopulateValueType": "current_deficiencies",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}",
+                            "xfDisableDateIdentified": false,
+                            "xfPrepopulateValueEnabled": true,
+                            "xfEnableCorrectiveActionList": true,
+                            "xfCorrectiveActionOptionGroup": "deficiencyCorrectiveActionCategory:280",
+                            "xfDeficiencyCorrectiveActionLabel": "Corrective Action"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "name": "xf:group",
+              "props": {
+                "xfName": "prestorm",
+                "xfWhen": "inspection_type",
+                "xfLabel": "ADDITIONAL PRE-STORM OBSERVATIONS",
+                "xfWhenEnabled": true,
+                "xfWhenContextControl": "",
+                "xfWhenContextValueType": "{{CUSTOM}}",
+                "xfWhenContextValueCustom": "Pre-Qualifying Precipitation Event (QSP/QSD)",
+                "xfWhenContextValueCustomRangeLower": "Pre-Qualifying Precipitation Event (QPE)",
+                "xfWhenContextValueCustomRangeUpper": "Pre-Qualifying Precipitation Event (QPE)",
+                "children": [
+                  {
+                    "name": "xf:group",
+                    "props": {
+                      "xfName": "q40",
+                      "xfWhen": "inspection_type",
+                      "xfLabel": "Do stormwater storage and containment areas have adequate freeboard?",
+                      "xfWhenEnabled": false,
+                      "xfWhenContextControl": "general_info",
+                      "xfPrepopulateValueType": "group_last_report",
+                      "xfWhenContextValueType": "{{CUSTOM}}",
+                      "xfWhenContextValueCustom": "Pre-Qualifying Precipitation Event (QPE)",
+                      "xfPrepopulateValueEnabled": true,
+                      "children": [
+                        {
+                          "name": "xf:ternary",
+                          "props": {
+                            "xfName": "present",
+                            "xfLabel": "",
+                            "xfDefaultValueType": "{{TYPE_NULL}}",
+                            "xfDefaultValueEnabled": true,
+                            "xfPrepopulateValueType": "last_report",
+                            "xfPrepopulateValueEnabled": true
+                          }
+                        },
+                        {
+                          "name": "xf:text",
+                          "props": {
+                            "xfName": "notes",
+                            "xfWhen": "present",
+                            "xfLabel": "Notes",
+                            "xfWhenEnabled": false,
+                            "xfWhenContextControl": "q40",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}"
+                          }
+                        },
+                        {
+                          "name": "composite:deficiencies",
+                          "props": {
+                            "xfName": "deficiency",
+                            "xfWhen": "present",
+                            "xfToggleLabel": "Action Required?",
+                            "xfWhenEnabled": true,
+                            "xfDisableLevel": true,
+                            "xfCustomBtnLabel": "+ Deficiency",
+                            "xfDisableDateDue": true,
+                            "xfPresetOptionGroup": "bmp:all",
+                            "xfCustomLabelEnabled": true,
+                            "xfDisableDescription": true,
+                            "xfWhenContextControl": "q40",
+                            "xfDisableDateResolved": false,
+                            "xfDisablePhotoDateTime": true,
+                            "xfPrepopulateValueType": "current_deficiencies",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}",
+                            "xfDisableDateIdentified": false,
+                            "xfPrepopulateValueEnabled": true,
+                            "xfEnableCorrectiveActionList": true,
+                            "xfCorrectiveActionOptionGroup": "deficiencyCorrectiveActionCategory:281",
+                            "xfDeficiencyCorrectiveActionLabel": "Corrective Action"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "name": "xf:group",
+                    "props": {
+                      "xfName": "q41",
+                      "xfWhen": "inspection_type",
+                      "xfLabel": "Are drainage areas free of spills, leaks, or uncontrolled pollutant sources?",
+                      "xfWhenEnabled": false,
+                      "xfWhenContextControl": "general_info",
+                      "xfPrepopulateValueType": "group_last_report",
+                      "xfWhenContextValueType": "{{CUSTOM}}",
+                      "xfWhenContextValueCustom": "Pre-Qualifying Precipitation Event (QPE)",
+                      "xfPrepopulateValueEnabled": true,
+                      "children": [
+                        {
+                          "name": "xf:ternary",
+                          "props": {
+                            "xfName": "present",
+                            "xfLabel": "",
+                            "xfDefaultValueType": "{{TYPE_NULL}}",
+                            "xfDefaultValueEnabled": true,
+                            "xfPrepopulateValueType": "last_report",
+                            "xfPrepopulateValueEnabled": true
+                          }
+                        },
+                        {
+                          "name": "xf:text",
+                          "props": {
+                            "xfName": "notes",
+                            "xfWhen": "present",
+                            "xfLabel": "Notes",
+                            "xfWhenEnabled": false,
+                            "xfWhenContextControl": "q41",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}"
+                          }
+                        },
+                        {
+                          "name": "composite:deficiencies",
+                          "props": {
+                            "xfName": "deficiency",
+                            "xfWhen": "present",
+                            "xfToggleLabel": "Action Required?",
+                            "xfWhenEnabled": true,
+                            "xfDisableLevel": true,
+                            "xfCustomBtnLabel": "+ Deficiency",
+                            "xfDisableDateDue": true,
+                            "xfPresetOptionGroup": "bmp:all",
+                            "xfCustomLabelEnabled": true,
+                            "xfDisableDescription": true,
+                            "xfWhenContextControl": "q41",
+                            "xfDisableDateResolved": false,
+                            "xfDisablePhotoDateTime": true,
+                            "xfPrepopulateValueType": "current_deficiencies",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}",
+                            "xfPrepopulateValueEnabled": true,
+                            "xfEnableCorrectiveActionList": true,
+                            "xfCorrectiveActionOptionGroup": "deficiencyCorrectiveActionCategory:281",
+                            "xfDeficiencyCorrectiveActionLabel": "Corrective Action"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "name": "xf:group",
+                    "props": {
+                      "xfName": "q42",
+                      "xfWhen": "inspection_type",
+                      "xfLabel": "Are stormwater storage and containment areas free of leaks?",
+                      "xfWhenEnabled": false,
+                      "xfWhenContextControl": "general_info",
+                      "xfPrepopulateValueType": "group_last_report",
+                      "xfWhenContextValueType": "{{CUSTOM}}",
+                      "xfWhenContextValueCustom": "Pre-Qualifying Precipitation Event (QPE)",
+                      "xfPrepopulateValueEnabled": true,
+                      "children": [
+                        {
+                          "name": "xf:ternary",
+                          "props": {
+                            "xfName": "present",
+                            "xfLabel": "",
+                            "xfDefaultValueType": "{{TYPE_NULL}}",
+                            "xfDefaultValueEnabled": true,
+                            "xfPrepopulateValueType": "last_report",
+                            "xfPrepopulateValueEnabled": true
+                          }
+                        },
+                        {
+                          "name": "xf:text",
+                          "props": {
+                            "xfName": "notes",
+                            "xfWhen": "present",
+                            "xfLabel": "Notes",
+                            "xfWhenEnabled": false,
+                            "xfWhenContextControl": "q42",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}"
+                          }
+                        },
+                        {
+                          "name": "composite:deficiencies",
+                          "props": {
+                            "xfName": "deficiency",
+                            "xfWhen": "present",
+                            "xfToggleLabel": "Action Required?",
+                            "xfWhenEnabled": true,
+                            "xfDisableLevel": true,
+                            "xfCustomBtnLabel": "+ Deficiency",
+                            "xfDisableDateDue": true,
+                            "xfPresetOptionGroup": "bmp:all",
+                            "xfCustomLabelEnabled": true,
+                            "xfDisableDescription": true,
+                            "xfWhenContextControl": "q42",
+                            "xfDisableDateResolved": false,
+                            "xfDisablePhotoDateTime": true,
+                            "xfPrepopulateValueType": "current_deficiencies",
+                            "xfWhenContextValueType": "{{TYPE_FALSE}}",
+                            "xfDisableDateIdentified": false,
+                            "xfPrepopulateValueEnabled": true,
+                            "xfEnableCorrectiveActionList": true,
+                            "xfCorrectiveActionOptionGroup": "deficiencyCorrectiveActionCategory:281",
+                            "xfDeficiencyCorrectiveActionLabel": "Corrective Action"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "name": "xf:group",
+              "props": {
+                "xfName": "additional_during_qpe",
+                "xfWhen": "inspection_type",
+                "xfLabel": "Additional DURING-QPE Observations",
+                "xfWhenEnabled": true,
+                "xfWhenContextControl": "",
+                "xfWhenContextValueType": "{{CUSTOM}}",
+                "xfWhenContextValueCustom": "During Qualifying Precipitation Event",
+                "children": [
+                  {
+                    "name": "xf:multivalue",
+                    "props": {
+                      "xfName": "during_qpe",
+                      "xfLabel": "Visually observe (inspect) stormwater discharges at all discharge locations within 96 hours after each qualifying precipitation event, and observe (inspect) the discharge of stored or contained stormwater that is derived from and discharged subsequent to a qualifying precipitation event producing precipitation of ½ inch or more at the time of discharge.",
+                      "xfCustomBtnLabel": "+ During QPE",
+                      "xfCustomLabelEnabled": true,
+                      "children": [
+                        {
+                          "name": "xf:string",
+                          "props": {
+                            "xfName": "location",
+                            "xfLabel": " Outfall, Discharge Point, or Other Downstream Location"
+                          }
+                        },
+                        {
+                          "name": "xf:text",
+                          "props": {
+                            "xfName": "description",
+                            "xfLabel": "Description"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "name": "xf:group",
+              "props": {
+                "xfName": "additional_post_qpe",
+                "xfWhen": "inspection_type",
+                "xfLabel": "ADDITIONAL POST-QPE OBSERVATIONS",
+                "xfWhenEnabled": true,
+                "xfWhenContextControl": "",
+                "xfWhenContextValueType": "{{CUSTOM}}",
+                "xfWhenContextValueCustom": "Post-QPE",
+                "children": [
+                  {
+                    "name": "xf:multivalue",
+                    "props": {
+                      "xfName": "post_qpe",
+                      "xfLabel": "Visually observe (inspect) stormwater discharges at all discharge locations within 96 hours after each qualifying precipitation event, and observe (inspect) the discharge of stored or contained stormwater that is derived from and discharged subsequent to a qualifying precipitation event producing precipitation of ½ inch or more at the time of discharge.",
+                      "xfCustomBtnLabel": "+ Post QPE",
+                      "xfCustomLabelEnabled": true,
+                      "children": [
+                        {
+                          "name": "xf:string",
+                          "props": {
+                            "xfName": "location",
+                            "xfLabel": "Discharge Location, Storage or Containment Area"
+                          }
+                        },
+                        {
+                          "name": "xf:text",
+                          "props": {
+                            "xfName": "description",
+                            "xfLabel": "Visual Observation"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "xf:page",
+        "props": {
+          "xfName": "additional_corrective_actions",
+          "xfLabel": "Additional Corrective Actions Required",
+          "children": [
+            {
+              "name": "composite:deficiencies",
+              "props": {
+                "xfName": "deficiency",
+                "xfWhen": "present",
+                "xfToggleLabel": "Action Required?",
+                "xfWhenEnabled": false,
+                "xfDisableLevel": true,
+                "xfCustomBtnLabel": "+ Deficiency",
+                "xfDisableDateDue": true,
+                "xfPresetOptionGroup": "bmp:all",
+                "xfCustomLabelEnabled": true,
+                "xfDisableDescription": true,
+                "xfWhenContextControl": "q42",
+                "xfDisableDateResolved": false,
+                "xfDisablePhotoDateTime": true,
+                "xfPrepopulateValueType": "current_deficiencies",
+                "xfWhenContextValueType": "{{TYPE_FALSE}}",
+                "xfDisableDateIdentified": false,
+                "xfPrepopulateValueEnabled": true,
+                "xfEnableCorrectiveActionList": true,
+                "xfDeficiencyDateIdentifiedLabel": "",
+                "xfDeficiencyCorrectiveActionLabel": "Corrective Action"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "xf:page",
+        "props": {
+          "xfName": "general_photos",
+          "xfLabel": "General Photos",
+          "xfCustomBtnLabel": "",
+          "xfCustomLabelEnabled": false,
+          "children": [
+            {
+              "name": "xf:multivalue",
+              "props": {
+                "xfName": "gen_photos",
+                "xfLabel": "",
+                "xfCustomBtnLabel": "+ Photo(s)",
+                "xfCustomLabelEnabled": true,
+                "xfPrepopulateValueEnabled": false,
+                "children": [
+                  {
+                    "name": "xf:image",
+                    "props": {
+                      "xfName": "gen_photo",
+                      "xfLabel": ""
+                    }
+                  },
+                  {
+                    "name": "xf:text",
+                    "props": {
+                      "xfName": "comment",
+                      "xfLabel": "Comment",
+                      "xfPrepopulateValueEnabled": false
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "xf:metadata-group",
+        "props": {
+          "xfName": "metadata",
+          "children": [
+            {
+              "name": "xf:metadata",
+              "props": {
+                "xfName": "binding__append_report_name",
+                "xfValue": "general_info|inspection_type"
+              }
+            },
+            {
+              "name": "xf:metadata",
+              "props": {
+                "xfName": "binding__include_weather_forecast",
+                "xfValue": "general_info|weather|attach_noaa"
+              }
+            },
+            {
+              "name": "xf:metadata",
+              "props": {
+                "xfName": "binding__created_at",
+                "xfValue": "general_info|date_of_inspection"
+              }
+            },
+            {
+              "name": "xf:metadata",
+              "props": {
+                "xfName": "binding__created_at_time",
+                "xfValue": "general_info|time_of_inspection"
+              }
+            },
+            {
+              "name": "xf:metadata",
+              "props": {
+                "xfName": "binding__append_report_alt_name",
+                "xfValue": "general_info|qsd_hidden"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

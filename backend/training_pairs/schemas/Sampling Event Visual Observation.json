@@ -1,0 +1,278 @@
+{
+  "name": "xf:form",
+  "props": {
+    "xfPageNavigation": "toc",
+    "children": [
+      {
+        "name": "xf:page",
+        "props": {
+          "xfName": "general_info",
+          "xfLabel": "General Information",
+          "children": [
+            {
+              "name": "xf:string",
+              "props": {
+                "xfName": "project_name",
+                "xfLabel": "Project/Site Name",
+                "xfPrepopulateValueType": "location_name",
+                "xfPrepopulateValueEnabled": true
+              }
+            },
+            {
+              "name": "xf:date",
+              "props": {
+                "xfName": "date",
+                "xfLabel": "Date",
+                "xfDefaultValueType": "{{DATE_CURRENT}}",
+                "xfDefaultValueEnabled": true,
+                "xfPrepopulateValueEnabled": false
+              }
+            },
+            {
+              "name": "xf:date",
+              "props": {
+                "xfName": "event_start_date",
+                "xfLabel": "Event Start Date",
+                "xfDefaultValueType": "{{DATE_CURRENT}}",
+                "xfDefaultValueEnabled": false,
+                "xfPrepopulateValueType": "date_weather_current_storm_started_at",
+                "xfPrepopulateValueEnabled": true
+              }
+            },
+            {
+              "name": "xf:time",
+              "props": {
+                "xfName": "event_start_time",
+                "xfLabel": "Event Start Time",
+                "xfDefaultValueType": "{{TIME_CURRENT}}",
+                "xfDefaultValueEnabled": false,
+                "xfPrepopulateValueType": "time_weather_current_storm_started_at",
+                "xfPrepopulateValueEnabled": true
+              }
+            },
+            {
+              "name": "xf:string",
+              "props": {
+                "xfName": "sampler",
+                "xfLabel": "Sampler",
+                "xfPrepopulateValueType": "user_name",
+                "xfPrepopulateValueEnabled": true
+              }
+            },
+            {
+              "name": "xf:string",
+              "props": {
+                "xfName": "rainfall_amount",
+                "xfLabel": "Rainfall Amount (inches)",
+                "xfInfoType": "pws_data_source",
+                "xfInfoEnabled": true,
+                "xfPrepopulateValueType": "weather_current_storm_total",
+                "xfPrepopulateValueEnabled": true
+              }
+            },
+            {
+              "name": "xf:select",
+              "props": {
+                "xfName": "sampling_event_type",
+                "xfLabel": "Sampling Event Type",
+                "xfOptions": "Storm Water\nNon-storm Water\nNon-visible Pollutant\nSampling Exception",
+                "xfMultiple": true,
+                "xfPresetOptionGroup": ""
+              }
+            },
+            {
+              "name": "xf:group",
+              "props": {
+                "xfName": "field_meter_calibration",
+                "xfLabel": "Field Meter Calibration",
+                "xfInfoEnabled": false,
+                "xfInfoCustomValue": "TEST",
+                "children": [
+                  {
+                    "name": "xf:group",
+                    "props": {
+                      "xfLabel": "Equipment Calibration Instructions",
+                      "children": [
+                        {
+                          "name": "xf:group",
+                          "props": {
+                            "xfLabel": "Create a new equipment log ONLY when a new calibration record is required. If the equipment type and model remains the same, reuse the existing record and update it with new values. DO NOT create a new record if the equipment already exists. Failure to follow this process will result in duplicated meter records."
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "name": "composite:user_equipment_by_category",
+                    "props": {
+                      "xfName": "equipment",
+                      "xfCustomBtnLabel": "+ Add New Equipment Log",
+                      "xfCustomLabelEnabled": true,
+                      "xfPrepopulateValueType": "current_user_equipment_by_category",
+                      "xfPrepopulateValueEnabled": true,
+                      "xfPresetEquipmentCategoryId": "0",
+                      "xfUserEquipmentDescriptionLabel": "Meter ID / Description"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "xf:page",
+        "props": {
+          "xfName": "ph_turbidity_measurements",
+          "xfLabel": "Field pH and Turbidity Measurements",
+          "children": [
+            {
+              "name": "xf:group",
+              "props": {
+                "xfLabel": "Sampling Instructions & Calculations (Read before continuing below)",
+                "children": [
+                  {
+                    "name": "xf:group",
+                    "props": {
+                      "xfLabel": "Taking Samples",
+                      "children": [
+                        {
+                          "name": "xf:group",
+                          "props": {
+                            "xfLabel": "Create a new sampling location if necessary. When collecting samples from the same location, reuse the existing monitoring location fields to avoid duplication. Only add a new monitoring location if a different location requires sampling. Failure to follow this procedure will result in duplicated sampling location fields."
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "name": "xf:boolean",
+              "props": {
+                "xfName": "duplicates_taken",
+                "xfLabel": "Were field duplicates taken?",
+                "xfDefaultValueType": "{{TYPE_FALSE}}",
+                "xfDefaultValueEnabled": true,
+                "xfPrepopulateValueType": "boolean_last_report",
+                "xfPrepopulateValueEnabled": true
+              }
+            },
+            {
+              "name": "composite:monitoring_locations",
+              "props": {
+                "xfName": "monitoring_location",
+                "xfCustomBtnLabel": "+ Add New Sampling Location",
+                "xfCustomLabelEnabled": true,
+                "xfPrepopulateValueType": "current_monitoring_locations",
+                "xfPrepopulateValueEnabled": true,
+                "xfMonitoringLocationFlowLabel": "Enter % of Daily Flow as a whole number (Ex. enter 50 for 50%)",
+                "xfMonitoringRecordDisableFlowRate": false,
+                "xfMonitoringRecordDisableAnalysisType": true,
+                "xfMonitoringRecordDisableAnalysisMethod": true
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "xf:page",
+        "props": {
+          "xfName": "additional_sampling_notes",
+          "xfLabel": "Additional Sampling Notes (weather, color, odor, BMPs, other samples etc.)",
+          "children": [
+            {
+              "name": "xf:text",
+              "props": {
+                "xfName": "notes"
+              }
+            },
+            {
+              "name": "xf:date",
+              "props": {
+                "xfName": "event_end_date",
+                "xfLabel": "Event End Date",
+                "xfPrepopulateValueType": "date_today",
+                "xfPrepopulateValueEnabled": true
+              }
+            },
+            {
+              "name": "xf:time",
+              "props": {
+                "xfName": "event_end_time",
+                "xfLabel": "Event End Time",
+                "xfDefaultValueType": "{{TIME_CURRENT}}",
+                "xfDefaultValueEnabled": true,
+                "xfPrepopulateValueEnabled": false
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "xf:page",
+        "props": {
+          "xfName": "photos",
+          "xfLabel": "Photos",
+          "children": [
+            {
+              "name": "xf:multivalue",
+              "props": {
+                "xfName": "add_photo",
+                "xfLabel": "Add Photo",
+                "xfPrepopulateValueEnabled": false,
+                "children": [
+                  {
+                    "name": "xf:image",
+                    "props": {
+                      "xfName": "photo",
+                      "xfLabel": "Photo"
+                    }
+                  },
+                  {
+                    "name": "xf:text",
+                    "props": {
+                      "xfName": "comment",
+                      "xfLabel": "Comment",
+                      "xfPrepopulateValueEnabled": false
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "xf:metadata-group",
+        "props": {
+          "xfName": "metadata",
+          "children": [
+            {
+              "name": "xf:metadata",
+              "props": {
+                "xfName": "binding__created_at",
+                "xfValue": "general_info|date"
+              }
+            },
+            {
+              "name": "xf:metadata",
+              "props": {
+                "xfName": "binding__append_report_name",
+                "xfValue": "general_info|sampling_event_type"
+              }
+            },
+            {
+              "name": "xf:metadata",
+              "props": {
+                "xfName": "binding__created_at_time",
+                "xfValue": "general_info|event_start_time"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

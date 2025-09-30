@@ -1,0 +1,161 @@
+{
+  "name": "xf:form",
+  "props": {
+    "xfPageNavigation": "toc",
+    "children": [
+      {
+        "name": "xf:page",
+        "props": {
+          "xfName": "site_information",
+          "xfLabel": "Site Information",
+          "children": [
+            {
+              "name": "xf:string",
+              "props": {
+                "xfName": "permit_number",
+                "xfLabel": "Permit Number",
+                "xfRequired": true
+              }
+            },
+            {
+              "name": "xf:string",
+              "props": {
+                "xfName": "site_name",
+                "xfLabel": "Site/Facility Name",
+                "xfRequired": true
+              }
+            },
+            {
+              "name": "xf:text",
+              "props": {
+                "xfName": "site_address",
+                "xfLabel": "Site Address"
+              }
+            },
+            {
+              "name": "xf:date",
+              "props": {
+                "xfName": "inspection_date",
+                "xfLabel": "Inspection Date",
+                "xfPrepopulateValueType": "date_today",
+                "xfPrepopulateValueEnabled": true
+              }
+            },
+            {
+              "name": "xf:string",
+              "props": {
+                "xfName": "inspector_name",
+                "xfLabel": "Inspector Name",
+                "xfPrepopulateValueType": "user_name",
+                "xfPrepopulateValueEnabled": true
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "xf:page",
+        "props": {
+          "xfName": "bmp_inspection",
+          "xfLabel": "BMP Inspection",
+          "children": [
+            {
+              "name": "xf:group",
+              "props": {
+                "xfLabel": "Erosion Control",
+                "children": [
+                  {
+                    "name": "xf:ternary",
+                    "props": {
+                      "xfName": "silt_fence",
+                      "xfLabel": "Silt Fence"
+                    }
+                  },
+                  {
+                    "name": "xf:ternary",
+                    "props": {
+                      "xfName": "erosion_blankets",
+                      "xfLabel": "Erosion Control Blankets"
+                    }
+                  },
+                  {
+                    "name": "xf:ternary",
+                    "props": {
+                      "xfName": "check_dams",
+                      "xfLabel": "Check Dams"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "name": "xf:group",
+              "props": {
+                "xfLabel": "Sediment Control",
+                "children": [
+                  {
+                    "name": "xf:ternary",
+                    "props": {
+                      "xfName": "sediment_basin",
+                      "xfLabel": "Sediment Basin"
+                    }
+                  },
+                  {
+                    "name": "xf:ternary",
+                    "props": {
+                      "xfName": "inlet_protection",
+                      "xfLabel": "Storm Drain Inlet Protection"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "name": "composite:deficiencies",
+              "props": {
+                "xfName": "deficiencies",
+                "xfWhen": "present",
+                "xfToggleLabel": "Deficiencies Found?",
+                "xfWhenEnabled": true,
+                "xfPresetOptionGroup": "bmp:all",
+                "xfCorrectiveActionOptionGroup": "deficiencyCorrectiveActionCategory:bmp",
+                "xfDeficiencyCorrectiveActionLabel": "Corrective Action Required"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "xf:page",
+        "props": {
+          "xfName": "comments",
+          "xfLabel": "Comments & Sign-off",
+          "children": [
+            {
+              "name": "xf:text",
+              "props": {
+                "xfName": "inspection_notes",
+                "xfLabel": "Inspection Notes"
+              }
+            },
+            {
+              "name": "xf:text",
+              "props": {
+                "xfName": "corrective_actions",
+                "xfLabel": "Required Corrective Actions"
+              }
+            },
+            {
+              "name": "xf:signature",
+              "props": {
+                "xfName": "inspector_signature",
+                "xfLabel": "Inspector Signature",
+                "xfRequired": true
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

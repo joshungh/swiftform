@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SwiftForm AI - Document to Form Generator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            border-radius: 10px;
+            padding: 20px 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            color: #333;
+            font-size: 2em;
+        }
+
+        .header p {
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .card h2 {
+            color: #333;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .upload-area {
+            border: 2px dashed #ddd;
+            border-radius: 10px;
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 20px;
+        }
+
+        .upload-area:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+
+        .upload-area.dragover {
+            border-color: #667eea;
+            background: #f0f2ff;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .upload-icon {
+            font-size: 48px;
+            color: #999;
+            margin-bottom: 10px;
+        }
+
+        .btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background: #5a67d8;
+        }
+
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .file-info {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .file-info strong {
+            color: #333;
+        }
+
+        .status {
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .status.processing {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .json-viewer {
+            background: #f4f4f4;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            max-height: 400px;
+            overflow: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            white-space: pre-wrap;
+        }
+
+        .form-preview {
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .form-page {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 5px;
+        }
+
+        .form-page h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .form-field {
+            margin-bottom: 10px;
+            padding: 8px;
+            background: white;
+            border-radius: 3px;
+        }
+
+        .form-field-label {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .form-field-type {
+            font-size: 12px;
+            color: #666;
+            margin-left: 10px;
+        }
+
+        .options {
+            margin-top: 20px;
+        }
+
+        .options label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .options select, .options textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .loader {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 SwiftForm AI</h1>
+            <p>Transform documents into intelligent forms using AI</p>
+        </div>
+
+        <div class="main-content">
+            <div class="card">
+                <h2>Upload Document</h2>
+
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-icon">📄</div>
+                    <p>Drag & drop your document here or click to browse</p>
+                    <p style="font-size: 12px; color: #999; margin-top: 10px;">
+                        Supports: PDF, DOC, DOCX, XLS, XLSX
+                    </p>
+                    <input type="file" id="fileInput" class="file-input" accept=".pdf,.doc,.docx,.xls,.xlsx">
+                </div>
+
+                <div id="fileInfo" class="file-info" style="display: none;">
+                    <strong>Selected File:</strong> <span id="fileName"></span><br>
+                    <strong>Size:</strong> <span id="fileSize"></span><br>
+                    <strong>Type:</strong> <span id="fileType"></span>
+                </div>
+
+                <div class="options">
+                    <label for="aiModel">AI Model:</label>
+                    <select id="aiModel">
+                        <option value="demo">Demo (Sample Output)</option>
+                        <option value="gpt-4">GPT-4 (Requires API Key)</option>
+                        <option value="gpt-3.5-turbo">GPT-3.5 Turbo</option>
+                        <option value="claude-3">Claude 3</option>
+                    </select>
+
+                    <label for="customInstructions" style="margin-top: 15px;">Custom Instructions (Optional):</label>
+                    <textarea id="customInstructions" rows="3" placeholder="E.g., Focus on inspection fields, Include validation rules"></textarea>
+                </div>
+
+                <button class="btn" id="uploadBtn" style="display: none; margin-top: 20px;" onclick="uploadFile()">
+                    Upload File
+                </button>
+
+                <button class="btn" id="processBtn" style="display: none; margin-top: 10px; width: 100%;" onclick="processDocument()">
+                    Generate Form Schema
+                </button>
+
+                <div id="status"></div>
+            </div>
+
+            <div class="card">
+                <h2>Generated Form</h2>
+
+                <div id="resultSection" style="display: none;">
+                    <div style="margin-bottom: 20px;">
+                        <button class="btn" onclick="copyJson()" style="margin-right: 10px;">📋 Copy JSON</button>
+                        <button class="btn" onclick="downloadJson()">💾 Download JSON</button>
+                    </div>
+
+                    <h3 style="margin-bottom: 10px;">Form Preview:</h3>
+                    <div id="formPreview" class="form-preview"></div>
+
+                    <h3 style="margin-top: 20px; margin-bottom: 10px;">JSON Schema:</h3>
+                    <div id="jsonViewer" class="json-viewer"></div>
+                </div>
+
+                <div id="noResult" style="text-align: center; padding: 40px; color: #999;">
+                    <div style="font-size: 48px;">⏳</div>
+                    <p>Upload a document to generate form schema</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:8000';
+        let selectedFile = null;
+        let uploadedFileId = null;
+        let generatedSchema = null;
+
+        // Setup drag and drop
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+
+        uploadArea.addEventListener('click', () => fileInput.click());
+
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            handleFileSelect(e.dataTransfer.files[0]);
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            handleFileSelect(e.target.files[0]);
+        });
+
+        function handleFileSelect(file) {
+            if (!file) return;
+
+            const allowedTypes = ['.pdf', '.doc', '.docx', '.xls', '.xlsx'];
+            const fileExt = '.' + file.name.split('.').pop().toLowerCase();
+
+            if (!allowedTypes.includes(fileExt)) {
+                showStatus('File type not supported. Please select PDF, Word, or Excel files.', 'error');
+                return;
+            }
+
+            selectedFile = file;
+            document.getElementById('fileName').textContent = file.name;
+            document.getElementById('fileSize').textContent = (file.size / 1024 / 1024).toFixed(2) + ' MB';
+            document.getElementById('fileType').textContent = fileExt.toUpperCase();
+            document.getElementById('fileInfo').style.display = 'block';
+            document.getElementById('uploadBtn').style.display = 'block';
+        }
+
+        async function uploadFile() {
+            if (!selectedFile) return;
+
+            const formData = new FormData();
+            formData.append('file', selectedFile);
+
+            showStatus('Uploading file...', 'processing');
+
+            try {
+                const response = await fetch(`${API_URL}/api/upload`, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!response.ok) throw new Error('Upload failed');
+
+                const data = await response.json();
+                uploadedFileId = data.file_id;
+                showStatus('File uploaded successfully!', 'success');
+                document.getElementById('uploadBtn').style.display = 'none';
+                document.getElementById('processBtn').style.display = 'block';
+            } catch (error) {
+                showStatus('Upload failed: ' + error.message, 'error');
+            }
+        }
+
+        async function processDocument() {
+            if (!uploadedFileId) return;
+
+            const aiModel = document.getElementById('aiModel').value;
+            const customInstructions = document.getElementById('customInstructions').value;
+
+            showStatus('Processing document...', 'processing');
+
+            try {
+                const response = await fetch(`${API_URL}/api/process`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        file_id: uploadedFileId,
+                        ai_model: aiModel,
+                        custom_instructions: customInstructions || null
+                    })
+                });
+
+                if (!response.ok) throw new Error('Processing failed');
+
+                const data = await response.json();
+                checkJobStatus(data.job_id);
+            } catch (error) {
+                showStatus('Processing failed: ' + error.message, 'error');
+            }
+        }
+
+        async function checkJobStatus(jobId) {
+            const checkInterval = setInterval(async () => {
+                try {
+                    const response = await fetch(`${API_URL}/api/status/${jobId}`);
+                    const data = await response.json();
+
+                    if (data.status === 'completed') {
+                        clearInterval(checkInterval);
+                        generatedSchema = data.form_schema;
+                        displayResults(data.form_schema);
+                        showStatus('Form schema generated successfully!', 'success');
+                    } else if (data.status === 'failed') {
+                        clearInterval(checkInterval);
+                        showStatus('Generation failed: ' + (data.error || 'Unknown error'), 'error');
+                    }
+                } catch (error) {
+                    clearInterval(checkInterval);
+                    showStatus('Error checking status: ' + error.message, 'error');
+                }
+            }, 2000);
+        }
+
+        function displayResults(schema) {
+            document.getElementById('resultSection').style.display = 'block';
+            document.getElementById('noResult').style.display = 'none';
+
+            // Display JSON
+            document.getElementById('jsonViewer').textContent = JSON.stringify(schema, null, 2);
+
+            // Display form preview
+            const preview = document.getElementById('formPreview');
+            preview.innerHTML = '';
+
+            if (schema.props && schema.props.children) {
+                schema.props.children.forEach(page => {
+                    const pageDiv = document.createElement('div');
+                    pageDiv.className = 'form-page';
+
+                    const pageTitle = document.createElement('h3');
+                    pageTitle.textContent = page.props.xfLabel || 'Page';
+                    pageDiv.appendChild(pageTitle);
+
+                    if (page.props.children) {
+                        page.props.children.forEach(field => {
+                            const fieldDiv = document.createElement('div');
+                            fieldDiv.className = 'form-field';
+
+                            const label = document.createElement('span');
+                            label.className = 'form-field-label';
+                            label.textContent = field.props.xfLabel || field.props.xfName;
+
+                            const type = document.createElement('span');
+                            type.className = 'form-field-type';
+                            type.textContent = `(${field.name})`;
+
+                            fieldDiv.appendChild(label);
+                            fieldDiv.appendChild(type);
+                            pageDiv.appendChild(fieldDiv);
+                        });
+                    }
+
+                    preview.appendChild(pageDiv);
+                });
+            }
+        }
+
+        function copyJson() {
+            if (!generatedSchema) return;
+
+            navigator.clipboard.writeText(JSON.stringify(generatedSchema, null, 2))
+                .then(() => {
+                    showStatus('JSON copied to clipboard!', 'success');
+                })
+                .catch(() => {
+                    showStatus('Failed to copy JSON', 'error');
+                });
+        }
+
+        function downloadJson() {
+            if (!generatedSchema) return;
+
+            const blob = new Blob([JSON.stringify(generatedSchema, null, 2)], {
+                type: 'application/json'
+            });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `form-schema-${Date.now()}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+            showStatus('JSON downloaded!', 'success');
+        }
+
+        function showStatus(message, type) {
+            const status = document.getElementById('status');
+            status.className = `status ${type}`;
+            status.textContent = message;
+            status.style.display = 'block';
+
+            if (type === 'processing') {
+                status.innerHTML = `<div class="loader"></div>${message}`;
+            }
+        }
+    </script>
+</body>
+</html>

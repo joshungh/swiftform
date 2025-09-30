@@ -1,0 +1,17 @@
+# Core dependencies only
+fastapi
+uvicorn[standard]
+python-multipart
+python-dotenv
+pydantic
+pydantic-settings
+aiofiles
+
+# Document processing basics
+PyPDF2
+python-docx
+openpyxl
+
+# AI
+openai
+anthropic

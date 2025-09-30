@@ -1,0 +1,37 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(tree:*)",
+      "Bash(source:*)",
+      "Bash(pip install:*)",
+      "Bash(uvicorn:*)",
+      "Bash(python3:*)",
+      "Bash(npm install:*)",
+      "Read(//var/folders/7r/s995xgr14q11djdb0kl7zt6m0000gn/T/TemporaryItems/NSIRD_screencaptureui_xrFHa9/**)",
+      "Bash(python test:*)",
+      "Bash(pip3 install:*)",
+      "Bash(curl:*)",
+      "Bash(chmod:*)",
+      "Bash(python:*)",
+      "Read(//var/folders/7r/s995xgr14q11djdb0kl7zt6m0000gn/T/TemporaryItems/NSIRD_screencaptureui_joPnx1/**)",
+      "Bash(open /Users/joshuaungheanu/CloudCompli/swiftform/backend/training_dashboard.html)",
+      "Read(//var/folders/7r/s995xgr14q11djdb0kl7zt6m0000gn/T/TemporaryItems/NSIRD_screencaptureui_rRHMaM/**)",
+      "Read(//var/folders/7r/s995xgr14q11djdb0kl7zt6m0000gn/T/TemporaryItems/NSIRD_screencaptureui_9ZJzrL/**)",
+      "Bash(npx tailwindcss init:*)",
+      "Read(//var/folders/7r/s995xgr14q11djdb0kl7zt6m0000gn/T/TemporaryItems/NSIRD_screencaptureui_boMMNP/**)",
+      "Bash(npm run build:*)",
+      "Bash(kill:*)",
+      "Bash(npm start)",
+      "Read(//var/folders/7r/s995xgr14q11djdb0kl7zt6m0000gn/T/TemporaryItems/NSIRD_screencaptureui_yZFOF6/**)",
+      "Bash(npm uninstall:*)",
+      "Bash(awk:*)",
+      "Bash(xargs kill:*)",
+      "Bash(cat:*)",
+      "Bash(pkill:*)",
+      "Bash(lsof:*)",
+      "Bash(git add:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

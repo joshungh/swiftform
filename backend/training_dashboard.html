@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SwiftForm AI - Training Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#e3f2fd',
+                            100: '#bbdefb',
+                            200: '#90caf9',
+                            300: '#64b5f6',
+                            400: '#42a5f5',
+                            500: '#2196f3',
+                            600: '#1e88e5',
+                            700: '#1976d2',
+                            800: '#1565c0',
+                            900: '#0d47a1',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation Bar -->
+    <nav class="bg-primary-600 shadow-lg">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div class="flex h-16 justify-between">
+                <!-- Logo and Brand -->
+                <div class="flex items-center">
+                    <a href="http://localhost:3001" class="flex items-center space-x-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <span class="text-xl font-semibold text-white">SwiftForm AI</span>
+                    </a>
+                </div>
+
+                <!-- Navigation Links -->
+                <div class="flex items-center space-x-1">
+                    <a href="http://localhost:3001" class="inline-flex items-center px-4 py-2 text-sm font-medium rounded-md text-primary-100 hover:bg-primary-700 hover:text-white transition-colors duration-200">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                        </svg>
+                        Home
+                    </a>
+                    <a href="http://localhost:3001/upload" class="inline-flex items-center px-4 py-2 text-sm font-medium rounded-md text-primary-100 hover:bg-primary-700 hover:text-white transition-colors duration-200">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                        </svg>
+                        Upload
+                    </a>
+                    <a href="http://localhost:3001/history" class="inline-flex items-center px-4 py-2 text-sm font-medium rounded-md text-primary-100 hover:bg-primary-700 hover:text-white transition-colors duration-200">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        History
+                    </a>
+                    <button class="inline-flex items-center px-4 py-2 text-sm font-medium rounded-md bg-primary-700 text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                        </svg>
+                        Training
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Page Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-gray-900 mb-2">Model Training Dashboard</h1>
+            <p class="text-lg text-gray-600">Monitor your AI model training progress in real-time</p>
+        </div>
+
+        <!-- Action Bar -->
+        <div class="text-center mb-8">
+            <div class="flex items-center justify-center gap-4 mb-3">
+                <label class="text-sm font-medium text-gray-700">Select Training Job:</label>
+                <select
+                    id="jobSelector"
+                    onchange="switchJob()"
+                    class="px-3 py-2 border border-gray-300 rounded-lg text-sm w-96 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                >
+                    <option value="">Loading jobs...</option>
+                </select>
+                <button onclick="loadJobsList()" class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors duration-200 text-sm font-medium">
+                    Refresh Jobs
+                </button>
+            </div>
+            <button onclick="refreshDashboard()" class="px-6 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors duration-200 font-medium">
+                Refresh Status
+            </button>
+            <span class="ml-4 text-gray-500 text-sm">Auto-refresh every 10 seconds</span>
+            <span id="loading" class="ml-4 hidden">
+                <svg class="inline animate-spin h-4 w-4 text-primary-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+            </span>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+            <div class="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+                <div class="text-3xl font-bold text-primary-600" id="progressStat">0%</div>
+                <div class="text-sm text-gray-500 uppercase tracking-wide">Progress</div>
+            </div>
+            <div class="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+                <div class="text-3xl font-bold text-gray-900" id="stepsStat">0/30</div>
+                <div class="text-sm text-gray-500 uppercase tracking-wide">Steps</div>
+            </div>
+            <div class="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+                <div class="text-3xl font-bold text-gray-900" id="lossStat">-</div>
+                <div class="text-sm text-gray-500 uppercase tracking-wide">Loss</div>
+            </div>
+            <div class="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+                <div class="text-3xl font-bold text-gray-900" id="timeStat">0m</div>
+                <div class="text-sm text-gray-500 uppercase tracking-wide">Duration</div>
+            </div>
+        </div>
+
+        <!-- Main Content Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            <!-- Training Job Details -->
+            <div class="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+                <h2 class="text-lg font-semibold text-gray-900 mb-4 pb-2 border-b">Training Job Details</h2>
+                <div class="space-y-3">
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm text-gray-600">Job ID</span>
+                        <span class="text-sm font-mono bg-gray-100 px-2 py-1 rounded" id="jobId">Loading...</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm text-gray-600">Status</span>
+                        <span id="status">Loading...</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm text-gray-600">Model</span>
+                        <span class="text-sm font-medium text-gray-900" id="model">Loading...</span>
+                    </div>
+                    <div class="mt-4">
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-primary-600 h-2 rounded-full transition-all duration-300" id="progressBar" style="width: 0%"></div>
+                        </div>
+                        <p class="text-sm text-gray-600 mt-2 text-center" id="progressText">0% Complete</p>
+                    </div>
+                    <div class="flex justify-between items-center pt-2">
+                        <span class="text-sm text-gray-600">Fine-tuned Model</span>
+                        <span class="text-sm font-medium text-gray-500" id="fineTunedModel">Not ready</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Training Configuration -->
+            <div class="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+                <h2 class="text-lg font-semibold text-gray-900 mb-4 pb-2 border-b">Training Configuration</h2>
+                <div class="space-y-3">
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm text-gray-600">Base Model</span>
+                        <span class="text-sm font-medium text-gray-900">GPT-3.5-turbo</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm text-gray-600">Training Examples</span>
+                        <span class="text-sm font-medium text-gray-900">10</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm text-gray-600">Epochs</span>
+                        <span class="text-sm font-medium text-gray-900">3</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm text-gray-600">Batch Size</span>
+                        <span class="text-sm font-medium text-gray-900">1</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm text-gray-600">Learning Rate</span>
+                        <span class="text-sm font-medium text-gray-900">0.1</span>
+                    </div>
+                    <div class="flex justify-between items-center pt-2 border-t">
+                        <span class="text-sm text-gray-600">Estimated Cost</span>
+                        <span class="text-sm font-medium text-gray-900">~$0.80</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Upload Training Pairs Section -->
+        <div class="bg-white rounded-lg p-6 shadow-sm border border-gray-200 mb-8">
+            <h2 class="text-lg font-semibold text-gray-900 mb-4 pb-2 border-b">Upload Training Pairs</h2>
+            <p class="text-sm text-gray-600 mb-4">
+                Upload PDF forms with their corresponding XF JSON schema. You can select multiple PDFs (up to 10) to pair with the same schema.
+                <span class="font-medium text-primary-600">Minimum 10 pairs required to start training.</span>
+            </p>
+
+            <!-- PDF Upload -->
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    PDF Forms <span class="text-red-500">*</span>
+                    <span class="text-xs text-gray-500 font-normal">(Select up to 10 files)</span>
+                </label>
+                <div class="relative">
+                    <input
+                        type="file"
+                        id="pdfFile"
+                        accept=".pdf"
+                        multiple
+                        class="block w-full text-sm text-gray-500
+                            file:mr-4 file:py-2 file:px-4
+                            file:rounded-lg file:border-0
+                            file:text-sm file:font-medium
+                            file:bg-primary-50 file:text-primary-700
+                            hover:file:bg-primary-100
+                            cursor-pointer border border-gray-300 rounded-lg"
+                    />
+                </div>
+                <p class="mt-1 text-xs text-gray-500" id="pdfFileName">No files selected</p>
+            </div>
+
+            <!-- XF JSON Schema (Textarea) -->
+            <div class="mb-4">
+                <div class="flex items-center justify-between mb-2">
+                    <label class="block text-sm font-medium text-gray-700">
+                        XF JSON Schema <span class="text-red-500">*</span>
+                    </label>
+                    <div class="flex space-x-2">
+                        <button
+                            type="button"
+                            onclick="toggleExample()"
+                            class="text-xs px-2 py-1 text-blue-600 hover:text-blue-800 border border-blue-300 rounded"
+                        >
+                            💡 Show Example
+                        </button>
+                        <button
+                            type="button"
+                            onclick="formatJSON()"
+                            class="text-xs px-2 py-1 text-primary-600 hover:text-primary-800 border border-primary-300 rounded"
+                        >
+                            📝 Format
+                        </button>
+                        <button
+                            type="button"
+                            onclick="validateJSON()"
+                            class="text-xs px-2 py-1 text-green-600 hover:text-green-800 border border-green-300 rounded"
+                        >
+                            ✓ Validate
+                        </button>
+                        <button
+                            type="button"
+                            onclick="clearJSON()"
+                            class="text-xs px-2 py-1 text-gray-600 hover:text-gray-800 border border-gray-300 rounded"
+                        >
+                            ✕ Clear
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Example Section -->
+                <div id="xfJsonExample" class="hidden mb-3 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                    <div class="flex items-center justify-between mb-2">
+                        <p class="text-xs font-medium text-blue-800">Example XF JSON Structure:</p>
+                        <button onclick="copyExample()" class="text-xs px-2 py-1 text-blue-600 hover:text-blue-800 border border-blue-300 rounded bg-white">
+                            Copy Example
+                        </button>
+                    </div>
+                    <pre class="text-xs text-gray-700 overflow-x-auto max-h-64 overflow-y-auto bg-white p-2 rounded border border-blue-100"><code>{
+  "name": "xf:form",
+  "props": {
+    "xfPageNavigation": "toc",
+    "children": [
+      {
+        "name": "xf:page",
+        "props": {
+          "xfName": "general_information",
+          "xfLabel": "General Information",
+          "children": [
+            {
+              "name": "xf:date",
+              "props": {
+                "xfName": "inspection_date",
+                "xfLabel": "Inspection Date",
+                "xfPrepopulateValueType": "date_today",
+                "xfPrepopulateValueEnabled": true
+              }
+            },
+            {
+              "name": "xf:string",
+              "props": {
+                "xfName": "facility_name",
+                "xfLabel": "Facility Name"
+              }
+            },
+            {
+              "name": "xf:select",
+              "props": {
+                "xfName": "inspection_type",
+                "xfLabel": "Type of Inspection",
+                "xfOptions": "Routine\\nFollow-up\\nComplaint"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+}</code></pre>
+                    <p class="text-xs text-blue-600 mt-2">This is a simplified example. Your actual XF JSON may have many more fields and nested structures.</p>
+                </div>
+
+                <textarea
+                    id="xfJsonInput"
+                    rows="14"
+                    placeholder="Paste your XF JSON schema here..."
+                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 font-mono text-sm"
+                ></textarea>
+                <div class="flex items-center justify-between mt-1">
+                    <p class="text-xs text-gray-500">
+                        <span id="jsonCharCount">0</span> characters
+                    </p>
+                    <p id="jsonValidation" class="text-xs"></p>
+                </div>
+            </div>
+
+            <!-- Form Name -->
+            <div class="mt-4">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Form Name (Optional)</label>
+                <input
+                    type="text"
+                    id="formName"
+                    placeholder="e.g., BMP Inspection Report"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                />
+            </div>
+
+            <!-- Upload Button -->
+            <div class="mt-6 flex items-center justify-between">
+                <div id="uploadStatus" class="text-sm"></div>
+                <button
+                    onclick="uploadTrainingPair()"
+                    id="uploadBtn"
+                    class="px-6 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors font-medium
+                           disabled:bg-gray-400 disabled:cursor-not-allowed"
+                >
+                    Add to Training Data
+                </button>
+            </div>
+
+            <!-- Training Pairs List -->
+            <div class="mt-6 pt-6 border-t">
+                <div class="flex items-center justify-between mb-3">
+                    <h3 class="text-sm font-medium text-gray-900">Current Training Pairs (<span id="pairCount">0</span>)</h3>
+                    <button
+                        onclick="clearAllPairs()"
+                        id="clearAllBtn"
+                        class="px-3 py-1 text-xs bg-red-600 text-white rounded hover:bg-red-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
+                        disabled
+                    >
+                        Clear All
+                    </button>
+                </div>
+                <div id="trainingPairsList" class="space-y-2 max-h-64 overflow-y-auto">
+                    <p class="text-sm text-gray-500 text-center py-4">No training pairs uploaded yet</p>
+                </div>
+
+                <!-- Train Button -->
+                <button
+                    onclick="startTraining()"
+                    id="trainBtn"
+                    class="mt-4 w-full px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-medium
+                           disabled:bg-gray-400 disabled:cursor-not-allowed"
+                    disabled
+                >
+                    Start Training
+                </button>
+                <p id="pairCountStatus" class="mt-2 text-sm text-gray-600 text-center"></p>
+            </div>
+        </div>
+
+        <!-- Training Events Log -->
+        <div class="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+            <h2 class="text-lg font-semibold text-gray-900 mb-4 pb-2 border-b">Training Events</h2>
+            <div class="space-y-2 max-h-96 overflow-y-auto" id="eventLog">
+                <div class="p-3 bg-gray-50 rounded-lg border-l-4 border-primary-500">
+                    <p class="text-sm text-gray-700">Loading events...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:8000';
+
+        // Get the latest job ID from localStorage, or fall back to the default
+        function getJobId() {
+            return localStorage.getItem('latest_training_job_id') || 'ftjob-Ii7FTUtRs8IMJpGT2ADlXDap';
+        }
+
+        // Store the latest job ID in localStorage
+        function setJobId(jobId) {
+            localStorage.setItem('latest_training_job_id', jobId);
+        }
+
+        let autoRefreshInterval;
+
+        async function fetchJobDetails() {
+            try {
+                const jobId = getJobId();
+                const response = await fetch(`${API_BASE}/api/training/job/${jobId}/details`);
+                return await response.json();
+            } catch (error) {
+                console.error('Error fetching job details:', error);
+                return null;
+            }
+        }
+
+        function formatTimestamp(timestamp) {
+            if (!timestamp) return '-';
+            const date = new Date(timestamp * 1000);
+            return date.toLocaleTimeString();
+        }
+
+        function getStatusBadge(status) {
+            const badges = {
+                'validating_files': '<span class="px-2 py-1 text-xs font-medium rounded-full bg-blue-100 text-blue-800">Validating</span>',
+                'queued': '<span class="px-2 py-1 text-xs font-medium rounded-full bg-yellow-100 text-yellow-800">Queued</span>',
+                'running': '<span class="px-2 py-1 text-xs font-medium rounded-full bg-green-100 text-green-800">Running</span>',
+                'succeeded': '<span class="px-2 py-1 text-xs font-medium rounded-full bg-green-100 text-green-800">Completed</span>',
+                'failed': '<span class="px-2 py-1 text-xs font-medium rounded-full bg-red-100 text-red-800">Failed</span>'
+            };
+            return badges[status] || `<span class="px-2 py-1 text-xs font-medium rounded-full bg-gray-100 text-gray-800">${status}</span>`;
+        }
+
+        async function updateDashboard() {
+            document.getElementById('loading').classList.remove('hidden');
+
+            const jobDetails = await fetchJobDetails();
+
+            if (jobDetails) {
+                // Update job details
+                const jobId = getJobId();
+                document.getElementById('jobId').textContent = jobId.slice(-12);
+                document.getElementById('status').innerHTML = getStatusBadge(jobDetails.status);
+                document.getElementById('model').textContent = jobDetails.model || 'GPT-3.5-turbo';
+
+                // Update progress
+                const progress = jobDetails.progress_estimate?.percent || 0;
+                document.getElementById('progressText').textContent = `${progress}% Complete`;
+                document.getElementById('progressBar').style.width = `${progress}%`;
+                document.getElementById('progressStat').textContent = `${progress}%`;
+
+                // Update metrics
+                const latestStep = jobDetails.events?.find(e => e.message.includes('Step'));
+                if (latestStep) {
+                    const stepMatch = latestStep.message.match(/Step (\d+)\/(\d+)/);
+                    if (stepMatch) {
+                        document.getElementById('stepsStat').textContent = `${stepMatch[1]}/${stepMatch[2]}`;
+                    }
+                    const lossMatch = latestStep.message.match(/loss=([\d.]+)/);
+                    if (lossMatch) {
+                        document.getElementById('lossStat').textContent = lossMatch[1];
+                    }
+                }
+
+                // Update fine-tuned model
+                if (jobDetails.fine_tuned_model) {
+                    document.getElementById('fineTunedModel').textContent = jobDetails.fine_tuned_model;
+                    document.getElementById('fineTunedModel').className = 'text-sm font-medium text-green-600';
+                }
+
+                // Update events
+                if (jobDetails.events) {
+                    const eventLog = document.getElementById('eventLog');
+                    eventLog.innerHTML = jobDetails.events.slice(0, 20).map(event => {
+                        const isError = event.level === 'error';
+                        const borderColor = isError ? 'border-red-500' : 'border-primary-500';
+                        const bgColor = isError ? 'bg-red-50' : 'bg-gray-50';
+                        return `
+                            <div class="p-3 ${bgColor} rounded-lg border-l-4 ${borderColor}">
+                                <p class="text-sm text-gray-700">${event.message}</p>
+                                <p class="text-xs text-gray-500 mt-1">${formatTimestamp(event.created_at)}</p>
+                            </div>
+                        `;
+                    }).join('');
+                }
+
+                // Calculate duration
+                if (jobDetails.created_at) {
+                    const start = new Date(jobDetails.created_at * 1000);
+                    const end = jobDetails.finished_at ?
+                        new Date(jobDetails.finished_at * 1000) : new Date();
+                    const duration = Math.floor((end - start) / 1000);
+                    const minutes = Math.floor(duration / 60);
+                    const seconds = duration % 60;
+                    document.getElementById('timeStat').textContent = `${minutes}m ${seconds}s`;
+                }
+            }
+
+            document.getElementById('loading').classList.add('hidden');
+        }
+
+        function refreshDashboard() {
+            updateDashboard();
+        }
+
+        async function loadJobsList() {
+            try {
+                const response = await fetch(`${API_BASE}/api/training/jobs/list?limit=50`);
+                const data = await response.json();
+
+                const selector = document.getElementById('jobSelector');
+                const currentJobId = getJobId();
+
+                // Clear existing options
+                selector.innerHTML = '';
+
+                if (data.jobs && data.jobs.length > 0) {
+                    // Add jobs to dropdown
+                    data.jobs.forEach(job => {
+                        const option = document.createElement('option');
+                        option.value = job.job_id;
+
+                        // Format the display text with status
+                        const statusEmoji = {
+                            'succeeded': '✓',
+                            'failed': '✗',
+                            'running': '▶',
+                            'queued': '⏳',
+                            'validating_files': '🔍'
+                        }[job.status] || '○';
+
+                        const date = new Date(job.created_at * 1000);
+                        const dateStr = date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
+
+                        // Add local badge for jobs created in this system
+                        const localBadge = job.local ? '🏠 ' : '';
+
+                        option.textContent = `${localBadge}${statusEmoji} ${job.job_id.slice(-12)} - ${job.status} (${dateStr})`;
+
+                        // Select the current job if it matches
+                        if (job.job_id === currentJobId) {
+                            option.selected = true;
+                        }
+
+                        selector.appendChild(option);
+                    });
+
+                    // If no job is selected (e.g., first load), select the most recent one
+                    if (!currentJobId || selector.selectedIndex === -1) {
+                        selector.selectedIndex = 0;
+                        setJobId(data.jobs[0].job_id);
+                    }
+                } else {
+                    const option = document.createElement('option');
+                    option.textContent = 'No training jobs found';
+                    option.value = '';
+                    selector.appendChild(option);
+                }
+
+            } catch (error) {
+                console.error('Error loading jobs list:', error);
+                const selector = document.getElementById('jobSelector');
+                selector.innerHTML = '<option>Error loading jobs</option>';
+            }
+        }
+
+        function switchJob() {
+            const selector = document.getElementById('jobSelector');
+            const selectedJobId = selector.value;
+
+            if (selectedJobId) {
+                setJobId(selectedJobId);
+                updateDashboard();
+            }
+        }
+
+        // Initial load - load jobs list first, then update dashboard
+        async function initialize() {
+            await loadJobsList();
+            updateDashboard();
+        }
+
+        initialize();
+
+        // Auto-refresh every 10 seconds
+        autoRefreshInterval = setInterval(updateDashboard, 10000);
+
+        // Clean up on page unload
+        window.addEventListener('beforeunload', () => {
+            if (autoRefreshInterval) {
+                clearInterval(autoRefreshInterval);
+            }
+        });
+
+        // Training Pairs Upload Functionality
+        let trainingPairs = [];
+
+        // Load existing training pairs from backend
+        async function loadTrainingPairs() {
+            try {
+                const response = await fetch(`${API_BASE}/api/training/pairs`);
+                const data = await response.json();
+
+                if (response.ok && data.pairs) {
+                    trainingPairs = data.pairs.map(pair => ({
+                        pair_id: pair.pair_id,
+                        pdf_file: pair.pdf_filename,
+                        json_file: pair.json_filename,
+                        form_name: pair.form_name || 'Training Pair'
+                    }));
+                    updateTrainingPairsList();
+                }
+            } catch (error) {
+                console.error('Error loading training pairs:', error);
+            }
+        }
+
+        // Load training pairs on page load
+        loadTrainingPairs();
+
+        // Update file name displays
+        document.getElementById('pdfFile').addEventListener('change', function(e) {
+            const fileCount = e.target.files.length;
+            if (fileCount === 0) {
+                document.getElementById('pdfFileName').textContent = 'No files selected';
+            } else if (fileCount === 1) {
+                document.getElementById('pdfFileName').textContent = e.target.files[0].name;
+            } else {
+                document.getElementById('pdfFileName').textContent = `${fileCount} files selected`;
+            }
+        });
+
+        // JSON Textarea Helper Functions
+        function formatJSON() {
+            const textarea = document.getElementById('xfJsonInput');
+            try {
+                const json = JSON.parse(textarea.value);
+                textarea.value = JSON.stringify(json, null, 2);
+                showJSONValidation('✓ Formatted successfully', 'success');
+            } catch (e) {
+                showJSONValidation('✗ Invalid JSON: ' + e.message, 'error');
+            }
+        }
+
+        function validateJSON() {
+            const textarea = document.getElementById('xfJsonInput');
+            const value = textarea.value.trim();
+            
+            if (!value) {
+                showJSONValidation('⚠ No JSON to validate', 'warning');
+                return false;
+            }
+            
+            try {
+                const json = JSON.parse(value);
+                
+                // Validate XF schema structure
+                if (json.name !== 'xf:form') {
+                    showJSONValidation('✗ Must be xf:form at root', 'error');
+                    return false;
+                }
+                
+                if (!json.props || !json.props.children) {
+                    showJSONValidation('✗ Missing props.children', 'error');
+                    return false;
+                }
+                
+                showJSONValidation('✓ Valid XF Schema', 'success');
+                return true;
+            } catch (e) {
+                showJSONValidation('✗ Invalid JSON: ' + e.message, 'error');
+                return false;
+            }
+        }
+
+        function clearJSON() {
+            document.getElementById('xfJsonInput').value = '';
+            updateJSONCharCount();
+            showJSONValidation('', '');
+        }
+
+        function toggleExample() {
+            const exampleDiv = document.getElementById('xfJsonExample');
+            const button = event.target;
+
+            if (exampleDiv.classList.contains('hidden')) {
+                exampleDiv.classList.remove('hidden');
+                button.textContent = '💡 Hide Example';
+            } else {
+                exampleDiv.classList.add('hidden');
+                button.textContent = '💡 Show Example';
+            }
+        }
+
+        function copyExample() {
+            const exampleText = `{
+  "name": "xf:form",
+  "props": {
+    "xfPageNavigation": "toc",
+    "children": [
+      {
+        "name": "xf:page",
+        "props": {
+          "xfName": "general_information",
+          "xfLabel": "General Information",
+          "children": [
+            {
+              "name": "xf:date",
+              "props": {
+                "xfName": "inspection_date",
+                "xfLabel": "Inspection Date",
+                "xfPrepopulateValueType": "date_today",
+                "xfPrepopulateValueEnabled": true
+              }
+            },
+            {
+              "name": "xf:string",
+              "props": {
+                "xfName": "facility_name",
+                "xfLabel": "Facility Name"
+              }
+            },
+            {
+              "name": "xf:select",
+              "props": {
+                "xfName": "inspection_type",
+                "xfLabel": "Type of Inspection",
+                "xfOptions": "Routine\\nFollow-up\\nComplaint"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+}`;
+
+            navigator.clipboard.writeText(exampleText).then(() => {
+                const button = event.target;
+                const originalText = button.textContent;
+                button.textContent = '✓ Copied!';
+                button.classList.add('bg-green-50', 'border-green-300', 'text-green-700');
+
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.classList.remove('bg-green-50', 'border-green-300', 'text-green-700');
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy:', err);
+                alert('Failed to copy example. Please copy manually from the example box.');
+            });
+        }
+
+        function updateJSONCharCount() {
+            const textarea = document.getElementById('xfJsonInput');
+            const count = textarea ? textarea.value.length : 0;
+            const el = document.getElementById('jsonCharCount');
+            if (el) el.textContent = count;
+        }
+
+        function showJSONValidation(message, type) {
+            const el = document.getElementById('jsonValidation');
+            const colors = {
+                success: 'text-green-600',
+                error: 'text-red-600',
+                warning: 'text-yellow-600'
+            };
+            if (el) {
+                el.textContent = message;
+                el.className = 'text-xs ' + (colors[type] || '');
+            }
+        }
+
+        // Add event listener for char count
+        document.addEventListener('DOMContentLoaded', function() {
+            const textarea = document.getElementById('xfJsonInput');
+            if (textarea) {
+                textarea.addEventListener('input', updateJSONCharCount);
+                updateJSONCharCount(); // Initial count
+            }
+        });
+
+        async function uploadTrainingPair() {
+            const pdfFiles = document.getElementById('pdfFile').files;
+            const jsonText = document.getElementById('xfJsonInput').value.trim();
+            const formName = document.getElementById('formName').value;
+
+            if (!pdfFiles || pdfFiles.length === 0) {
+                showStatus('Please select at least one PDF file', 'error');
+                return;
+            }
+
+            if (pdfFiles.length > 10) {
+                showStatus('Maximum 10 PDF files allowed at once', 'error');
+                return;
+            }
+
+            if (!jsonText) {
+                showStatus('Please paste your XF JSON schema', 'error');
+                return;
+            }
+
+            // Validate JSON before uploading
+            if (!validateJSON()) {
+                showStatus('Please fix JSON validation errors first', 'error');
+                return;
+            }
+
+            const uploadBtn = document.getElementById('uploadBtn');
+            uploadBtn.disabled = true;
+            uploadBtn.textContent = 'Uploading...';
+            showStatus(`Uploading ${pdfFiles.length} file(s)...`, 'info');
+
+            try {
+                let successCount = 0;
+                let failCount = 0;
+
+                // Upload each PDF with the same JSON schema
+                for (let i = 0; i < pdfFiles.length; i++) {
+                    const pdfFile = pdfFiles[i];
+
+                    try {
+                        const formData = new FormData();
+                        formData.append('pdf_file', pdfFile);
+
+                        // Create a JSON blob from the textarea content
+                        const jsonBlob = new Blob([jsonText], { type: 'application/json' });
+                        const jsonFileName = (formName || pdfFile.name.replace('.pdf', '')) + '.json';
+                        formData.append('json_file', jsonBlob, jsonFileName);
+                        formData.append('form_name', formName || pdfFile.name.replace('.pdf', ''));
+
+                        const response = await fetch(`${API_BASE}/api/training/upload-pair`, {
+                            method: 'POST',
+                            body: formData
+                        });
+
+                        const result = await response.json();
+
+                        if (response.ok) {
+                            trainingPairs.push(result);
+                            successCount++;
+                        } else {
+                            console.error(`Failed to upload ${pdfFile.name}:`, result.detail);
+                            failCount++;
+                        }
+                    } catch (err) {
+                        console.error(`Error uploading ${pdfFile.name}:`, err);
+                        failCount++;
+                    }
+
+                    // Update progress
+                    showStatus(`Uploading ${i + 1}/${pdfFiles.length}...`, 'info');
+                }
+
+                updateTrainingPairsList();
+
+                if (failCount === 0) {
+                    showStatus(`✓ Successfully uploaded ${successCount} training pair(s)!`, 'success');
+                } else {
+                    showStatus(`Uploaded ${successCount} pair(s), ${failCount} failed`, 'warning');
+                }
+
+                // Clear form
+                document.getElementById('pdfFile').value = '';
+                document.getElementById('xfJsonInput').value = '';
+                document.getElementById('formName').value = '';
+                document.getElementById('pdfFileName').textContent = 'No files selected';
+                updateJSONCharCount();
+                showJSONValidation('', '');
+            } catch (error) {
+                console.error('Upload error:', error);
+                showStatus('Upload failed. Please try again.', 'error');
+            } finally {
+                uploadBtn.disabled = false;
+                uploadBtn.textContent = 'Add to Training Data';
+            }
+        }
+
+        function updateTrainingPairsList() {
+            const listContainer = document.getElementById('trainingPairsList');
+            const pairCount = document.getElementById('pairCount');
+            const trainBtn = document.getElementById('trainBtn');
+            const clearAllBtn = document.getElementById('clearAllBtn');
+            const pairCountStatus = document.getElementById('pairCountStatus');
+            const minPairs = 10;
+
+            pairCount.textContent = trainingPairs.length;
+
+            if (trainingPairs.length === 0) {
+                listContainer.innerHTML = '<p class="text-sm text-gray-500 text-center py-4">No training pairs uploaded yet</p>';
+                trainBtn.disabled = true;
+                clearAllBtn.disabled = true;
+                pairCountStatus.textContent = '';
+            } else {
+                clearAllBtn.disabled = false;
+                listContainer.innerHTML = trainingPairs.map((pair, index) => `
+                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg border border-gray-200">
+                        <div class="flex-1">
+                            <p class="text-sm font-medium text-gray-900">${pair.form_name}</p>
+                            <p class="text-xs text-gray-500">${pair.pdf_file} + ${pair.json_file}</p>
+                        </div>
+                        <button
+                            onclick="removeTrainingPair(${index})"
+                            class="ml-3 text-red-600 hover:text-red-800 text-sm"
+                        >
+                            Remove
+                        </button>
+                    </div>
+                `).join('');
+
+                const needMore = minPairs - trainingPairs.length;
+                if (trainingPairs.length < minPairs) {
+                    trainBtn.disabled = true;
+                    pairCountStatus.textContent = `Need ${needMore} more pair${needMore !== 1 ? 's' : ''} to start training (min: ${minPairs}, recommended: 10+)`;
+                    pairCountStatus.className = 'mt-2 text-sm text-amber-600 text-center';
+                } else if (trainingPairs.length < 10) {
+                    trainBtn.disabled = false;
+                    pairCountStatus.textContent = `Ready to train! (${trainingPairs.length} pairs - consider adding more for better results)`;
+                    pairCountStatus.className = 'mt-2 text-sm text-green-600 text-center';
+                } else {
+                    trainBtn.disabled = false;
+                    pairCountStatus.textContent = `Ready to train! (${trainingPairs.length} pairs)`;
+                    pairCountStatus.className = 'mt-2 text-sm text-green-600 text-center';
+                }
+            }
+        }
+
+        function removeTrainingPair(index) {
+            trainingPairs.splice(index, 1);
+            updateTrainingPairsList();
+        }
+
+        async function clearAllPairs() {
+            if (trainingPairs.length === 0) {
+                return;
+            }
+
+            const count = trainingPairs.length;
+            if (!confirm(`Are you sure you want to remove all ${count} training pair${count !== 1 ? 's' : ''}? This will permanently delete all uploaded files. This action cannot be undone.`)) {
+                return;
+            }
+
+            const clearBtn = document.getElementById('clearAllBtn');
+            clearBtn.disabled = true;
+            clearBtn.textContent = 'Clearing...';
+
+            try {
+                const response = await fetch(`${API_BASE}/api/training/pairs`, {
+                    method: 'DELETE'
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    trainingPairs = [];
+                    updateTrainingPairsList();
+                    showStatus(`✓ Successfully cleared ${result.count} training pair${result.count !== 1 ? 's' : ''}`, 'success');
+                } else {
+                    showStatus(`Error: ${result.detail || 'Failed to clear training pairs'}`, 'error');
+                    clearBtn.disabled = false;
+                    clearBtn.textContent = 'Clear All';
+                }
+            } catch (error) {
+                console.error('Clear all error:', error);
+                showStatus('Failed to clear training pairs. Please try again.', 'error');
+                clearBtn.disabled = false;
+                clearBtn.textContent = 'Clear All';
+            }
+        }
+
+        async function startTraining() {
+            const minPairs = 10; // Lowered for testing (OpenAI recommends 10+)
+
+            if (trainingPairs.length < minPairs) {
+                showStatus(`Need at least ${minPairs} training pairs to start training`, 'error');
+                return;
+            }
+
+            const trainBtn = document.getElementById('trainBtn');
+            trainBtn.disabled = true;
+            trainBtn.textContent = 'Starting training...';
+            showStatus('Initiating training job...', 'info');
+
+            try {
+                const response = await fetch(`${API_BASE}/api/training/start-from-pairs`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        pair_ids: trainingPairs.map(p => p.pair_id),
+                        model_name: 'gpt-3.5-turbo'
+                    })
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    // Store the new job ID
+                    setJobId(result.job_id);
+                    showStatus(`✓ Training started! Job ID: ${result.job_id}`, 'success');
+                    // Refresh the jobs list and dashboard after a moment
+                    setTimeout(async () => {
+                        await loadJobsList();
+                        updateDashboard();
+                    }, 2000);
+                } else {
+                    showStatus(`Error: ${result.detail || 'Training failed to start'}`, 'error');
+                    trainBtn.disabled = false;
+                    trainBtn.textContent = 'Start Training';
+                }
+            } catch (error) {
+                console.error('Training error:', error);
+                showStatus('Failed to start training. Please try again.', 'error');
+                trainBtn.disabled = false;
+                trainBtn.textContent = 'Start Training';
+            }
+        }
+
+        function showStatus(message, type) {
+            const statusEl = document.getElementById('uploadStatus');
+            const colors = {
+                success: 'text-green-600',
+                error: 'text-red-600',
+                info: 'text-blue-600'
+            };
+            statusEl.textContent = message;
+            statusEl.className = `text-sm ${colors[type]}`;
+
+            if (type === 'success' || type === 'error') {
+                setTimeout(() => {
+                    statusEl.textContent = '';
+                }, 5000);
+            }
+        }
+
+        // Load existing training pairs on page load
+        async function loadExistingPairs() {
+            try {
+                const response = await fetch(`${API_BASE}/api/training/pairs`);
+                if (response.ok) {
+                    const data = await response.json();
+                    trainingPairs = data.pairs || [];
+                    updateTrainingPairsList();
+                }
+            } catch (error) {
+                console.error('Failed to load existing pairs:', error);
+            }
+        }
+
+        // Load pairs when page loads
+        loadExistingPairs();
+    </script>
+</body>
+</html>

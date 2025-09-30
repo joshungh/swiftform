@@ -1,0 +1,41 @@
+{
+  "name": "xf:form",
+  "props": {
+    "xfPageNavigation": "toc",
+    "children": [
+      {
+        "name": "xf:page",
+        "props": {
+          "xfName": "general",
+          "xfLabel": "General Information",
+          "children": [
+            {
+              "name": "xf:string",
+              "props": {
+                "xfName": "document_name",
+                "xfLabel": "Document Name",
+                "xfRequired": true
+              }
+            },
+            {
+              "name": "xf:date",
+              "props": {
+                "xfName": "date",
+                "xfLabel": "Date",
+                "xfPrepopulateValueType": "date_today",
+                "xfPrepopulateValueEnabled": true
+              }
+            },
+            {
+              "name": "xf:text",
+              "props": {
+                "xfName": "notes",
+                "xfLabel": "Notes"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+}
