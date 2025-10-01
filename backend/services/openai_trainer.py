@@ -12,6 +12,7 @@ import openai
 from openai import OpenAI
 import logging
 from pathlib import Path
+import PyPDF2
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -435,6 +436,242 @@ class OpenAITrainer:
 
         except Exception as e:
             logger.error(f"Error creating training job: {e}")
+            return {
+                "success": False,
+                "error": str(e)
+            }
+
+    def _get_few_shot_examples(self) -> str:
+        """Get few-shot examples from training pairs directory"""
+        try:
+            pairs_dir = Path("training_pairs_uploaded")
+            if not pairs_dir.exists():
+                return ""
+
+            # Load one example pair to show the model
+            schemas_dir = pairs_dir / "schemas"
+            if not schemas_dir.exists():
+                return ""
+
+            schema_files = list(schemas_dir.glob("*.json"))
+            if not schema_files:
+                return ""
+
+            # Get the first example
+            with open(schema_files[0], 'r') as f:
+                example_schema = json.load(f)
+
+            example_text = f"""
+Here is an example of the XF schema format you should generate:
+
+{json.dumps(example_schema, indent=2)}
+
+Key points:
+- Root must be "xf:form" with props.xfPageNavigation
+- Organize fields into logical pages using "xf:page"
+- Use appropriate field types: xf:string, xf:text, xf:number, xf:date, xf:select, xf:boolean, xf:ternary, etc.
+- Each field needs xfName (unique ID) and xfLabel (display name)
+- Use xfRequired: true for required fields
+- Group related fields with xf:group
+"""
+            return example_text
+
+        except Exception as e:
+            logger.warning(f"Could not load few-shot examples: {e}")
+            return ""
+
+    def generate_xf_from_pdf(self, pdf_path: str, model_id: str, use_examples: bool = True, session_id: str = None) -> Dict[str, Any]:
+        """
+        Generate XF JSON schema from a PDF using a fine-tuned model
+
+        Args:
+            pdf_path: Path to the PDF file
+            model_id: Fine-tuned model ID to use for generation
+            use_examples: Whether to include few-shot examples in the prompt
+
+        Returns:
+            Generated XF schema and metadata
+        """
+        try:
+            from services.progress_tracker import progress_tracker
+
+            # Extract PDF text from ALL pages with better extraction
+            pdf_text = ""
+            page_count = 0
+
+            if session_id:
+                progress_tracker.add_event(session_id, "extraction", "Extracting text from PDF...")
+
+            with open(pdf_path, 'rb') as file:
+                pdf_reader = PyPDF2.PdfReader(file)
+                page_count = len(pdf_reader.pages)
+
+                if session_id:
+                    progress_tracker.add_event(session_id, "extraction", f"Processing {page_count} pages...")
+
+                for i, page in enumerate(pdf_reader.pages):
+                    page_text = page.extract_text()
+                    if page_text:
+                        # Extract all text but mark pages
+                        pdf_text += f"\n--- Page {i+1} ---\n{page_text}\n"
+
+            # Limit total text to avoid token limits (roughly 100k chars = ~25k tokens)
+            MAX_TEXT_LENGTH = 100000
+            if len(pdf_text) > MAX_TEXT_LENGTH:
+                logger.warning(f"PDF text too long ({len(pdf_text)} chars), truncating to {MAX_TEXT_LENGTH}")
+                pdf_text = pdf_text[:MAX_TEXT_LENGTH] + "\n\n[... Content truncated due to length ...]"
+
+            if not pdf_text.strip():
+                return {
+                    "success": False,
+                    "error": "Could not extract text from PDF"
+                }
+
+            logger.info(f"Extracted {len(pdf_text)} characters from {page_count} pages")
+
+            if session_id:
+                progress_tracker.add_event(session_id, "extraction", f"Extracted {len(pdf_text)} characters from {page_count} pages", {
+                    "pages": page_count,
+                    "characters": len(pdf_text)
+                })
+
+            # Build messages with optional few-shot examples
+            messages = [
+                {
+                    "role": "system",
+                    "content": "You are an expert form parser specializing in converting PDF documents into XF schemas for SwiftForm AI. Extract ALL fields from the document and create complete, accurate XF schemas with proper field types, labels, and structure. You must respond ONLY with valid JSON, no other text or markdown."
+                }
+            ]
+
+            # Add few-shot examples only if PDF is small enough (to avoid token limit)
+            # Rough estimate: 4 chars = 1 token, so limit examples to smaller PDFs
+            if use_examples and len(pdf_text) < 8000:
+                example_prompt = self._get_few_shot_examples()
+                if example_prompt:
+                    messages.append({
+                        "role": "system",
+                        "content": example_prompt
+                    })
+
+            # Add the actual request
+            messages.append({
+                "role": "user",
+                "content": f"Convert this PDF form into a complete XF schema. Extract ALL fields, checkboxes, text areas, and form elements.\n\nPDF Content ({page_count} pages):\n{pdf_text}\n\nGenerate the complete XF schema with all fields."
+            })
+
+            # Determine max_tokens based on model
+            # GPT-5 uses max_completion_tokens instead of max_tokens and doesn't support temperature=0
+            if model_id.startswith('gpt-5'):
+                max_completion_tokens = 16000  # GPT-5 supports up to 128k but we use 16k for forms
+
+                # Log the API request details
+                print(f"\n{'='*80}")
+                print(f"🤖 GPT-5 API REQUEST")
+                print(f"{'='*80}")
+                print(f"Model: {model_id}")
+                print(f"Max Completion Tokens: {max_completion_tokens}")
+                print(f"Response Format: JSON object")
+                print(f"Message Count: {len(messages)}")
+                print(f"PDF Pages: {page_count}")
+                print(f"PDF Text Length: {len(pdf_text)} characters")
+                print(f"{'='*80}\n")
+
+                if session_id:
+                    progress_tracker.add_event(session_id, "api_request", f"Sending request to {model_id}...", {
+                        "model": model_id,
+                        "max_completion_tokens": max_completion_tokens,
+                        "pages": page_count,
+                        "text_length": len(pdf_text)
+                    })
+
+                # Call the model with JSON mode enforced (GPT-5 syntax - no temperature param, it defaults to 1)
+                response = self.client.chat.completions.create(
+                    model=model_id,
+                    messages=messages,
+                    max_completion_tokens=max_completion_tokens,
+                    response_format={"type": "json_object"}
+                )
+            else:
+                # GPT-4 and older models use max_tokens
+                max_tokens = 16000 if model_id.startswith('gpt-4') else 4000
+
+                # Log the API request details
+                print(f"\n{'='*80}")
+                print(f"🤖 {model_id.upper()} API REQUEST")
+                print(f"{'='*80}")
+                print(f"Model: {model_id}")
+                print(f"Max Tokens: {max_tokens}")
+                print(f"Temperature: 0")
+                print(f"Response Format: JSON object")
+                print(f"Message Count: {len(messages)}")
+                print(f"PDF Pages: {page_count}")
+                print(f"PDF Text Length: {len(pdf_text)} characters")
+                print(f"{'='*80}\n")
+
+                # Call the model with JSON mode enforced
+                response = self.client.chat.completions.create(
+                    model=model_id,
+                    messages=messages,
+                    temperature=0,
+                    max_tokens=max_tokens,
+                    response_format={"type": "json_object"}
+                )
+
+            # Parse the response
+            schema_text = response.choices[0].message.content
+
+            # Log the API response details
+            print(f"\n{'='*80}")
+            print(f"✅ GPT-5 API RESPONSE")
+            print(f"{'='*80}")
+            print(f"Model: {response.model}")
+            print(f"Finish Reason: {response.choices[0].finish_reason}")
+            print(f"Prompt Tokens: {response.usage.prompt_tokens}")
+            print(f"Completion Tokens: {response.usage.completion_tokens}")
+            print(f"Total Tokens: {response.usage.total_tokens}")
+            print(f"Response Length: {len(schema_text)} characters")
+            print(f"{'='*80}\n")
+
+            if session_id:
+                progress_tracker.add_event(session_id, "api_response", "Received response from OpenAI", {
+                    "model": response.model,
+                    "finish_reason": response.choices[0].finish_reason,
+                    "prompt_tokens": response.usage.prompt_tokens,
+                    "completion_tokens": response.usage.completion_tokens,
+                    "total_tokens": response.usage.total_tokens,
+                    "response_length": len(schema_text)
+                })
+
+            try:
+                # Try to parse as JSON
+                xf_schema = json.loads(schema_text)
+            except json.JSONDecodeError:
+                # If not valid JSON, try to extract JSON from markdown or text
+                import re
+                json_match = re.search(r'\{.*\}', schema_text, re.DOTALL)
+                if json_match:
+                    xf_schema = json.loads(json_match.group(0))
+                else:
+                    return {
+                        "success": False,
+                        "error": "Model response was not valid JSON",
+                        "raw_response": schema_text
+                    }
+
+            return {
+                "success": True,
+                "xf_schema": xf_schema,
+                "model_id": model_id,
+                "pdf_text_length": len(pdf_text),
+                "usage": {
+                    "prompt_tokens": response.usage.prompt_tokens,
+                    "completion_tokens": response.usage.completion_tokens,
+                    "total_tokens": response.usage.total_tokens
+                }
+            }
+
+        except Exception as e:
+            logger.error(f"Error generating XF schema: {str(e)}")
             return {
                 "success": False,
                 "error": str(e)

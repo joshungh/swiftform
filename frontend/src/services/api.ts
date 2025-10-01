@@ -15,6 +15,7 @@ export interface UploadResponse {
   file_type: string
   status: string
   message: string
+  xf_schema?: any  // Generated schema from GPT-4
 }
 
 export interface ProcessRequest {

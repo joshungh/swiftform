@@ -436,6 +436,76 @@ async def compare_models(
         raise HTTPException(status_code=500, detail=str(e))
 
 
+@router.post("/generate-xf-from-pdf")
+async def generate_xf_from_pdf(
+    pdf_file: UploadFile = File(...),
+    model_id: str = None
+):
+    """
+    Generate XF JSON schema from a PDF using a fine-tuned model
+
+    Args:
+        pdf_file: PDF file to process
+        model_id: Fine-tuned model ID (optional, will use latest completed job if not provided)
+
+    Returns:
+        Generated XF schema
+    """
+    try:
+        # Save uploaded PDF temporarily
+        import tempfile
+        with tempfile.NamedTemporaryFile(delete=False, suffix='.pdf') as tmp_file:
+            content = await pdf_file.read()
+            tmp_file.write(content)
+            tmp_path = tmp_file.name
+
+        # If no model_id provided, try to get the latest completed fine-tuned model
+        if not model_id:
+            from openai import OpenAI
+            client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+            jobs = client.fine_tuning.jobs.list(limit=50)
+
+            # Find the most recent succeeded job
+            for job in jobs.data:
+                if job.status == "succeeded" and job.fine_tuned_model:
+                    model_id = job.fine_tuned_model
+                    logger.info(f"Using latest fine-tuned model: {model_id}")
+                    break
+
+            if not model_id:
+                raise HTTPException(
+                    status_code=400,
+                    detail="No fine-tuned model available. Please provide a model_id or complete a training job first."
+                )
+
+        # Generate XF schema
+        trainer = get_trainer()
+        result = trainer.generate_xf_from_pdf(tmp_path, model_id)
+
+        # Clean up temp file
+        try:
+            os.unlink(tmp_path)
+        except:
+            pass
+
+        if result["success"]:
+            return {
+                "success": True,
+                "xf_schema": result["xf_schema"],
+                "model_id": result["model_id"],
+                "filename": pdf_file.filename,
+                "usage": result.get("usage", {})
+            }
+        else:
+            raise HTTPException(status_code=500, detail=result.get("error", "Unknown error"))
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"XF generation failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 @router.get("/report")
 async def export_training_report():
     """

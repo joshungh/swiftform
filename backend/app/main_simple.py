@@ -1,6 +1,6 @@
-from fastapi import FastAPI, File, UploadFile, HTTPException, BackgroundTasks
+from fastapi import FastAPI, File, UploadFile, HTTPException, BackgroundTasks, Form
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse, FileResponse
+from fastapi.responses import JSONResponse, FileResponse, StreamingResponse
 from pydantic import BaseModel
 from typing import Optional, Dict, Any, List
 import os
@@ -16,6 +16,7 @@ from services.enhanced_bmp_parser import EnhancedBMPParser
 from services.history_manager import HistoryManager
 from services.training_api import router as training_router
 from services.training_pairs_api import router as training_pairs_router
+from services.progress_tracker import progress_tracker
 from dotenv import load_dotenv
 
 # Load environment variables
@@ -71,8 +72,8 @@ async def root():
     }
 
 @app.post("/api/upload")
-async def upload_document(file: UploadFile = File(...)):
-    """Upload a document for processing"""
+async def upload_document(file: UploadFile = File(...), session_id: Optional[str] = Form(None)):
+    """Upload a document and immediately generate xf:json using GPT-4"""
     try:
         if not file.filename:
             raise HTTPException(status_code=400, detail="No file provided")
@@ -86,7 +87,8 @@ async def upload_document(file: UploadFile = File(...)):
                 detail=f"File type {file_ext} not supported. Allowed: {allowed_extensions}"
             )
 
-        file_id = str(uuid.uuid4())
+        # Use provided session_id or generate new one
+        file_id = session_id if session_id else str(uuid.uuid4())
 
         # Save file to disk
         file_path = f"uploads/{file_id}{file_ext}"
@@ -102,17 +104,90 @@ async def upload_document(file: UploadFile = File(...)):
             "uploaded_at": datetime.now().isoformat()
         }
 
+        # If it's a PDF, immediately generate xf:json using GPT-5
+        xf_schema = None
+        if file_ext == '.pdf':
+            try:
+                progress_tracker.add_event(file_id, "upload", "File uploaded successfully", {
+                    "filename": file.filename,
+                    "size": os.path.getsize(file_path)
+                })
+
+                print(f"Starting GPT-5 processing for {file.filename}...")
+                progress_tracker.add_event(file_id, "processing", "Starting GPT-5 processing...")
+
+                from services.openai_trainer import OpenAITrainer
+                trainer = OpenAITrainer()
+                # Use GPT-5 (the latest model released Aug 2025)
+                print(f"Calling generate_xf_from_pdf with gpt-5...")
+                result = trainer.generate_xf_from_pdf(file_path, "gpt-5", use_examples=True, session_id=file_id)
+
+                print(f"GPT-5 result: success={result.get('success')}")
+                if result["success"]:
+                    xf_schema = result["xf_schema"]
+                    print(f"✅ Successfully generated xf:json schema with {len(str(xf_schema))} characters")
+                    progress_tracker.add_event(file_id, "success", "Schema generated successfully", {
+                        "schema_size": len(str(xf_schema)),
+                        "token_usage": result.get("usage", {}),
+                        "schema": xf_schema  # Include the actual schema in the event
+                    })
+
+                    # Add to history
+                    try:
+                        history_manager.add_to_history(
+                            filename=file.filename,
+                            form_schema=xf_schema,
+                            file_type=file_ext,
+                            processing_time=result.get("processing_time", 0)
+                        )
+                        print(f"✅ Added to history: {file.filename}")
+                    except Exception as hist_error:
+                        print(f"⚠️ Failed to add to history: {hist_error}")
+                else:
+                    error_msg = result.get('error', 'Unknown error')
+                    print(f"❌ GPT-5 parsing failed: {error_msg}")
+                    progress_tracker.add_event(file_id, "error", f"GPT-5 parsing failed: {error_msg}")
+                    if 'raw_response' in result:
+                        print(f"Raw response preview: {str(result['raw_response'])[:200]}...")
+            except Exception as e:
+                print(f"❌ GPT-5 parsing error: {type(e).__name__}: {e}")
+                progress_tracker.add_event(file_id, "error", f"Error: {str(e)}")
+                import traceback
+                traceback.print_exc()
+
         return JSONResponse(content={
             "file_id": file_id,
             "filename": file.filename,
             "file_type": file_ext,
             "status": "uploaded",
-            "message": "File uploaded successfully"
+            "message": "File uploaded successfully",
+            "xf_schema": xf_schema  # Include generated schema if available
         })
 
     except Exception as e:
         print(f"Upload error: {e}")
         raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/api/progress/{session_id}")
+async def get_progress(session_id: str):
+    """Stream progress events via Server-Sent Events"""
+    async def event_generator():
+        try:
+            async for event in progress_tracker.get_events(session_id):
+                yield event
+        except asyncio.CancelledError:
+            progress_tracker.cleanup_session(session_id)
+            raise
+
+    return StreamingResponse(
+        event_generator(),
+        media_type="text/event-stream",
+        headers={
+            "Cache-Control": "no-cache",
+            "Connection": "keep-alive",
+            "X-Accel-Buffering": "no"
+        }
+    )
 
 @app.post("/api/process", response_model=ProcessResponse)
 async def process_document(request: ProcessRequest, background_tasks: BackgroundTasks):
@@ -152,37 +227,57 @@ async def generate_form_demo(job_id: str, file_id: str, ai_model: str, custom_in
         # Try to parse the PDF if it exists
         if file_path and os.path.exists(file_path) and file_path.endswith('.pdf'):
             try:
-                # Determine if we should use AI based on model selection
-                use_ai = ai_model and ai_model != 'basic'
-
-                # Map model names to providers
-                if ai_model and ai_model.startswith('gpt'):
-                    ai_provider = 'openai'
-                elif ai_model and ai_model.startswith('claude'):
-                    ai_provider = 'claude'
-                else:
-                    ai_provider = 'openai'  # Default to OpenAI
-
-                if use_ai:
-                    # Try AI parsing first for best accuracy
+                # Check if this is a fine-tuned model
+                if ai_model and ai_model.startswith('ft:'):
+                    print(f"Using fine-tuned model: {ai_model}")
                     try:
-                        from services.ai_form_parser import AIFormParser
-                        ai_parser = AIFormParser(provider=ai_provider, model_name=ai_model)
-                        form_schema = ai_parser.parse_pdf_with_ai(file_path)
+                        from services.openai_trainer import OpenAITrainer
+                        trainer = OpenAITrainer()
+                        result = trainer.generate_xf_from_pdf(file_path, ai_model)
 
-                        if form_schema.get("props", {}).get("children"):
-                            print(f"Successfully parsed with AI ({ai_provider}) using model: {ai_model}")
+                        if result["success"]:
+                            form_schema = result["xf_schema"]
+                            print(f"Successfully generated schema with fine-tuned model")
                         else:
-                            raise Exception("AI parsing returned empty form")
-                    except Exception as ai_error:
-                        print(f"AI parsing failed: {ai_error}, falling back to enhanced parser")
-                        # Fall back to enhanced parser
+                            print(f"Fine-tuned model failed: {result.get('error')}, falling back to enhanced parser")
+                            enhanced_parser = EnhancedBMPParser()
+                            form_schema = enhanced_parser.parse_pdf_complete(file_path)
+                    except Exception as ft_error:
+                        print(f"Fine-tuned model error: {ft_error}, falling back to enhanced parser")
                         enhanced_parser = EnhancedBMPParser()
                         form_schema = enhanced_parser.parse_pdf_complete(file_path)
                 else:
-                    # Use enhanced parser if AI is disabled
-                    enhanced_parser = EnhancedBMPParser()
-                    form_schema = enhanced_parser.parse_pdf_complete(file_path)
+                    # Determine if we should use AI based on model selection
+                    use_ai = ai_model and ai_model != 'basic'
+
+                    # Map model names to providers
+                    if ai_model and ai_model.startswith('gpt'):
+                        ai_provider = 'openai'
+                    elif ai_model and ai_model.startswith('claude'):
+                        ai_provider = 'claude'
+                    else:
+                        ai_provider = 'openai'  # Default to OpenAI
+
+                    if use_ai:
+                        # Try AI parsing first for best accuracy
+                        try:
+                            from services.ai_form_parser import AIFormParser
+                            ai_parser = AIFormParser(provider=ai_provider, model_name=ai_model)
+                            form_schema = ai_parser.parse_pdf_with_ai(file_path)
+
+                            if form_schema.get("props", {}).get("children"):
+                                print(f"Successfully parsed with AI ({ai_provider}) using model: {ai_model}")
+                            else:
+                                raise Exception("AI parsing returned empty form")
+                        except Exception as ai_error:
+                            print(f"AI parsing failed: {ai_error}, falling back to enhanced parser")
+                            # Fall back to enhanced parser
+                            enhanced_parser = EnhancedBMPParser()
+                            form_schema = enhanced_parser.parse_pdf_complete(file_path)
+                    else:
+                        # Use enhanced parser if AI is disabled
+                        enhanced_parser = EnhancedBMPParser()
+                        form_schema = enhanced_parser.parse_pdf_complete(file_path)
 
                 # If enhanced parser returns empty form, try basic parser
                 if not form_schema.get("props", {}).get("children"):

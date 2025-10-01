@@ -29,7 +29,12 @@
       "Bash(cat:*)",
       "Bash(pkill:*)",
       "Bash(lsof:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git config:*)",
+      "Bash(git remote add:*)",
+      "Bash(git branch:*)",
+      "Bash(git push:*)",
+      "Bash(git remote remove:*)"
     ],
     "deny": [],
     "ask": []

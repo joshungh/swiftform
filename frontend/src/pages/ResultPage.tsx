@@ -61,34 +61,62 @@ const ResultPage: React.FC = () => {
   const [tabValue, setTabValue] = useState(0)
 
   useEffect(() => {
-    if (jobId) {
+    let interval: NodeJS.Timeout | null = null
+
+    // Check if this is a direct upload (starts with "upload_")
+    if (jobId?.startsWith('upload_')) {
+      const fileId = jobId.replace('upload_', '')
+      const storedSchema = sessionStorage.getItem(`schema_${fileId}`)
+      if (storedSchema) {
+        setFormSchema(JSON.parse(storedSchema))
+        setStatus('completed')
+        setLoading(false)
+        sessionStorage.removeItem(`schema_${fileId}`) // Clean up
+        return
+      }
+    }
+
+    const checkJobStatus = async () => {
+      if (!jobId) return
+
+      try {
+        const result = await getJobStatus(jobId)
+        setStatus(result.status)
+
+        if (result.status === 'completed') {
+          setFormSchema(result.form_schema)
+          setProcessingTime(result.processing_time)
+          setLoading(false)
+          // Stop polling when completed
+          if (interval) {
+            clearInterval(interval)
+            interval = null
+          }
+        } else if (result.status === 'failed') {
+          setError(result.error || 'Processing failed')
+          setLoading(false)
+          // Stop polling when failed
+          if (interval) {
+            clearInterval(interval)
+            interval = null
+          }
+        } else if (result.status === 'processing') {
+          // Continue polling
+        }
+      } catch (err) {
+        console.error('Error checking job status:', err)
+      }
+    }
+
+    if (jobId && !jobId.startsWith('upload_')) {
       checkJobStatus()
-      const interval = setInterval(checkJobStatus, 2000)
-      return () => clearInterval(interval)
+      interval = setInterval(checkJobStatus, 2000)
+    }
+
+    return () => {
+      if (interval) clearInterval(interval)
     }
   }, [jobId])
-
-  const checkJobStatus = async () => {
-    if (!jobId) return
-
-    try {
-      const result = await getJobStatus(jobId)
-      setStatus(result.status)
-
-      if (result.status === 'completed') {
-        setFormSchema(result.form_schema)
-        setProcessingTime(result.processing_time)
-        setLoading(false)
-      } else if (result.status === 'failed') {
-        setError(result.error || 'Processing failed')
-        setLoading(false)
-      } else if (result.status === 'processing') {
-        // Continue polling
-      }
-    } catch (err) {
-      console.error('Error checking job status:', err)
-    }
-  }
 
   const handleCopyJson = () => {
     if (formSchema) {
